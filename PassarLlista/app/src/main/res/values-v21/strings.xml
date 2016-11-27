@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ajuda">Ajuda</string>
+    <string name="sobre">Sobre</string>
+    <string name="hist_ric">Històric</string>
+    <string name="gesti_d_assignatures">Gestió d\'Assignatures</string>
+    <string name="gesti_d_alumnes">Gestió d’alumnes</string>
+    <string name="passa_llista">Passa llista</string>
+</resources>

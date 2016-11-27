@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/passa_llista"
+            android:icon="@drawable/icon_passa_llista"
+            android:title="@string/passa_llista" />
+        <item
+            android:id="@+id/gestio_alumnes"
+            android:icon="@drawable/icon_gestio_alumnes"
+            android:title="@string/gesti_d_alumnes" />
+        <item
+            android:id="@+id/gestio_assignatures"
+            android:icon="@drawable/icon_gestio_assignatures"
+            android:title="@string/gesti_d_assignatures" />
+        <item
+            android:id="@+id/historic"
+            android:icon="@drawable/icon_historic"
+            android:title="@string/hist_ric" />
+    </group>
+
+    <item android:title="Informació">
+        <menu>
+            <item
+                android:id="@+id/nav_ajuda"
+                android:icon="@drawable/icon_ajuda"
+                android:title="@string/ajuda" />
+            <item
+                android:id="@+id/nav_sobre"
+                android:icon="@drawable/icon_sobre"
+                android:title="@string/sobre" />
+        </menu>
+    </item>
+
+
+</menu>

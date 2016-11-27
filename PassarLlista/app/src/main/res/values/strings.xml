@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PassarLlista</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="ajuda">Ajuda</string>
+    <string name="sobre">Sobre</string>
+    <string name="hist_ric">Històric</string>
+    <string name="gesti_d_assignatures">Gestió d\'Assignatures</string>
+    <string name="gesti_d_alumnes">Gestió d’alumnes</string>
+    <string name="passa_llista">Passa llista</string>
+</resources>
