@@ -1,5 +1,7 @@
-package edu.upc.epsevg.passarllista;
+package edu.upc.epsevg.passarllista.activitys;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import edu.upc.epsevg.passarllista.R;
+
 public class pantalla_inicial extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -22,6 +26,7 @@ public class pantalla_inicial extends AppCompatActivity
         setContentView(R.layout.activity_pantalla_inicial);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +88,8 @@ public class pantalla_inicial extends AppCompatActivity
         if (id == R.id.passa_llista) {
             // Handle the camera action
         } else if (id == R.id.gestio_alumnes) {
-
+            Intent intent = new Intent(pantalla_inicial.this, gestio_alumnes.class);
+            startActivity(intent);
         } else if (id == R.id.gestio_assignatures) {
 
         } else if (id == R.id.historic) {
