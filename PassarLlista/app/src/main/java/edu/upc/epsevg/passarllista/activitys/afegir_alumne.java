@@ -1,5 +1,6 @@
 package edu.upc.epsevg.passarllista.activitys;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import edu.upc.epsevg.passarllista.R;
+import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
+import edu.upc.epsevg.passarllista.classes.Alumne;
 
 public class afegir_alumne extends AppCompatActivity {
 
@@ -20,22 +23,21 @@ public class afegir_alumne extends AppCompatActivity {
     }
 
     private void inicialitcacio() {
-        EditText nomAlumne = (EditText) findViewById(R.id.editText_nom_alumne);
-        EditText dniAlumne = (EditText) findViewById(R.id.editText_dni);
+        final EditText nomAlumne = (EditText) findViewById(R.id.editText_nom_alumne);
+        final EditText dniAlumne = (EditText) findViewById(R.id.editText_dni);
         setTitle("Afegir alumne");
-
-        int y = 3;
 
         Button addAlumne = (Button) findViewById(R.id.button_add_alumno);
         addAlumne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // añade el alumno
+                Alumne alum = new Alumne(nomAlumne.getText().toString(), null, dniAlumne.getText().toString());
+                
+                //tanca el activity
                 finish();
             }
         });
-
-        int i = 0;
-
 
     }
 
