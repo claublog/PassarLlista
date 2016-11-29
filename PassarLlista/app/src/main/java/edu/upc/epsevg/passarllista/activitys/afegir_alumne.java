@@ -31,6 +31,10 @@ public class afegir_alumne extends AppCompatActivity {
                 finish();
             }
         });
+
+        int i = 0;
+
+
     }
 
 }
