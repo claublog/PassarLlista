@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import edu.upc.epsevg.passarllista.R;
 
@@ -19,7 +20,8 @@ public class afegir_alumne extends AppCompatActivity {
     }
 
     private void inicialitcacio() {
-
+        final EditText nomAlumne = (EditText) findViewById(R.id.editText_nom_alumne);
+        EditText dniAlumne = (EditText) findViewById(R.id.editText_dni);
         setTitle("Afegir alumne");
 
         Button addAlumne = (Button) findViewById(R.id.button_add_alumno);
