@@ -86,22 +86,27 @@ public class pantalla_inicial extends AppCompatActivity
 
         if (id == R.id.passa_llista) {
             frag = new passa_llista();
+            setTitle("Passa llista");
             elementSelecionado=true;
         } else if (id == R.id.gestio_alumnes) {
             frag = new gestio_alumnes();
+            setTitle("Gestio alumnes");
             elementSelecionado=true;
         } else if (id == R.id.gestio_assignatures) {
             frag = new gestio_assignatures();
+            setTitle("Gestio assignatures");
             elementSelecionado=true;
         } else if (id == R.id.historic) {
             frag = new historic();
-
+            setTitle("Históric");
             elementSelecionado=true;
         } else if (id == R.id.nav_ajuda) {
             frag = new ajuda();
+            setTitle("Ajuda");
             elementSelecionado=true;
         } else if (id == R.id.nav_sobre) {
             frag = new sobre();
+            setTitle("Sobre");
             elementSelecionado=true;
         }
 
@@ -117,9 +122,5 @@ public class pantalla_inicial extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-    }
-
-    public void setActionBarTitle(String title) {
-        setTitle(title);
     }
 }

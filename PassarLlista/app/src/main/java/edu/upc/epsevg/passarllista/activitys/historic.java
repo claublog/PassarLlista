@@ -63,7 +63,7 @@ public class historic extends android.support.v4.app.Fragment {
     }
 
     private void inicialitsacio() {
-        ((pantalla_inicial) getActivity()).setActionBarTitle("Históric");
+
     }
 
     @Override

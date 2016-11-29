@@ -7,4 +7,5 @@
     <string name="gesti_d_alumnes">Gestió d’alumnes</string>
     <string name="passa_llista">Passa llista</string>
     <string name="titol_activity_inicial">Passar Llista</string>
+    <string name="button_undo">desfer</string>
 </resources>
