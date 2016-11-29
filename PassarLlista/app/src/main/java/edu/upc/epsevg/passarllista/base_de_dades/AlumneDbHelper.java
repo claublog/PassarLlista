@@ -69,12 +69,12 @@ public class AlumneDbHelper extends SQLiteOpenHelper {
                         null);
     }
 
-    public Cursor getAlumneById(String lawyerId) {
+    public Cursor getAlumneById(String id_alumne) {
         Cursor c = getReadableDatabase().query(
                 Contracte_Alumne.EntradaAlumne.TABLE_NAME,
                 null,
                 Contracte_Alumne.EntradaAlumne.ID + " LIKE ?",
-                new String[]{lawyerId},
+                new String[]{id_alumne},
                 null,
                 null,
                 null);
