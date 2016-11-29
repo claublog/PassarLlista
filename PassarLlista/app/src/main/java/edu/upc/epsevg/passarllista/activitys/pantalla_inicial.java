@@ -2,9 +2,11 @@ package edu.upc.epsevg.passarllista.activitys;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,8 +19,9 @@ import android.view.MenuItem;
 
 import edu.upc.epsevg.passarllista.R;
 
+
 public class pantalla_inicial extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, gestio_alumnes.OnFragmentInteractionListener, passa_llista.OnFragmentInteractionListener, gestio_assignatures.OnFragmentInteractionListener, historic.OnFragmentInteractionListener, ajuda.OnFragmentInteractionListener, sobre.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +31,7 @@ public class pantalla_inicial extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -85,23 +81,45 @@ public class pantalla_inicial extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment frag = null;
+        Boolean elementSelecionado=false;
+
         if (id == R.id.passa_llista) {
-            // Handle the camera action
+            frag = new passa_llista();
+            elementSelecionado=true;
         } else if (id == R.id.gestio_alumnes) {
-            Intent intent = new Intent(pantalla_inicial.this, gestio_alumnes.class);
-            startActivity(intent);
+            frag = new gestio_alumnes();
+            elementSelecionado=true;
         } else if (id == R.id.gestio_assignatures) {
-
+            frag = new gestio_assignatures();
+            elementSelecionado=true;
         } else if (id == R.id.historic) {
+            frag = new historic();
 
+            elementSelecionado=true;
         } else if (id == R.id.nav_ajuda) {
-
+            frag = new ajuda();
+            elementSelecionado=true;
         } else if (id == R.id.nav_sobre) {
+            frag = new sobre();
+            elementSelecionado=true;
+        }
 
+        if (elementSelecionado){
+            getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, frag).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    public void setActionBarTitle(String title) {
+        setTitle(title);
     }
 }

@@ -13,4 +13,7 @@
     <string name="passa_llista">Passa llista</string>
     <string name="titol_activity_inicial">Passar Llista</string>
     <string name="title_activity_afegir_alumnes">afegir_alumnes</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

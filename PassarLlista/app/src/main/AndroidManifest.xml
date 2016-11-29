@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activitys.prova_alumne" />
+        <activity android:name=".activitys.afegir_alumne"></activity>
     </application>
 
 </manifest>
