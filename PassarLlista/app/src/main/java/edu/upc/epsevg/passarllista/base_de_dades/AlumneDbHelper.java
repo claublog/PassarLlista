@@ -13,7 +13,7 @@ public class AlumneDbHelper extends SQLiteOpenHelper {
 
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Alumbes.db";
+    public static final String DATABASE_NAME = "Alumnes.db";
 
     private ContentValues values;
 
@@ -26,16 +26,14 @@ public class AlumneDbHelper extends SQLiteOpenHelper {
         // Comandes SQL
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + " ("
                 + Contracte_Alumne.EntradaAlumne._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + Contracte_Alumne.EntradaAlumne.ID + " INTEGER NOT NULL,"
                 + Contracte_Alumne.EntradaAlumne.NOM + " TEXT NOT NULL,"
                 + Contracte_Alumne.EntradaAlumne.DNI + " TEXT NOT NULL,"
-                + "UNIQUE (" + Contracte_Alumne.EntradaAlumne.ID + "))");
+                + "UNIQUE (" + Contracte_Alumne.EntradaAlumne._ID + "))");
 
         // Contenedor de valores
         ContentValues values = new ContentValues();
 
         // Pares clave-valor
-        values.put(Contracte_Alumne.EntradaAlumne.ID, 0);
         values.put(Contracte_Alumne.EntradaAlumne.NOM, "Cigala");
         values.put(Contracte_Alumne.EntradaAlumne.DNI, "48923892B");
 
@@ -73,7 +71,7 @@ public class AlumneDbHelper extends SQLiteOpenHelper {
         Cursor c = getReadableDatabase().query(
                 Contracte_Alumne.EntradaAlumne.TABLE_NAME,
                 null,
-                Contracte_Alumne.EntradaAlumne.ID + " LIKE ?",
+                Contracte_Alumne.EntradaAlumne._ID + " LIKE ?",
                 new String[]{id_alumne},
                 null,
                 null,

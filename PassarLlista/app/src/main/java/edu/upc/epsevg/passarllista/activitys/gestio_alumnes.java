@@ -317,7 +317,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
             list_alumnes.add(
                     new Alumne(
                             c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.NOM)),
-                            Integer.parseInt(c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.ID))),
+                            Integer.parseInt(c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne._ID))),
                             c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.DNI))
                     )
             );

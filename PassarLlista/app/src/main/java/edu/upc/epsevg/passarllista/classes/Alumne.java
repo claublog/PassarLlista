@@ -44,7 +44,6 @@ public class Alumne implements Comparable{
 
     public ContentValues toContentValues() {
         ContentValues values = new ContentValues();
-        values.put(Contracte_Alumne.EntradaAlumne.ID, id);
         values.put(Contracte_Alumne.EntradaAlumne.NOM, nom);
         values.put(Contracte_Alumne.EntradaAlumne.DNI, dni);
         return values;

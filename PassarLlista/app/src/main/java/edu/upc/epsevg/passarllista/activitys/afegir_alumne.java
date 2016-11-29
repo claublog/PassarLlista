@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import edu.upc.epsevg.passarllista.R;
+import edu.upc.epsevg.passarllista.base_de_dades.AlumneDbHelper;
 import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
 import edu.upc.epsevg.passarllista.classes.Alumne;
 
@@ -32,8 +33,9 @@ public class afegir_alumne extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // añade el alumno
+                AlumneDbHelper db  = new AlumneDbHelper(getApplicationContext());
                 Alumne alum = new Alumne(nomAlumne.getText().toString(), null, dniAlumne.getText().toString());
-                
+                db.guardaAlumne(alum);
                 //tanca el activity
                 finish();
             }

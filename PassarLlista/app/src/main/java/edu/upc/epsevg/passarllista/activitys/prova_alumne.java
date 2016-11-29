@@ -26,7 +26,7 @@ public class prova_alumne extends AppCompatActivity {
         while(c.moveToNext()){
             str += c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.NOM)) + " ";
             str += c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.DNI)) + " ";
-            str += c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.ID)) + " ";
+            str += c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne._ID)) + " ";
 
         }
         //resultat.getInt(1) + ", nom = " + resultat.getString(2) + ", dni = " + resultat.getString(3)
