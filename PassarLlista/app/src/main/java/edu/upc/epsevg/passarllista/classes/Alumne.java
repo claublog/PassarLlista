@@ -7,10 +7,10 @@ import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
 
 public class Alumne implements Comparable{
     private String nom;
-    private int id;
+    private Integer id;
     private String dni;
 
-    public Alumne(String nom, int id, String dni) {
+    public Alumne(String nom, Integer id, String dni) {
         this.nom = nom;
         this.id = id;
         this.dni = dni;
