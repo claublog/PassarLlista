@@ -20,9 +20,11 @@ public class afegir_alumne extends AppCompatActivity {
     }
 
     private void inicialitcacio() {
-        final EditText nomAlumne = (EditText) findViewById(R.id.editText_nom_alumne);
+        EditText nomAlumne = (EditText) findViewById(R.id.editText_nom_alumne);
         EditText dniAlumne = (EditText) findViewById(R.id.editText_dni);
         setTitle("Afegir alumne");
+
+        int y = 3;
 
         Button addAlumne = (Button) findViewById(R.id.button_add_alumno);
         addAlumne.setOnClickListener(new View.OnClickListener() {
