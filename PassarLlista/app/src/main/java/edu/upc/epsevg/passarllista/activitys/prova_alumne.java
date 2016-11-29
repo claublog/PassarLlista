@@ -20,7 +20,7 @@ public class prova_alumne extends AppCompatActivity {
         setContentView(R.layout.activity_prova_alumne);
 
         db = new AlumneDbHelper(getApplicationContext());
-        Cursor c = db.getAllLawyers();
+        Cursor c = db.getTotsAlumnes();
 
         String str = "";
         while(c.moveToNext()){

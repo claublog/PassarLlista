@@ -57,7 +57,7 @@ public class AlumneDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public Cursor getAllLawyers() {
+    public Cursor getTotsAlumnes() {
         return getReadableDatabase()
                 .query(
                         Contracte_Alumne.EntradaAlumne.TABLE_NAME,
@@ -69,7 +69,7 @@ public class AlumneDbHelper extends SQLiteOpenHelper {
                         null);
     }
 
-    public Cursor getLawyerById(String lawyerId) {
+    public Cursor getAlumneById(String lawyerId) {
         Cursor c = getReadableDatabase().query(
                 Contracte_Alumne.EntradaAlumne.TABLE_NAME,
                 null,

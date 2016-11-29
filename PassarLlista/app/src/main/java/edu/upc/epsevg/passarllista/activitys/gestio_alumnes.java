@@ -2,16 +2,26 @@ package edu.upc.epsevg.passarllista.activitys;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.util.SortedList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+
 import edu.upc.epsevg.passarllista.R;
+import edu.upc.epsevg.passarllista.base_de_dades.AlumneDbHelper;
+import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
+import edu.upc.epsevg.passarllista.classes.Alumne;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,12 +31,14 @@ import edu.upc.epsevg.passarllista.R;
  * Use the {@link gestio_alumnes#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class gestio_alumnes extends android.support.v4.app.Fragment
-{
+public class gestio_alumnes extends android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ArrayList<Alumne> list_alumnes;
+    private AlumneDbHelper db;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -67,7 +79,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment
     }
 
     private void inicializacion() {
-
+        poblarAlumnes();
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floting_afellir_alumnes);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -80,10 +92,27 @@ public class gestio_alumnes extends android.support.v4.app.Fragment
 
     }
 
+    private void poblarAlumnes() {
+        db = new AlumneDbHelper(getActivity().getApplicationContext());
+        Cursor c = db.getTotsAlumnes();
+        list_alumnes = new ArrayList<>();
+
+        while (c.moveToNext()) {
+            list_alumnes.add(
+                    new Alumne(
+                            c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.NOM)),
+                            Integer.parseInt(c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.ID))),
+                            c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.DNI))
+                    )
+            );
+        }
+        Collections.sort(list_alumnes);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_gestio_alumnes, container );
+        rootView = inflater.inflate(R.layout.fragment_gestio_alumnes, container);
         inicializacion();
 
         // Inflate the layout for this fragment

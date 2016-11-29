@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import edu.upc.epsevg.passarllista.base_de_dades.AlumneDbHelper;
 import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
 
-public class Alumne {
+public class Alumne implements Comparable{
     private String nom;
     private int id;
     private String dni;
@@ -48,5 +48,14 @@ public class Alumne {
         values.put(Contracte_Alumne.EntradaAlumne.NOM, nom);
         values.put(Contracte_Alumne.EntradaAlumne.DNI, dni);
         return values;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Alumne) {
+            return ((Alumne) o).getNom().compareToIgnoreCase(nom);
+        } else {
+            return 0;
+        }
     }
 }
