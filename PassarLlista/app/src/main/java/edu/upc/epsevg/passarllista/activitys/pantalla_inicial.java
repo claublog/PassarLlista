@@ -21,7 +21,7 @@ import edu.upc.epsevg.passarllista.R;
 
 
 public class pantalla_inicial extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, gestio_alumnes.OnFragmentInteractionListener, passa_llista.OnFragmentInteractionListener, gestio_assignatures.OnFragmentInteractionListener, historic.OnFragmentInteractionListener, ajuda.OnFragmentInteractionListener, sobre.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, passa_llista.OnFragmentInteractionListener, gestio_assignatures.OnFragmentInteractionListener, historic.OnFragmentInteractionListener, ajuda.OnFragmentInteractionListener, sobre.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
