@@ -74,7 +74,7 @@ public class sobre extends android.support.v4.app.Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-    
+
 
     /**
      * This interface must be implemented by activities that contain this
