@@ -1,7 +1,9 @@
 package edu.upc.epsevg.passarllista.activitys;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,23 +26,51 @@ public class afegir_alumne extends AppCompatActivity {
     }
 
     private void inicialitcacio() {
-        final EditText nomAlumne = (EditText) findViewById(R.id.editText_nom_alumne);
-        final EditText dniAlumne = (EditText) findViewById(R.id.editText_dni);
         setTitle("Afegir alumne");
 
         Button addAlumne = (Button) findViewById(R.id.button_add_alumno);
         addAlumne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // añade el alumno
-                AlumneDbHelper db  = new AlumneDbHelper(getApplicationContext());
-                Alumne alum = new Alumne(nomAlumne.getText().toString(), null, dniAlumne.getText().toString());
-                db.guardaAlumne(alum);
-                //tanca el activity
-                finish();
+                afegeixAlumne();
             }
         });
 
+    }
+
+    private void afegeixAlumne(){
+
+        final EditText nomAlumne = (EditText) findViewById(R.id.editText_nom_alumne);
+        final EditText dniAlumne = (EditText) findViewById(R.id.editText_dni);
+        // añade el alumno
+        String nom = nomAlumne.getText().toString();
+        String dni = dniAlumne.getText().toString();
+        if (!(nom.equals("") ||  dni.equals(""))){
+            AlumneDbHelper db  = new AlumneDbHelper(getApplicationContext());
+            Alumne alum = new Alumne(nomAlumne.getText().toString(), null, dniAlumne.getText().toString());
+            db.guardaAlumne(alum);
+            //tanca el activity
+            finish();
+        } else {
+            //preparamos el alert
+            AlertDialog alertDialog = new AlertDialog.Builder(afegir_alumne.this).create();
+            alertDialog.setTitle("Error");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            //actuamos
+            if (nom.equals("")){
+                alertDialog.setMessage("El nom no es valid");
+                alertDialog.show();
+            } else {
+                alertDialog.setMessage("El DNI no es valid");
+                alertDialog.show();
+            }
+        }
     }
 
 }

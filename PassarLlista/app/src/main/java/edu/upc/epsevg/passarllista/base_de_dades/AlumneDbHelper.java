@@ -33,11 +33,11 @@ public class AlumneDbHelper extends SQLiteOpenHelper {
         // Contenedor de valores
         ContentValues values = new ContentValues();
 
-        // Pares clave-valor
-        values.put(Contracte_Alumne.EntradaAlumne.NOM, "Cigala");
+       /* // Pares clave-valor
+        values.put(Contracte_Alumne.EntradaAlumne.NOM, "Claudio");
         values.put(Contracte_Alumne.EntradaAlumne.DNI, "48923892B");
 
-        sqLiteDatabase.insert(Contracte_Alumne.EntradaAlumne.TABLE_NAME, null, values);
+        sqLiteDatabase.insert(Contracte_Alumne.EntradaAlumne.TABLE_NAME, null, values);*/
 
     }
     @Override

@@ -130,12 +130,13 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
             }
         });
 
+
     }
 
 
     private void setUpRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new TestAdapter());
+        mRecyclerView.setAdapter(new TestAdapter(list_alumnes));
         mRecyclerView.setHasFixedSize(true);
         setUpItemTouchHelper();
         setUpAnimationDecoratorHelper();
@@ -381,23 +382,23 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
 
         private static final int PENDING_REMOVAL_TIMEOUT = 3000; // 3sec
 
-        List<String> items;
-        List<String> itemsPendingRemoval;
+        List<Alumne> items;
+        List<Alumne> itemsPendingRemoval;
         int lastInsertedIndex; // so we can add some more items for testing purposes
         boolean undoOn; // is undo on, you can turn it on from the toolbar menu
 
         private Handler handler = new Handler(); // hanlder for running delayed runnables
         HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
-        public TestAdapter() {
-            items = new ArrayList<>();
-            itemsPendingRemoval = new ArrayList<>();
+        public TestAdapter(List<Alumne> items) {
+            this.items = items;
+            itemsPendingRemoval = new ArrayList<>();/*
             // let's generate some items
             lastInsertedIndex = 15;
             // this should give us a couple of screens worth
             for (int i=1; i<= lastInsertedIndex; i++) {
                 items.add("Item " + i);
-            }
+            }*/
         }
 
         @Override
@@ -408,7 +409,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             TestViewHolder viewHolder = (TestViewHolder)holder;
-            final String item = items.get(position);
+            final Alumne item = items.get(position);
 
             if (itemsPendingRemoval.contains(item)) {
                 // we need to show the "undo" state of the row
@@ -431,7 +432,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 // we need to show the "normal" state
                 viewHolder.itemView.setBackgroundColor(Color.WHITE);
                 viewHolder.titleTextView.setVisibility(View.VISIBLE);
-                viewHolder.titleTextView.setText(item);
+                viewHolder.titleTextView.setText(item.getNom());
                 viewHolder.undoButton.setVisibility(View.GONE);
                 viewHolder.undoButton.setOnClickListener(null);
             }
@@ -444,7 +445,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
 
         /**
          *  Utility method to add some rows for testing purposes. You can add rows from the toolbar menu.
-         */
+         *//*
         public void addItems(int howMany){
             if (howMany > 0) {
                 for (int i = lastInsertedIndex + 1; i <= lastInsertedIndex + howMany; i++) {
@@ -453,7 +454,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 }
                 lastInsertedIndex = lastInsertedIndex + howMany;
             }
-        }
+        }*/
 
         public void setUndoOn(boolean undoOn) {
             this.undoOn = undoOn;
@@ -464,7 +465,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
         }
 
         public void pendingRemoval(int position) {
-            final String item = items.get(position);
+            final Alumne item = items.get(position);
             if (!itemsPendingRemoval.contains(item)) {
                 itemsPendingRemoval.add(item);
                 // this will redraw row in "undo" state
@@ -477,12 +478,12 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                     }
                 };
                 handler.postDelayed(pendingRemovalRunnable, PENDING_REMOVAL_TIMEOUT);
-                pendingRunnables.put(item, pendingRemovalRunnable);
+                pendingRunnables.put(String.valueOf(item.getId()), pendingRemovalRunnable);
             }
         }
 
         public void remove(int position) {
-            String item = items.get(position);
+            Alumne item = items.get(position);
             if (itemsPendingRemoval.contains(item)) {
                 itemsPendingRemoval.remove(item);
             }
@@ -493,7 +494,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
         }
 
         public boolean isPendingRemoval(int position) {
-            String item = items.get(position);
+            Alumne item = items.get(position);
             return itemsPendingRemoval.contains(item);
         }
     }
