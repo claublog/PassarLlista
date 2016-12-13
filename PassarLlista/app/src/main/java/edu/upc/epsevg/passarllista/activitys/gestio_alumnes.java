@@ -6,10 +6,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,9 +36,9 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private ArrayList<Alumne> list_alumnes;
+    private ListView lview;
     private AlumneDbHelper db;
 
-    private View rootView;
 
 
     // TODO: Rename and change types of parameters
@@ -79,8 +81,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
 
     private void inicializacion() {
         poblarAlumnes();
-
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.floting_afellir_alumnes);
+        FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floting_afellir_alumnes);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +90,14 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
             }
         });
 
+        //lview = (ListView) rootView.findViewById(R.id.listView);
 
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        inicializacion();
     }
 
     private void poblarAlumnes() {
@@ -112,8 +120,10 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_gestio_alumnes, container);
-        inicializacion();
+     //   rootView = inflater.inflate(R.layout.fragment_gestio_alumnes, container);
+      //  inicializacion();
+
+
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_gestio_alumnes, container, false);
@@ -126,22 +136,8 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-           /* throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");*/
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+
 
     /**
      * This interface must be implemented by activities that contain this
