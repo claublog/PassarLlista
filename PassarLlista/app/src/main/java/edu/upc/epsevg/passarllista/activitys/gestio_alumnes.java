@@ -43,6 +43,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     private ArrayList<Alumne> list_alumnes;
     private ListView lview;
     private AlumneDbHelper db;
+    private Cursor totsAlumnes;
 
 
     public gestio_alumnes() {
@@ -67,7 +68,8 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 startActivity(intent);
             }
         });
-        Cursor totsAlumnes = db.getTotsAlumnes();
+        totsAlumnes = db.getTotsAlumnes();
+        int aux = totsAlumnes.getCount();
         if (totsAlumnes.getCount() < 1) {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(getView().getContext()).create();
@@ -118,7 +120,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        inicializacion();
+        //inicializacion();
     }
 
     @Override
