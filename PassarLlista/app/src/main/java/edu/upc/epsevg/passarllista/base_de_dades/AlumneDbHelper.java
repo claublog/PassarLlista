@@ -77,4 +77,11 @@ public class AlumneDbHelper extends SQLiteOpenHelper {
                 null);
         return c;
     }
+
+    public void delete(int ids) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete("ALUMNE", "_ID=" + ids, null);
+    }
+
+
 }

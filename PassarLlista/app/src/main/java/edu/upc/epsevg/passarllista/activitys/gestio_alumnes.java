@@ -1,30 +1,25 @@
 package edu.upc.epsevg.passarllista.activitys;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.AlumneDbHelper;
-import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
-import edu.upc.epsevg.passarllista.classes.Alumne;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,10 +35,11 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private ArrayList<Alumne> list_alumnes;
+    //private ArrayList<Alumne> list_alumnes;
     private ListView lview;
     private AlumneDbHelper db;
     private Cursor totsAlumnes;
+    private CursorAdapter cursorAdapter;
 
 
     public gestio_alumnes() {
@@ -90,7 +86,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
             alertDialog.show();
 
         } else {
-            CursorAdapter a = new CursorAdapter(getContext(), totsAlumnes, 0) {
+            cursorAdapter = new CursorAdapter(getContext(), totsAlumnes, 0) {
                 // The newView method is used to inflate a new view and return it,
                 // you don't bind any data to the view at this point.
                 @Override
@@ -103,17 +99,56 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 @Override
                 public void bindView(View view, Context context, Cursor cursor) {
                     // Find fields to populate in inflated template
+                    TextView tvId = (TextView) view.findViewById(R.id.tvId);
                     TextView tvBody = (TextView) view.findViewById(R.id.tvBody);
                     TextView tvPriority = (TextView) view.findViewById(R.id.tvPriority);
 
                     // Populate fields with extracted properties
+                    tvId.setText(getCursor().getString(0));
                     tvBody.setText(getCursor().getString(1));
                     tvPriority.setText(getCursor().getString(2));
                 }
             };
-
             lview = (ListView) getView().findViewById(R.id.listViewAlumnes);
-            lview.setAdapter(a);
+            lview.setAdapter(cursorAdapter);
+            lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView arg0, View v,
+                                               int position, long arg3) {
+                    // TODO Auto-generated method stub
+                    TextView id = (TextView) v.findViewById(R.id.tvId);
+                    final int ids = Integer.parseInt(id.getText().toString());
+                    AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
+                    //ad.setTitle("Notice");
+                    String nom_alumne = ((TextView) v.findViewById(R.id.tvBody)).getText().toString();
+
+
+                    ad.setMessage("Estas segur d'eliminar a " + nom_alumne + "?");
+                    ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Delete of record from Database and List view.
+                            db.delete(ids);
+                            totsAlumnes.requery();
+                            cursorAdapter.notifyDataSetChanged();
+                            lview.setAdapter(cursorAdapter);
+                        }
+                    });
+                    ad.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO Auto-generated method stub
+                            dialog.dismiss();
+                        }
+                    });
+                    ad.show();
+                    return false;
+                }
+            });
+
+
         }
     }
 
@@ -132,18 +167,6 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     private void poblarAlumnes() {
         db = new AlumneDbHelper(getActivity().getApplicationContext());
         Cursor c = db.getTotsAlumnes();
-        list_alumnes = new ArrayList<>();
-
-        while (c.moveToNext()) {
-            list_alumnes.add(
-                    new Alumne(
-                            c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.NOM)),
-                            Integer.parseInt(c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne._ID))),
-                            c.getString(c.getColumnIndex(Contracte_Alumne.EntradaAlumne.DNI))
-                    )
-            );
-        }
-        Collections.sort(list_alumnes);
     }
 
     @Override
