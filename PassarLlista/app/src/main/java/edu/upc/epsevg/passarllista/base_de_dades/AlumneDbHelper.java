@@ -47,7 +47,6 @@ public class AlumneDbHelper extends SQLiteOpenHelper {
 
     public long guardaAlumne(Alumne alumne) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-
         return sqLiteDatabase.insert(
                 Contracte_Alumne.EntradaAlumne.TABLE_NAME,
                 null,
