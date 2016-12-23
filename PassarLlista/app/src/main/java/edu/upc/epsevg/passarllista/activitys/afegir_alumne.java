@@ -65,11 +65,10 @@ public class afegir_alumne extends AppCompatActivity {
             //actuamos
             if (nom.equals("")){
                 alertDialog.setMessage("El nom no es valid");
-                alertDialog.show();
             } else {
                 alertDialog.setMessage("El DNI no es valid");
-                alertDialog.show();
             }
+            alertDialog.show();
         }
     }
 

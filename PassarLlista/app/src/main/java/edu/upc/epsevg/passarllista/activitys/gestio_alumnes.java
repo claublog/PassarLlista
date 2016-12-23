@@ -1,6 +1,7 @@
 package edu.upc.epsevg.passarllista.activitys;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,37 +94,63 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 startActivity(intent);
             }
         });
+        Cursor totsAlumnes = db.getTotsAlumnes();
+        if (totsAlumnes.getCount() < 1) {
+            //preparamos el alert
+            AlertDialog alertDialog = new AlertDialog.Builder(getView().getContext()).create();
+            alertDialog.setTitle("Informació");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Afegir",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(getActivity(), afegir_alumne.class);
+                            startActivity(intent);
 
-        CursorAdapter a  = new CursorAdapter(getContext(), db.getTotsAlumnes(), 0) {
-            // The newView method is used to inflate a new view and return it,
-            // you don't bind any data to the view at this point.
-            @Override
-            public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                return LayoutInflater.from(context).inflate(R.layout.item_todo, parent, false);
-            }
+                        }
+                    });
 
-            // The bindView method is used to bind all data to a given view
-            // such as setting the text on a TextView.
-            @Override
-            public void bindView(View view, Context context, Cursor cursor) {
-                // Find fields to populate in inflated template
-                TextView tvBody = (TextView) view.findViewById(R.id.tvBody);
-                TextView tvPriority = (TextView) view.findViewById(R.id.tvPriority);
+            //actuamos
 
-                // Populate fields with extracted properties
-                tvBody.setText("Test");
-                tvPriority.setText(String.valueOf(3));
-            }
-        };
+            alertDialog.setMessage("La llista d'Alumnes és buida. Afegeix-ne un per començar.");
+            alertDialog.show();
 
-        lview = (ListView) getView().findViewById(R.id.listViewAlumnes);
-        lview.setAdapter(a);
+        } else {
+            CursorAdapter a = new CursorAdapter(getContext(), totsAlumnes, 0) {
+                // The newView method is used to inflate a new view and return it,
+                // you don't bind any data to the view at this point.
+                @Override
+                public View newView(Context context, Cursor cursor, ViewGroup parent) {
+                    return LayoutInflater.from(context).inflate(R.layout.item_todo, parent, false);
+                }
 
+                // The bindView method is used to bind all data to a given view
+                // such as setting the text on a TextView.
+                @Override
+                public void bindView(View view, Context context, Cursor cursor) {
+                    // Find fields to populate in inflated template
+                    TextView tvBody = (TextView) view.findViewById(R.id.tvBody);
+                    TextView tvPriority = (TextView) view.findViewById(R.id.tvPriority);
+
+                    // Populate fields with extracted properties
+                    tvBody.setText(getCursor().getString(1));
+                    tvPriority.setText(getCursor().getString(2));
+                }
+            };
+
+            lview = (ListView) getView().findViewById(R.id.listViewAlumnes);
+            lview.setAdapter(a);
+        }
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        inicializacion();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         inicializacion();
     }
 
