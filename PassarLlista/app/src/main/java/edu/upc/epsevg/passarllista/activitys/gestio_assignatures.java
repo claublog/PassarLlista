@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import edu.upc.epsevg.passarllista.R;
+import edu.upc.epsevg.passarllista.base_de_dades.DbHelper_Assignatura;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +28,7 @@ public class gestio_assignatures extends android.support.v4.app.Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private DbHelper_Assignatura db;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,6 +61,9 @@ public class gestio_assignatures extends android.support.v4.app.Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        db = new DbHelper_Assignatura(getActivity().getApplicationContext());
+        db.getTotsAssignatures();
+
     }
 
     @Override
