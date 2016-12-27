@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
-import edu.upc.epsevg.passarllista.base_de_dades.DbHelper_Alumne;
+import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +32,7 @@ import edu.upc.epsevg.passarllista.base_de_dades.DbHelper_Alumne;
 public class gestio_alumnes extends android.support.v4.app.Fragment {
     //private ArrayList<Alumne> list_alumnes;
     private ListView lview;
-    private DbHelper_Alumne db;
+    private DbHelper db;
     private Cursor totsAlumnes;
     private CursorAdapter cursorAdapter;
 
@@ -47,7 +47,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private void inicializacion() {
+    private void inicializacio() {
         poblarAlumnes();
         FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floting_afellir_alumnes);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //Delete of record from Database and List view.
-                            db.delete(ids);
+                            db.deleteAlumne(ids);
                             totsAlumnes.requery();
                             cursorAdapter.notifyDataSetChanged();
                             lview.setAdapter(cursorAdapter);
@@ -149,17 +149,17 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //inicializacion();
+        //inicializacio();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        inicializacion();
+        inicializacio();
     }
 
     private void poblarAlumnes() {
-        db = new DbHelper_Alumne(getActivity().getApplicationContext());
+        db = new DbHelper(getActivity().getApplicationContext());
         Cursor c = db.getTotsAlumnes();
     }
 
@@ -167,7 +167,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
      //   rootView = inflater.inflate(R.layout.fragment_gestio_alumnes, container);
-      //  inicializacion();
+      //  inicializacio();
 
 
 

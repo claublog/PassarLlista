@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import edu.upc.epsevg.passarllista.R;
+import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 
 public class pantalla_inicial extends AppCompatActivity
@@ -25,9 +26,6 @@ public class pantalla_inicial extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -39,6 +37,7 @@ public class pantalla_inicial extends AppCompatActivity
 
         //abrimos passar llista
         getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, new passa_llista()).commit();
+        DbHelper db = new DbHelper(getApplicationContext()); // Forçem la creacio de taules
 
     }
 

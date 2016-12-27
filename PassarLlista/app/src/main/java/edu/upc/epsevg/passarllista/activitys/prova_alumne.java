@@ -6,20 +6,20 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import edu.upc.epsevg.passarllista.R;
-import edu.upc.epsevg.passarllista.base_de_dades.DbHelper_Alumne;
+import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
 
 
 public class prova_alumne extends AppCompatActivity {
 
-    DbHelper_Alumne db;
+    DbHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prova_alumne);
 
-        db = new DbHelper_Alumne(getApplicationContext());
+        db = new DbHelper(getApplicationContext());
         Cursor c = db.getTotsAlumnes();
 
         String str = "";
