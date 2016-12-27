@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import edu.upc.epsevg.passarllista.R;
-import edu.upc.epsevg.passarllista.base_de_dades.AlumneDbHelper;
+import edu.upc.epsevg.passarllista.base_de_dades.DbHelper_Alumne;
 import edu.upc.epsevg.passarllista.classes.Alumne;
 
 public class afegir_alumne extends AppCompatActivity {
@@ -62,7 +62,7 @@ public class afegir_alumne extends AppCompatActivity {
         String nom = nomAlumne.getText().toString();
         String dni = dniAlumne.getText().toString();
         if (!(nom.equals("") ||  dni.equals(""))){
-            AlumneDbHelper db  = new AlumneDbHelper(getApplicationContext());
+            DbHelper_Alumne db  = new DbHelper_Alumne(getApplicationContext());
             Alumne alum = new Alumne(nomAlumne.getText().toString(), null, dniAlumne.getText().toString());
             db.guardaAlumne(alum);
             //tanca el activity

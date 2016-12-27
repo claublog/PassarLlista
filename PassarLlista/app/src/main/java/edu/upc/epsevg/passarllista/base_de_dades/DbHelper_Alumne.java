@@ -9,16 +9,16 @@ import android.database.sqlite.SQLiteOpenHelper;
 import edu.upc.epsevg.passarllista.classes.Alumne;
 
 
-public class AlumneDbHelper extends SQLiteOpenHelper {
+public class DbHelper_Alumne extends SQLiteOpenHelper {
 
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Alumnes.db";
+    public static final String DATABASE_NAME = "PassarLlista.db";
 
     private ContentValues values;
 
 
-    public AlumneDbHelper(Context context) {
+    public DbHelper_Alumne(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     @Override

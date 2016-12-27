@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
-import edu.upc.epsevg.passarllista.base_de_dades.AlumneDbHelper;
+import edu.upc.epsevg.passarllista.base_de_dades.DbHelper_Alumne;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +32,7 @@ import edu.upc.epsevg.passarllista.base_de_dades.AlumneDbHelper;
 public class gestio_alumnes extends android.support.v4.app.Fragment {
     //private ArrayList<Alumne> list_alumnes;
     private ListView lview;
-    private AlumneDbHelper db;
+    private DbHelper_Alumne db;
     private Cursor totsAlumnes;
     private CursorAdapter cursorAdapter;
 
@@ -159,7 +159,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     }
 
     private void poblarAlumnes() {
-        db = new AlumneDbHelper(getActivity().getApplicationContext());
+        db = new DbHelper_Alumne(getActivity().getApplicationContext());
         Cursor c = db.getTotsAlumnes();
     }
 

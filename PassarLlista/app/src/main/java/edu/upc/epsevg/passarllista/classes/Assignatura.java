@@ -1,6 +1,10 @@
 package edu.upc.epsevg.passarllista.classes;
 
-public class Assignatura {
+import android.content.ContentValues;
+
+import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
+
+public class Assignatura implements Comparable {
     private int id;
     private String nom;
 
@@ -23,5 +27,21 @@ public class Assignatura {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(Contracte_Alumne.EntradaAlumne.NOM, nom);
+        return values;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Alumne) {
+            return ((Alumne) o).getNom().compareToIgnoreCase(nom);
+        } else {
+            return 0;
+        }
     }
 }

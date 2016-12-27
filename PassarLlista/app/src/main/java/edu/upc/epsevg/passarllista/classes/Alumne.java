@@ -2,7 +2,6 @@ package edu.upc.epsevg.passarllista.classes;
 
 import android.content.ContentValues;
 
-import edu.upc.epsevg.passarllista.base_de_dades.AlumneDbHelper;
 import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
 
 public class Alumne implements Comparable{
@@ -14,8 +13,6 @@ public class Alumne implements Comparable{
         this.nom = nom;
         this.id = id;
         this.dni = dni;
-
-
     }
 
     public String getNom() {
