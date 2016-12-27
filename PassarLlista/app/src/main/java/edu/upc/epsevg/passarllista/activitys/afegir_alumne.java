@@ -7,9 +7,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.AlumneDbHelper;
 import edu.upc.epsevg.passarllista.classes.Alumne;
@@ -21,10 +20,10 @@ public class afegir_alumne extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afegir_alumne);
 
-        inicialitcacio();
+        inicialitzacio();
     }
 
-    private void inicialitcacio() {
+    private void inicialitzacio() {
         setTitle("Afegir alumne");
 
         //boto enrere
@@ -36,7 +35,7 @@ public class afegir_alumne extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_done, menu);
+        getMenuInflater().inflate(R.menu.toolbar_afegir, menu);
         return true;
     }
     @Override

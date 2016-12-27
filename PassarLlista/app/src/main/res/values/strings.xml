@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="preferencies">Preferències</string>
     <string name="ajuda">Ajuda</string>
     <string name="sobre">Sobre</string>
     <string name="hist_ric">Històric</string>

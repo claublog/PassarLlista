@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +30,6 @@ import edu.upc.epsevg.passarllista.base_de_dades.AlumneDbHelper;
  * create an instance of this fragment.
  */
 public class gestio_alumnes extends android.support.v4.app.Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     //private ArrayList<Alumne> list_alumnes;
     private ListView lview;
     private AlumneDbHelper db;
@@ -51,8 +45,6 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //inicializacion();
     }
 
     private void inicializacion() {
@@ -93,7 +85,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 // you don't bind any data to the view at this point.
                 @Override
                 public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                    return LayoutInflater.from(context).inflate(R.layout.item_todo, parent, false);
+                    return LayoutInflater.from(context).inflate(R.layout.item_llista, parent, false);
                 }
 
                 // The bindView method is used to bind all data to a given view
@@ -101,9 +93,9 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 @Override
                 public void bindView(View view, Context context, Cursor cursor) {
                     // Find fields to populate in inflated template
-                    TextView tvId = (TextView) view.findViewById(R.id.tvId);
-                    TextView tvBody = (TextView) view.findViewById(R.id.tvBody);
-                    TextView tvPriority = (TextView) view.findViewById(R.id.tvPriority);
+                    TextView tvId = (TextView) view.findViewById(R.id.view_id);
+                    TextView tvBody = (TextView) view.findViewById(R.id.view_nom);
+                    TextView tvPriority = (TextView) view.findViewById(R.id.view_dni);
 
                     // Populate fields with extracted properties
                     tvId.setText(getCursor().getString(0));
@@ -118,11 +110,11 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 public boolean onItemLongClick(AdapterView arg0, View v,
                                                int position, long arg3) {
                     // TODO Auto-generated method stub
-                    TextView id = (TextView) v.findViewById(R.id.tvId);
+                    TextView id = (TextView) v.findViewById(R.id.view_id);
                     final int ids = Integer.parseInt(id.getText().toString());
                     AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
                     //ad.setTitle("Notice");
-                    String nom_alumne = ((TextView) v.findViewById(R.id.tvBody)).getText().toString();
+                    String nom_alumne = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
 
 
                     ad.setMessage("Estas segur d'eliminar a " + nom_alumne + "?");
