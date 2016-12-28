@@ -49,7 +49,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
 
     private void inicializacio() {
         poblarAlumnes();
-        FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floting_afegir_assignatures);
+        FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +103,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                     dni.setText(getCursor().getString(2));
                 }
             };
-            lview = (ListView) getView().findViewById(R.id.listViewAlumnes);
+            lview = (ListView) getView().findViewById(R.id.listView);
             lview.setAdapter(cursorAdapter);
             lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -166,13 +166,13 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-     //   rootView = inflater.inflate(R.layout.fragment_gestio_alumnes, container);
+     //   rootView = inflater.inflate(R.layout.fragment_gestio, container);
       //  inicializacio();
 
 
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gestio_alumnes, container, false);
+        return inflater.inflate(R.layout.fragment_gestio, container, false);
     }
 
 

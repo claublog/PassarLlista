@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,14 +47,6 @@ public class gestio_grups extends android.support.v4.app.Fragment {
 
     private void inicializacio() {
         db = new DbHelper(getActivity().getApplicationContext());
-        FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floting_afegir_assignatures);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), afegir_assignatura.class);
-                startActivity(intent);
-            }
-        });
 
         totsAssignatures = db.getTotsAssignatures();
         int aux = totsAssignatures.getCount();
@@ -84,7 +75,7 @@ public class gestio_grups extends android.support.v4.app.Fragment {
                 // you don't bind any data to the view at this point.
                 @Override
                 public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                    return LayoutInflater.from(context).inflate(R.layout.item_llista_assignatura, parent, false);
+                    return LayoutInflater.from(context).inflate(R.layout.item_llista, parent, false);
                 }
 
                 // The bindView method is used to bind all data to a given view
@@ -92,26 +83,26 @@ public class gestio_grups extends android.support.v4.app.Fragment {
                 @Override
                 public void bindView(View view, Context context, Cursor cursor) {
                     // Find fields to populate in inflated template
-                    TextView id_assig = (TextView) view.findViewById(R.id.view_id_assig);
-                    TextView nom_assig = (TextView) view.findViewById(R.id.view_nom_assig);
+                    TextView id_assig = (TextView) view.findViewById(R.id.view_id);
+                    TextView nom_assig = (TextView) view.findViewById(R.id.view_nom);
 
                     // Populate fields with extracted properties
                     id_assig.setText(getCursor().getString(0));
                     nom_assig.setText(getCursor().getString(1));
                 }
             };
-            lview = (ListView) getView().findViewById(R.id.listViewAlumnes);
+            lview = (ListView) getView().findViewById(R.id.listView_grups);
             lview.setAdapter(cursorAdapter);
             lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView arg0, View v,
                                                int position, long arg3) {
                     // TODO Auto-generated method stub
-                    TextView id = (TextView) v.findViewById(R.id.view_id_assig);
+                    TextView id = (TextView) v.findViewById(R.id.view_id);
                     final int ids = Integer.parseInt(id.getText().toString());
                     AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
                     //ad.setTitle("Notice");
-                    String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom_assig)).getText().toString();
+                    String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
 
 
                     ad.setMessage("Estas segur d'eliminar a " + nom_assignatura + "?");
@@ -164,13 +155,8 @@ public class gestio_grups extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //   rootView = inflater.inflate(R.layout.fragment_gestio_alumnes, container);
-        //  inicializacio();
-
-
-
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gestio_alumnes, container, false);
+                // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_gestio_grups, container, false);
     }
 
 

@@ -88,11 +88,15 @@ public class pantalla_inicial extends AppCompatActivity
             elementSelecionado=true;
         } else if (id == R.id.gestio_alumnes) {
             frag = new gestio_alumnes();
-            setTitle("Gestio alumnes");
+            setTitle("Gestio d'alumnes");
             elementSelecionado=true;
         } else if (id == R.id.gestio_assignatures) {
             frag = new gestio_assignatures();
-            setTitle("Gestio assignatures");
+            setTitle("Gestio d'assignatures");
+            elementSelecionado=true;
+        } else if (id == R.id.gestio_grups) {
+            frag = new gestio_grups();
+            setTitle("Gestio de grups");
             elementSelecionado=true;
         } else if (id == R.id.historic) {
             frag = new historic();
