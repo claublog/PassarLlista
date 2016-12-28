@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 import edu.upc.epsevg.passarllista.classes.Assignatura;
+import edu.upc.epsevg.passarllista.classes.Grup;
 
 public class afegir_assignatura extends AppCompatActivity {
 
@@ -123,12 +124,19 @@ public class afegir_assignatura extends AppCompatActivity {
 
         final EditText nomAssignatura = (EditText) findViewById(R.id.editText_nom_assignatura);
 
+        int tamany_llista = llista_grups.size();
         // añade el alumno
         String nom = nomAssignatura.getText().toString();
-        if (!(nom.equals("") )){
+        if (!nom.equals("") && (tamany_llista > 0)){
             DbHelper db  = new DbHelper(getApplicationContext());
+            //add assignatura
             Assignatura assig = new Assignatura(null, nomAssignatura.getText().toString());
-            db.guardaAssignatura(assig);
+            long id_assig = db.guardaAssignatura(assig);
+            // add grups
+            for (String nom_grup : llista_grups) {
+                Grup grup = new Grup(null, nom_grup, id_assig);
+                db.guardaGrup(grup);
+            }
             //tanca el activity
             finish();
         } else {
@@ -144,9 +152,9 @@ public class afegir_assignatura extends AppCompatActivity {
 
             //actuamos
             if (nom.equals("")){
-                alertDialog.setMessage("El nom no es valid");
-            } else {
-                alertDialog.setMessage("El DNI no es valid");
+                alertDialog.setMessage("El nom de la assignatura no es valid");
+            } else if (tamany_llista < 1) {
+                alertDialog.setMessage("Tens que afegir un grup com a minim per a una assignatura");
             }
             alertDialog.show();
         }

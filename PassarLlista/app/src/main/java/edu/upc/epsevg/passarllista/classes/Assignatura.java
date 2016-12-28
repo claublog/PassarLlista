@@ -14,7 +14,7 @@ public class Assignatura implements Comparable {
         this.nom = nom;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -40,7 +40,13 @@ public class Assignatura implements Comparable {
     @Override
     public int compareTo(Object o) {
         if (o instanceof Assignatura) {
-            return ((Assignatura) o).getNom().compareToIgnoreCase(nom);
+            Assignatura assig = (Assignatura) o;
+
+            if (assig.getId() != null && this.id != null) {
+                return assig.getId().compareTo(this.id);
+            } else {
+                return assig.getNom().compareToIgnoreCase(nom);
+            }
         } else {
             return 0;
         }

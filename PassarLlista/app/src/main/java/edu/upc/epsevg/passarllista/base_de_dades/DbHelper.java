@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import edu.upc.epsevg.passarllista.classes.Alumne;
 import edu.upc.epsevg.passarllista.classes.Assignatura;
+import edu.upc.epsevg.passarllista.classes.Grup;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -100,12 +101,21 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
-    public long guardaAssignatura(Assignatura Assignatura) {
+    public long guardaAssignatura(Assignatura assignatura) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         return sqLiteDatabase.insert(
                 Contracte_Assignatura.EntradaAssignatura.TABLE_NAME,
                 null,
-                Assignatura.toContentValues());
+                assignatura.toContentValues());
+
+    }
+
+    public long guardaGrup(Grup grup) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(
+                Contracte_Grup.EntradaGrup.TABLE_NAME,
+                null,
+                grup.toContentValues());
 
     }
 
