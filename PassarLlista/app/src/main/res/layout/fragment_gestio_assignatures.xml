@@ -1,13 +1,22 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="edu.upc.epsevg.passarllista.activitys.gestio_assignatures">
+
+<android.support.design.widget.FloatingActionButton
+    android:id="@+id/floting_afellir_alumnes"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="@dimen/fab_margin"
+    android:src="@drawable/icon_add" />
+
+<ListView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.upc.epsevg.passarllista.activitys.gestio_assignatures">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="gestio de asignatures" />
+    android:id="@+id/listViewAlumnes"
+    android:layout_below="@+id/editText_dni"
+    android:layout_toEndOf="@+id/textView_dni" />
 
 </FrameLayout>

@@ -11,20 +11,20 @@ import android.widget.EditText;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
-import edu.upc.epsevg.passarllista.classes.Alumne;
+import edu.upc.epsevg.passarllista.classes.Assignatura;
 
-public class afegir_alumne extends AppCompatActivity {
+public class afegir_assignatura extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_afegir_alumne);
+        setContentView(R.layout.activity_afegir_assignatura);
 
         inicialitzacio();
     }
 
     private void inicialitzacio() {
-        setTitle("Afegir alumne");
+        setTitle("Afegir Assignatura");
 
         //boto enrere
         ActionBar actionBar = getSupportActionBar();
@@ -43,7 +43,7 @@ public class afegir_alumne extends AppCompatActivity {
         // handle arrow click here
         switch (item.getItemId()) {
             case R.id.action_menu_done:
-                afegeixAlumne();
+                afegeixAssignatura();
                 break;
             case android.R.id.home:
                 finish();
@@ -54,22 +54,21 @@ public class afegir_alumne extends AppCompatActivity {
     }
 
 
-    private void afegeixAlumne(){
+    private void afegeixAssignatura(){
 
-        final EditText nomAlumne = (EditText) findViewById(R.id.editText_nom_assignatura);
-        final EditText dniAlumne = (EditText) findViewById(R.id.editText_dni);
+        final EditText nomAssignatura = (EditText) findViewById(R.id.editText_nom_assignatura);
+
         // añade el alumno
-        String nom = nomAlumne.getText().toString();
-        String dni = dniAlumne.getText().toString();
-        if (!(nom.equals("") ||  dni.equals(""))){
+        String nom = nomAssignatura.getText().toString();
+        if (!(nom.equals("") )){
             DbHelper db  = new DbHelper(getApplicationContext());
-            Alumne alum = new Alumne(nomAlumne.getText().toString(), null, dniAlumne.getText().toString());
-            db.guardaAlumne(alum);
+            Assignatura assig = new Assignatura(null, nomAssignatura.getText().toString());
+            db.guardaAssignatura(assig);
             //tanca el activity
             finish();
         } else {
             //preparamos el alert
-            AlertDialog alertDialog = new AlertDialog.Builder(afegir_alumne.this).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(afegir_assignatura.this).create();
             alertDialog.setTitle("Error");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {

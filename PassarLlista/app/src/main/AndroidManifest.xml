@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".activitys.prova_alumne" />
         <activity android:name=".activitys.afegir_alumne"></activity>
+        <activity android:name=".activitys.afegir_assignatura"></activity>
     </application>
 
 </manifest>

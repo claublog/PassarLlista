@@ -85,7 +85,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 // you don't bind any data to the view at this point.
                 @Override
                 public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                    return LayoutInflater.from(context).inflate(R.layout.item_llista, parent, false);
+                    return LayoutInflater.from(context).inflate(R.layout.item_llista_alumne, parent, false);
                 }
 
                 // The bindView method is used to bind all data to a given view
@@ -93,14 +93,14 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 @Override
                 public void bindView(View view, Context context, Cursor cursor) {
                     // Find fields to populate in inflated template
-                    TextView tvId = (TextView) view.findViewById(R.id.view_id);
-                    TextView tvBody = (TextView) view.findViewById(R.id.view_nom);
-                    TextView tvPriority = (TextView) view.findViewById(R.id.view_dni);
+                    TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
+                    TextView nom_alumne = (TextView) view.findViewById(R.id.view_nom);
+                    TextView dni = (TextView) view.findViewById(R.id.view_dni);
 
                     // Populate fields with extracted properties
-                    tvId.setText(getCursor().getString(0));
-                    tvBody.setText(getCursor().getString(1));
-                    tvPriority.setText(getCursor().getString(2));
+                    id_alumne.setText(getCursor().getString(0));
+                    nom_alumne.setText(getCursor().getString(1));
+                    dni.setText(getCursor().getString(2));
                 }
             };
             lview = (ListView) getView().findViewById(R.id.listViewAlumnes);

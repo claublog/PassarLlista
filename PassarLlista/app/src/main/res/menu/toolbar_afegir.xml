@@ -9,6 +9,7 @@
         android:orderInCategory="100"
         android:icon="@drawable/icon_fet"
         app:showAsAction="ifRoom"
+        android:enabled="false"
         />
 
 </menu>

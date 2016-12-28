@@ -3,12 +3,13 @@ package edu.upc.epsevg.passarllista.classes;
 import android.content.ContentValues;
 
 import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
+import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Assignatura;
 
 public class Assignatura implements Comparable {
-    private int id;
+    private Integer id;
     private String nom;
 
-    public Assignatura(int id, String nom) {
+    public Assignatura(Integer id, String nom) {
         this.id = id;
         this.nom = nom;
     }
@@ -32,14 +33,14 @@ public class Assignatura implements Comparable {
 
     public ContentValues toContentValues() {
         ContentValues values = new ContentValues();
-        values.put(Contracte_Alumne.EntradaAlumne.NOM, nom);
+        values.put(Contracte_Assignatura.EntradaAssignatura.NOM, nom);
         return values;
     }
 
     @Override
     public int compareTo(Object o) {
-        if (o instanceof Alumne) {
-            return ((Alumne) o).getNom().compareToIgnoreCase(nom);
+        if (o instanceof Assignatura) {
+            return ((Assignatura) o).getNom().compareToIgnoreCase(nom);
         } else {
             return 0;
         }
