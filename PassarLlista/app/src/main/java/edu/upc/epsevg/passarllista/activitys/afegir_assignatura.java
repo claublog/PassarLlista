@@ -1,19 +1,32 @@
 package edu.upc.epsevg.passarllista.activitys;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 import edu.upc.epsevg.passarllista.classes.Assignatura;
 
 public class afegir_assignatura extends AppCompatActivity {
+
+    private ArrayAdapter<String> itemsAdapter;
+    private ArrayList<String> llista_grups;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +44,58 @@ public class afegir_assignatura extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+
+        final Button afegir_grup = (Button) findViewById(R.id.button_add_grup);
+        final EditText edit_grup = (EditText) findViewById(R.id.editText_grup);
+
+        afegir_grup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final EditText nomGrup = (EditText) findViewById(R.id.editText_grup);
+
+                // añade el alumno
+                String nom = nomGrup.getText().toString();
+                if (!(nom.equals("") )){
+                    llista_grups.add(nom);
+                    edit_grup.setText("");
+
+                }
+            }
+        });
+
+
+        edit_grup.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.toString().trim().length()==0){
+                    afegir_grup.setEnabled(false);
+                } else {
+                    afegir_grup.setEnabled(true);
+                }
+
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        llista_grups = new ArrayList<>();
+        itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, llista_grups);
+        ListView listView = (ListView) findViewById(R.id.listViewGrups);
+        listView.setAdapter(itemsAdapter);
 
     }
     @Override
