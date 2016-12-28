@@ -15,6 +15,10 @@
             android:icon="@drawable/icon_gestio_assignatures"
             android:title="@string/gesti_d_assignatures" />
         <item
+            android:id="@+id/gestio_grups"
+            android:icon="@drawable/icon_gestio_grups"
+            android:title="@string/gesti_de_grups" />
+        <item
             android:id="@+id/historic"
             android:icon="@drawable/icon_historic"
             android:title="@string/hist_ric" />

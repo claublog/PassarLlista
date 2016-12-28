@@ -168,13 +168,34 @@ public class DbHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    public Cursor getGrupsAssignatura(String id_Assignatura) {
+        Cursor c = getReadableDatabase().query(
+                Contracte_Grup.EntradaGrup.TABLE_NAME,
+                null,
+                Contracte_Grup.EntradaGrup.ID_ASSIGNATURA + " LIKE ?",
+                new String[]{id_Assignatura},
+                null,
+                null,
+                null);
+        return c;
+    }
+
     public void deleteAlumne(int ids) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.delete("ALUMNE", "_ID=" + ids, null);
+        sqLiteDatabase.delete(Contracte_Alumne.EntradaAlumne.TABLE_NAME, "_ID=" + ids, null);
     }
 
     public void deleteAssignatura(int ids) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.delete("Assignatura", "_ID=" + ids, null);
+        Cursor grups = this.getGrupsAssignatura(ids + "");
+        while (grups.moveToNext()) {
+            deleteGrup(grups.getInt(0));
+        }
+        sqLiteDatabase.delete(Contracte_Assignatura.EntradaAssignatura.TABLE_NAME, "_ID=" + ids, null);
+    }
+
+    private void deleteGrup(int anInt) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(Contracte_Grup.EntradaGrup.TABLE_NAME, "_ID=" + anInt, null);
     }
 }

@@ -49,7 +49,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
 
     private void inicializacio() {
         poblarAlumnes();
-        FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floting_afellir_alumnes);
+        FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floting_afegir_assignatures);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -29,15 +29,14 @@ import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
  * Use the {@link historic#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class gestio_assignatures extends android.support.v4.app.Fragment {
-    //private ArrayList<Alumne> list_alumnes;
+public class gestio_grups extends android.support.v4.app.Fragment {
     private ListView lview;
     private DbHelper db;
     private Cursor totsAssignatures;
     private CursorAdapter cursorAdapter;
 
 
-    public gestio_assignatures() {
+    public gestio_grups() {
         // Required empty public constructor
     }
 
