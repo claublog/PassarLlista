@@ -96,7 +96,7 @@ public class pantalla_inicial extends AppCompatActivity
             elementSelecionado=true;
         } else if (id == R.id.gestio_grups) {
             frag = new gestio_grups();
-            setTitle("Gestio de grups");
+            setTitle("Selecciona una assignatura");
             elementSelecionado=true;
         } else if (id == R.id.historic) {
             frag = new historic();

@@ -3,6 +3,9 @@ package edu.upc.epsevg.passarllista.base_de_dades;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
+import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -71,10 +74,10 @@ public class DbHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Matriculat.EntradaMatriculat.TABLE_NAME + " ("
                 + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + " INTEGER NOT NULL,"
-                + Contracte_Matriculat.EntradaMatriculat.ID_LLISTAASSISTENCIA + " INTEGER NOT NULL,"
+                + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + " INTEGER NOT NULL,"
                 + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" +Contracte_Alumne.EntradaAlumne._ID + "),"
-                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_LLISTAASSISTENCIA + ") REFERENCES " + Contracte_LlistaAssistencia.EntradaLlistaAssistencia.TABLE_NAME + "(" +Contracte_LlistaAssistencia.EntradaLlistaAssistencia._ID + ")"
-                + "PRIMARY KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ", " + Contracte_Matriculat.EntradaMatriculat.ID_LLISTAASSISTENCIA + "))");
+                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + ") REFERENCES " + Contracte_LlistaAssistencia.EntradaLlistaAssistencia.TABLE_NAME + "(" +Contracte_LlistaAssistencia.EntradaLlistaAssistencia._ID + ")"
+                + "PRIMARY KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ", " + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + "))");
         
         /*
         // Contenedor de valores
@@ -144,6 +147,18 @@ public class DbHelper extends SQLiteOpenHelper {
                         null);
     }
 
+    public Cursor getTotsGrups() {
+        return getReadableDatabase()
+                .query(
+                        Contracte_Grup.EntradaGrup.TABLE_NAME,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null);
+    }
+
     public Cursor getAlumneById(String id_alumne) {
         Cursor c = getReadableDatabase().query(
                 Contracte_Alumne.EntradaAlumne.TABLE_NAME,
@@ -180,6 +195,30 @@ public class DbHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    public Cursor getAlumnesGrup(String id_grup) {
+        Cursor c = getReadableDatabase().query(
+                Contracte_Matriculat.EntradaMatriculat.TABLE_NAME,
+                null,
+                Contracte_Matriculat.EntradaMatriculat.ID_GRUP + " LIKE ?",
+                new String[]{id_grup},
+                null,
+                null,
+                null);
+
+        // Create a MatrixCursor filled with the rows you want to add.
+        MatrixCursor matrixCursor = new MatrixCursor(new String[] { Contracte_Alumne.EntradaAlumne._ID, Contracte_Alumne.EntradaAlumne.NOM, Contracte_Alumne.EntradaAlumne.DNI });
+        while (c.moveToNext()) {
+            Cursor alumneById = getAlumneById(c.getString(0));
+            Object [] res = new Object[3];
+            res[0] = alumneById.getInt(0);
+            res[1] = alumneById.getString(1);
+            res[2] = alumneById.getString(2);
+            matrixCursor.addRow(res);
+        }
+        return matrixCursor;
+    }
+
+
     public void deleteAlumne(int ids) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(Contracte_Alumne.EntradaAlumne.TABLE_NAME, "_ID=" + ids, null);
@@ -198,4 +237,6 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(Contracte_Grup.EntradaGrup.TABLE_NAME, "_ID=" + anInt, null);
     }
+
+
 }

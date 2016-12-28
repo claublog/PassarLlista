@@ -8,6 +8,6 @@ public class Contracte_Matriculat {
     public static abstract class EntradaMatriculat implements BaseColumns {
         public static final String TABLE_NAME ="matriculat";
         public static final String ID_ALUMNE = "id_alumne";
-        public static final String ID_LLISTAASSISTENCIA = "id_llistaassistencia";
+        public static final String ID_GRUP = "id_llistaassistencia";
     }
 }
