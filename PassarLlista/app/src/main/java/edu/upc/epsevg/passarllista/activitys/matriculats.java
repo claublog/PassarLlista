@@ -1,12 +1,10 @@
 package edu.upc.epsevg.passarllista.activitys;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,20 +14,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 import edu.upc.epsevg.passarllista.R;
+import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Matriculat;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
-import edu.upc.epsevg.passarllista.classes.Assignatura;
-import edu.upc.epsevg.passarllista.classes.Grup;
 
 public class matriculats extends AppCompatActivity {
 
@@ -38,7 +34,9 @@ public class matriculats extends AppCompatActivity {
     private DbHelper db;
     private CursorAdapter cursorAdapter;
     private ListView lview;
-    private TreeSet<String> alumnes_grup;
+    private TreeSet<String> alumnes_grup_inicial;
+    private TreeSet<String> alumnes_grup_canvis;
+    private String id_grup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +56,12 @@ public class matriculats extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
 
         db = new DbHelper(getApplicationContext());
-        poblarAlumnesGrup(db.getAlumnesGrup(getIntent().getStringExtra("id_grup")));
+        id_grup = getIntent().getStringExtra("id_grup");
+        poblarAlumnesGrup(db.getAlumnesGrup(id_grup));
         Cursor c = db.getTotsAlumnes();
 
         cursorAdapter = new CursorAdapter(getApplicationContext(), c, 0) {
+
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 return LayoutInflater.from(context).inflate(R.layout.item_llista_checkbox, parent, false);
@@ -71,7 +71,7 @@ public class matriculats extends AppCompatActivity {
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
                 // Find fields to populate in inflated template
-                TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
+                final TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
                 TextView nom_alumne = (TextView) view.findViewById(R.id.view_nom);
                 TextView dni = (TextView) view.findViewById(R.id.view_dni);
                 CheckBox pertany = (CheckBox) view.findViewById(R.id.checkbox_grup);
@@ -81,7 +81,8 @@ public class matriculats extends AppCompatActivity {
                 id_alumne.setText(getCursor().getString(0));
                 nom_alumne.setText(getCursor().getString(1));
                 dni.setText(getCursor().getString(2));
-                if (alumnes_grup.contains(getCursor().getString(0))) pertany.setChecked(true);
+                if (alumnes_grup_inicial.contains(getCursor().getString(0)))
+                    pertany.setChecked(true);
                 else pertany.setChecked(false);
             }
         };
@@ -92,16 +93,31 @@ public class matriculats extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CheckBox pertany = (CheckBox) view.findViewById(R.id.checkbox_grup);
-                if (pertany.isChecked()) pertany.setChecked(false);
-                else pertany.setChecked(true);
+                TextView id_view = (TextView) view.findViewById(R.id.view_id);
+                pertany.setChecked(!pertany.isChecked());
             }
         });
     }
 
+
+    public View getViewByPosition(int position, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (position < firstListItemPosition || position > lastListItemPosition) {
+            return listView.getAdapter().getView(position, listView.getChildAt(position), listView);
+        } else {
+            final int childIndex = position - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
+    }
+
     private void poblarAlumnesGrup(Cursor id_grup) {
-        alumnes_grup = new TreeSet<>();
+        alumnes_grup_inicial = new TreeSet<>();
+        alumnes_grup_canvis = new TreeSet<>();
         while (id_grup.moveToNext()) {
-            alumnes_grup.add(id_grup.getString(0));
+            alumnes_grup_inicial.add(id_grup.getString(0));
+            alumnes_grup_canvis.add(id_grup.getString(0));
         }
     }
 
@@ -110,12 +126,13 @@ public class matriculats extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_afegir, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
         switch (item.getItemId()) {
             case R.id.action_menu_done:
-                afegeixAssignatura();
+                guardaCanvisGrup();
                 break;
             case android.R.id.home:
                 finish();
@@ -126,44 +143,32 @@ public class matriculats extends AppCompatActivity {
     }
 
 
-    private void afegeixAssignatura(){
+    private void guardaCanvisGrup() {
+        alumnes_grup_canvis = new TreeSet<>();
 
-        final EditText nomAssignatura = (EditText) findViewById(R.id.editText_nom_assignatura);
+        for ( int i = 0 ; i < lview.getCount() ; i++){
+            View v = getViewByPosition(i,lview);
+            TextView id_view = (TextView) v.findViewById(R.id.view_id);
+            CheckBox pertany = (CheckBox) v.findViewById(R.id.checkbox_grup);
+            if (pertany.isChecked()) alumnes_grup_canvis.add(id_view.getText().toString());
 
-        int tamany_llista = llista_alumnes.size();
-        // añade el alumno
-        String nom = nomAssignatura.getText().toString();
-        if (!nom.equals("") && (tamany_llista > 0)){
-            DbHelper db  = new DbHelper(getApplicationContext());
-            //add assignatura
-            Assignatura assig = new Assignatura(null, nomAssignatura.getText().toString());
-            long id_assig = db.guardaAssignatura(assig);
-            // add grups
-            for (String nom_grup : llista_alumnes) {
-                Grup grup = new Grup(null, nom_grup, id_assig);
-                db.guardaGrup(grup);
-            }
-            //tanca el activity
-            finish();
-        } else {
-            //preparamos el alert
-            AlertDialog alertDialog = new AlertDialog.Builder(matriculats.this).create();
-            alertDialog.setTitle("Error");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-
-            //actuamos
-            if (nom.equals("")){
-                alertDialog.setMessage("El nom de la assignatura no es valid");
-            } else if (tamany_llista < 1) {
-                alertDialog.setMessage("Tens que afegir un grup com a minim per a una assignatura");
-            }
-            alertDialog.show();
         }
+        for (String id : alumnes_grup_inicial) {
+            if (alumnes_grup_canvis.contains(id)) {
+                alumnes_grup_canvis.remove(id);
+            } else {
+                db.deleteMatricula(id, id_grup);
+            }
+        }
+
+        for (String id : alumnes_grup_canvis) {
+            ContentValues values = new ContentValues();
+            values.put(Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE, id);
+            values.put(Contracte_Matriculat.EntradaMatriculat.ID_GRUP, id_grup);
+            db.guardaMatricula(values);
+        }
+        finish();
+
     }
 
 }

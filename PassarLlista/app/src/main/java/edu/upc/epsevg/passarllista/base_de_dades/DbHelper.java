@@ -122,6 +122,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
+    public long guardaMatricula(ContentValues cv) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(
+                Contracte_Matriculat.EntradaMatriculat.TABLE_NAME,
+                null,
+                cv);
+
+    }
+
     public Cursor getTotsAlumnes() {
         return getReadableDatabase()
                 .query(
@@ -239,5 +248,9 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(Contracte_Grup.EntradaGrup.TABLE_NAME, "_ID=" + anInt, null);
     }
 
+    public void deleteMatricula(String id_alumne, String id_grup) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(Contracte_Matriculat.EntradaMatriculat.TABLE_NAME, Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + " = " + id_alumne + " AND " + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + " = " + id_grup, null);
+    }
 
 }
