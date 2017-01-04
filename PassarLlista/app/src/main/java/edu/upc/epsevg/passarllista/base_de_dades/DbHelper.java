@@ -208,9 +208,10 @@ public class DbHelper extends SQLiteOpenHelper {
         // Create a MatrixCursor filled with the rows you want to add.
         MatrixCursor matrixCursor = new MatrixCursor(new String[] { Contracte_Alumne.EntradaAlumne._ID, Contracte_Alumne.EntradaAlumne.NOM, Contracte_Alumne.EntradaAlumne.DNI });
         while (c.moveToNext()) {
-            Cursor alumneById = getAlumneById(c.getString(0));
+            Cursor alumneById = getAlumneById(c.getInt(0)+  "");
+            alumneById.moveToNext();
             Object [] res = new Object[3];
-            res[0] = alumneById.getInt(0);
+            res[0] = alumneById.getString(0);
             res[1] = alumneById.getString(1);
             res[2] = alumneById.getString(2);
             matrixCursor.addRow(res);

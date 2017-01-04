@@ -2,6 +2,7 @@ package edu.upc.epsevg.passarllista.activitys;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,13 +13,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
@@ -32,6 +38,7 @@ public class matriculats extends AppCompatActivity {
     private DbHelper db;
     private CursorAdapter cursorAdapter;
     private ListView lview;
+    private TreeSet<String> alumnes_grup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +58,7 @@ public class matriculats extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
 
         db = new DbHelper(getApplicationContext());
-        //Cursor c = db.getAlumnesGrup(getIntent().getStringExtra("id_grup"));
+        poblarAlumnesGrup(db.getAlumnesGrup(getIntent().getStringExtra("id_grup")));
         Cursor c = db.getTotsAlumnes();
 
         cursorAdapter = new CursorAdapter(getApplicationContext(), c, 0) {
@@ -67,18 +74,37 @@ public class matriculats extends AppCompatActivity {
                 TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
                 TextView nom_alumne = (TextView) view.findViewById(R.id.view_nom);
                 TextView dni = (TextView) view.findViewById(R.id.view_dni);
+                CheckBox pertany = (CheckBox) view.findViewById(R.id.checkbox_grup);
+
 
                 // Populate fields with extracted properties
                 id_alumne.setText(getCursor().getString(0));
                 nom_alumne.setText(getCursor().getString(1));
                 dni.setText(getCursor().getString(2));
+                if (alumnes_grup.contains(getCursor().getString(0))) pertany.setChecked(true);
+                else pertany.setChecked(false);
             }
         };
 
         lview = (ListView) findViewById(R.id.listViewAlumnes);
         lview.setAdapter(cursorAdapter);
-
+        lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CheckBox pertany = (CheckBox) view.findViewById(R.id.checkbox_grup);
+                if (pertany.isChecked()) pertany.setChecked(false);
+                else pertany.setChecked(true);
+            }
+        });
     }
+
+    private void poblarAlumnesGrup(Cursor id_grup) {
+        alumnes_grup = new TreeSet<>();
+        while (id_grup.moveToNext()) {
+            alumnes_grup.add(id_grup.getString(0));
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_afegir, menu);

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -16,7 +14,7 @@
 
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/checkBox"
+        android:layout_toStartOf="@+id/checkbox_grup"
         android:textColor="@android:color/black" />
 
     <TextView
@@ -28,7 +26,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:paddingBottom="6dp"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/checkBox"
+        android:layout_toStartOf="@+id/checkbox_grup"
         android:textColor="@android:color/darker_gray" />
 
     <TextView
@@ -40,12 +38,11 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/checkBox"
+        android:id="@+id/checkbox_grup"
         android:layout_alignParentTop="true"
         android:layout_alignBottom="@+id/view_dni"
         android:layout_alignParentEnd="true"
-        android:textColor="@android:color/black"
-        android:autoText="false"
-        app:buttonTint="@android:color/black" />
+        android:buttonTint="@color/colorAccent"
+        android:focusable="false"/>
 
 </RelativeLayout>

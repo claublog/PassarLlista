@@ -48,7 +48,6 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
     }
 
     private void inicializacio() {
-        poblarAlumnes();
         FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +56,7 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
                 startActivity(intent);
             }
         });
-
+        db = new DbHelper(getActivity().getApplicationContext());
         totsAlumnes = db.getTotsAlumnes();
         int aux = totsAlumnes.getCount();
         if (totsAlumnes.getCount() < 1) {
@@ -158,10 +157,6 @@ public class gestio_alumnes extends android.support.v4.app.Fragment {
         inicializacio();
     }
 
-    private void poblarAlumnes() {
-        db = new DbHelper(getActivity().getApplicationContext());
-        Cursor c = db.getTotsAlumnes();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
