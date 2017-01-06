@@ -57,7 +57,7 @@ public class PassarLlista extends AppCompatActivity {
         db = new DbHelper(getApplicationContext());
         id_grup = getIntent().getStringExtra("id_grup");
         poblarAlumnesGrup(db.getAlumnesGrup(id_grup));
-        Cursor c = db.getTotsAlumnes();
+        Cursor c = db.getAlumnesGrup(id_grup);
 
         cursorAdapter = new CursorAdapter(getApplicationContext(), c, 0) {
 
@@ -136,7 +136,7 @@ public class PassarLlista extends AppCompatActivity {
         // handle arrow click here
         switch (item.getItemId()) {
             case R.id.action_menu_done:
-                guardaCanvisGrup();
+                guardaLlistaAssitencia();
                 break;
             case android.R.id.home:
                 finish();
@@ -147,7 +147,7 @@ public class PassarLlista extends AppCompatActivity {
     }
 
 
-    private void guardaCanvisGrup() {
+    private void guardaLlistaAssitencia() {
         alumnes_grup_canvis = new TreeSet<>();
 
         for ( int i = 0 ; i < lview.getCount() ; i++){

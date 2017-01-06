@@ -8,8 +8,7 @@ public class Contracte_Assistencia {
     public static abstract class EntradaAssistencia implements BaseColumns {
         public static final String TABLE_NAME ="assistencia";
         public static final String TIPUS = "nom";
-        public static final String OBSERVACIONS = "id_assignatura";
         public static final String ID_ALUMNE = "id_alumne";
-        public static final String ID_LLISTAASSISTENCIA = "id_llistaassistencia";
+        public static final String ID_SESSIO = "id_sessio";
     }
 }

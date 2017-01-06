@@ -4,8 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
-import android.database.MergeCursor;
-import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -36,7 +34,6 @@ public class DbHelper extends SQLiteOpenHelper {
                 + Contracte_Alumne.EntradaAlumne.DNI + " TEXT NOT NULL,"
                 + "UNIQUE (" + Contracte_Alumne.EntradaAlumne._ID + "))");
 
-        // Comandes SQL
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Assignatura.EntradaAssignatura.TABLE_NAME + " ("
                 + Contracte_Assignatura.EntradaAssignatura._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Contracte_Assignatura.EntradaAssignatura.NOM + " TEXT NOT NULL,"
@@ -45,6 +42,8 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Sessio.EntradaSessio.TABLE_NAME + " ("
                 + Contracte_Sessio.EntradaSessio._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Contracte_Sessio.EntradaSessio.DATA + " INTEGER NOT NULL,"
+                + Contracte_Sessio.EntradaSessio.ID_GRUP + " INTEGER NOT NULL,"
+                + "FOREIGN KEY(" + Contracte_Sessio.EntradaSessio.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" +Contracte_Grup.EntradaGrup._ID + ")"
                 + "UNIQUE (" + Contracte_Sessio.EntradaSessio._ID + "))");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Grup.EntradaGrup.TABLE_NAME + " ("
@@ -54,29 +53,20 @@ public class DbHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY(" + Contracte_Grup.EntradaGrup.ID_ASSIGNATURA + ") REFERENCES " + Contracte_Assignatura.EntradaAssignatura.TABLE_NAME + "(" +Contracte_Assignatura.EntradaAssignatura._ID + "),"
                 + "UNIQUE (" + Contracte_Grup.EntradaGrup._ID + "))");
 
-        sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_LlistaAssistencia.EntradaLlistaAssistencia.TABLE_NAME + " ("
-                + Contracte_LlistaAssistencia.EntradaLlistaAssistencia._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + Contracte_LlistaAssistencia.EntradaLlistaAssistencia.ID_GRUP + " INTEGER NOT NULL,"
-                + Contracte_LlistaAssistencia.EntradaLlistaAssistencia.ID_SESSIO + " INTEGER NOT NULL,"
-                + "FOREIGN KEY(" + Contracte_LlistaAssistencia.EntradaLlistaAssistencia.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" +Contracte_Grup.EntradaGrup._ID + "),"
-                + "FOREIGN KEY(" + Contracte_LlistaAssistencia.EntradaLlistaAssistencia.ID_SESSIO + ") REFERENCES " + Contracte_Sessio.EntradaSessio.TABLE_NAME + "(" +Contracte_Sessio.EntradaSessio._ID + "),"
-                + "UNIQUE (" + Contracte_LlistaAssistencia.EntradaLlistaAssistencia._ID + "))");
-
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Assistencia.EntradaAssistencia.TABLE_NAME + " ("
                 + Contracte_Assistencia.EntradaAssistencia._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Contracte_Assistencia.EntradaAssistencia.TIPUS + " INTEGER NOT NULL,"
-                + Contracte_Assistencia.EntradaAssistencia.OBSERVACIONS + " TEXT,"
                 + Contracte_Assistencia.EntradaAssistencia.ID_ALUMNE + " INTEGER NOT NULL,"
-                + Contracte_Assistencia.EntradaAssistencia.ID_LLISTAASSISTENCIA + " INTEGER NOT NULL,"
+                + Contracte_Assistencia.EntradaAssistencia.ID_SESSIO + " INTEGER NOT NULL,"
                 + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" +Contracte_Alumne.EntradaAlumne._ID + "),"
-                + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_LLISTAASSISTENCIA + ") REFERENCES " + Contracte_LlistaAssistencia.EntradaLlistaAssistencia.TABLE_NAME + "(" +Contracte_LlistaAssistencia.EntradaLlistaAssistencia._ID + "),"
+                + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_SESSIO + ") REFERENCES " + Contracte_Sessio.EntradaSessio.TABLE_NAME + "(" +Contracte_Sessio.EntradaSessio._ID + "),"
                 + "UNIQUE (" + Contracte_Assistencia.EntradaAssistencia._ID + "))");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Matriculat.EntradaMatriculat.TABLE_NAME + " ("
                 + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + " INTEGER NOT NULL,"
                 + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + " INTEGER NOT NULL,"
                 + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" +Contracte_Alumne.EntradaAlumne._ID + "),"
-                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + ") REFERENCES " + Contracte_LlistaAssistencia.EntradaLlistaAssistencia.TABLE_NAME + "(" +Contracte_LlistaAssistencia.EntradaLlistaAssistencia._ID + ")"
+                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" +Contracte_Grup.EntradaGrup._ID + ")"
                 + "PRIMARY KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ", " + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + "))");
         
         /*
