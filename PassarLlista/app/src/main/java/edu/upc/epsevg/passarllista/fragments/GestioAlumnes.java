@@ -1,4 +1,4 @@
-package edu.upc.epsevg.passarllista.activitys;
+package edu.upc.epsevg.passarllista.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -19,25 +19,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
+import edu.upc.epsevg.passarllista.activitys.AfegirAlumne;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link historic.OnFragmentInteractionListener} interface
+ * {@link Historic.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link historic#newInstance} factory method to
+ * Use the {@link Historic#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class gestio_assignatures extends android.support.v4.app.Fragment {
+public class GestioAlumnes extends android.support.v4.app.Fragment {
     //private ArrayList<Alumne> list_alumnes;
     private ListView lview;
     private DbHelper db;
-    private Cursor totsAssignatures;
+    private Cursor totsAlumnes;
     private CursorAdapter cursorAdapter;
 
 
-    public gestio_assignatures() {
+    public GestioAlumnes() {
         // Required empty public constructor
     }
 
@@ -48,19 +49,18 @@ public class gestio_assignatures extends android.support.v4.app.Fragment {
     }
 
     private void inicializacio() {
-        db = new DbHelper(getActivity().getApplicationContext());
         FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), afegir_assignatura.class);
+                Intent intent = new Intent(getActivity(), AfegirAlumne.class);
                 startActivity(intent);
             }
         });
-
-        totsAssignatures = db.getTotsAssignatures();
-        int aux = totsAssignatures.getCount();
-        if (totsAssignatures.getCount() < 1) {
+        db = new DbHelper(getActivity().getApplicationContext());
+        totsAlumnes = db.getTotsAlumnes();
+        int aux = totsAlumnes.getCount();
+        if (totsAlumnes.getCount() < 1) {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(getView().getContext()).create();
             alertDialog.setTitle("Informació");
@@ -68,7 +68,7 @@ public class gestio_assignatures extends android.support.v4.app.Fragment {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            Intent intent = new Intent(getActivity(), afegir_assignatura.class);
+                            Intent intent = new Intent(getActivity(), AfegirAlumne.class);
                             startActivity(intent);
 
                         }
@@ -76,16 +76,16 @@ public class gestio_assignatures extends android.support.v4.app.Fragment {
 
             //actuamos
 
-            alertDialog.setMessage("La llista d'assignatures és buida. Afegeix-ne un per començar.");
+            alertDialog.setMessage("La llista d'Alumnes és buida. Afegeix-ne un per començar.");
             alertDialog.show();
 
         } else {
-            cursorAdapter = new CursorAdapter(getContext(), totsAssignatures, 0) {
+            cursorAdapter = new CursorAdapter(getContext(), totsAlumnes, 0) {
                 // The newView method is used to inflate a new view and return it,
                 // you don't bind any data to the view at this point.
                 @Override
                 public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                    return LayoutInflater.from(context).inflate(R.layout.item_llista, parent, false);
+                    return LayoutInflater.from(context).inflate(R.layout.item_llista_alumne, parent, false);
                 }
 
                 // The bindView method is used to bind all data to a given view
@@ -93,12 +93,14 @@ public class gestio_assignatures extends android.support.v4.app.Fragment {
                 @Override
                 public void bindView(View view, Context context, Cursor cursor) {
                     // Find fields to populate in inflated template
-                    TextView id_assig = (TextView) view.findViewById(R.id.view_id);
-                    TextView nom_assig = (TextView) view.findViewById(R.id.view_nom);
+                    TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
+                    TextView nom_alumne = (TextView) view.findViewById(R.id.view_nom);
+                    TextView dni = (TextView) view.findViewById(R.id.view_dni);
 
                     // Populate fields with extracted properties
-                    id_assig.setText(getCursor().getString(0));
-                    nom_assig.setText(getCursor().getString(1));
+                    id_alumne.setText(getCursor().getString(0));
+                    nom_alumne.setText(getCursor().getString(1));
+                    dni.setText(getCursor().getString(2));
                 }
             };
             lview = (ListView) getView().findViewById(R.id.listView);
@@ -112,17 +114,17 @@ public class gestio_assignatures extends android.support.v4.app.Fragment {
                     final int ids = Integer.parseInt(id.getText().toString());
                     AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
                     //ad.setTitle("Notice");
-                    String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
+                    String nom_alumne = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
 
 
-                    ad.setMessage("Estas segur d'eliminar a " + nom_assignatura + "?");
+                    ad.setMessage("Estas segur d'eliminar a " + nom_alumne + "?");
                     ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //Delete of record from Database and List view.
-                            db.deleteAssignatura(ids);
-                            totsAssignatures.requery();
+                            db.deleteAlumne(ids);
+                            totsAlumnes.requery();
                             cursorAdapter.notifyDataSetChanged();
                             lview.setAdapter(cursorAdapter);
                         }
@@ -140,12 +142,6 @@ public class gestio_assignatures extends android.support.v4.app.Fragment {
                 }
             });
 
-            lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                }
-            });
 
         }
     }
@@ -162,11 +158,12 @@ public class gestio_assignatures extends android.support.v4.app.Fragment {
         inicializacio();
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //   rootView = inflater.inflate(R.layout.fragment_gestio, container);
-        //  inicializacio();
+     //   rootView = inflater.inflate(R.layout.fragment_gestio, container);
+      //  inicializacio();
 
 
 

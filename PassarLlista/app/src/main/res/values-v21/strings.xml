@@ -8,4 +8,5 @@
     <string name="passa_llista">Passa llista</string>
     <string name="titol_activity_inicial">Passar Llista</string>
     <string name="button_undo">desfer</string>
+    <string name="ausent">AUSENT</string>
 </resources>

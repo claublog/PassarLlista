@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -14,11 +15,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -27,7 +26,7 @@ import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Matriculat;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
-public class Matriculats extends AppCompatActivity {
+public class PassarLlista extends AppCompatActivity {
 
     private ArrayAdapter<String> itemsAdapter;
     private ArrayList<String> llista_alumnes;
@@ -64,7 +63,7 @@ public class Matriculats extends AppCompatActivity {
 
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                return LayoutInflater.from(context).inflate(R.layout.item_llista_checkbox, parent, false);
+                return LayoutInflater.from(context).inflate(R.layout.item_llista_passar, parent, false);
 
             }
 
@@ -74,16 +73,11 @@ public class Matriculats extends AppCompatActivity {
                 final TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
                 TextView nom_alumne = (TextView) view.findViewById(R.id.view_nom);
                 TextView dni = (TextView) view.findViewById(R.id.view_dni);
-                CheckBox pertany = (CheckBox) view.findViewById(R.id.checkbox_grup);
-
 
                 // Populate fields with extracted properties
                 id_alumne.setText(getCursor().getString(0));
                 nom_alumne.setText(getCursor().getString(1));
                 dni.setText(getCursor().getString(2));
-                if (alumnes_grup_inicial.contains(getCursor().getString(0)))
-                    pertany.setChecked(true);
-                else pertany.setChecked(false);
             }
         };
 
@@ -92,9 +86,19 @@ public class Matriculats extends AppCompatActivity {
         lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckBox pertany = (CheckBox) view.findViewById(R.id.checkbox_grup);
+                TextView assistencia = (TextView) view.findViewById(R.id.assistencia);
                 TextView id_view = (TextView) view.findViewById(R.id.view_id);
-                pertany.setChecked(!pertany.isChecked());
+                if (assistencia.getText().equals(getString(R.string.assistencia))) {
+                    assistencia.setText(R.string.ausent);
+                    assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ausent));
+                } else if (assistencia.getText().equals(getString(R.string.ausent))) {
+                    assistencia.setText(R.string.retard);
+                    assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.retard));
+                } else {
+                    assistencia.setText(R.string.assistencia);
+                    assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.assistencia));
+                }
+                cursorAdapter.notifyDataSetChanged();
             }
         });
     }

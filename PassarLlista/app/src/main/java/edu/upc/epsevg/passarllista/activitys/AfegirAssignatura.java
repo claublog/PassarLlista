@@ -1,7 +1,6 @@
 package edu.upc.epsevg.passarllista.activitys;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -15,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -24,7 +22,7 @@ import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 import edu.upc.epsevg.passarllista.classes.Assignatura;
 import edu.upc.epsevg.passarllista.classes.Grup;
 
-public class afegir_assignatura extends AppCompatActivity {
+public class AfegirAssignatura extends AppCompatActivity {
 
     private ArrayAdapter<String> itemsAdapter;
     private ArrayList<String> llista_grups;
@@ -141,7 +139,7 @@ public class afegir_assignatura extends AppCompatActivity {
             finish();
         } else {
             //preparamos el alert
-            AlertDialog alertDialog = new AlertDialog.Builder(afegir_assignatura.this).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(AfegirAssignatura.this).create();
             alertDialog.setTitle("Error");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {

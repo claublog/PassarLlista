@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activitys.pantalla_inicial"
+            android:name=".activitys.PantallaInicial"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -18,10 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.prova_alumne" />
-        <activity android:name=".activitys.afegir_alumne"></activity>
-        <activity android:name=".activitys.afegir_assignatura"></activity>
-        <activity android:name=".activitys.matriculats"></activity>
+        <activity android:name=".activitys.AfegirAlumne"></activity>
+        <activity android:name=".activitys.AfegirAssignatura"></activity>
+        <activity android:name=".activitys.Matriculats"></activity>
+        <activity android:name=".activitys.PassarLlista"></activity>
     </application>
 
 </manifest>

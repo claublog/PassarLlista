@@ -13,7 +13,7 @@ import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 import edu.upc.epsevg.passarllista.classes.Alumne;
 
-public class afegir_alumne extends AppCompatActivity {
+public class AfegirAlumne extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class afegir_alumne extends AppCompatActivity {
             finish();
         } else {
             //preparamos el alert
-            AlertDialog alertDialog = new AlertDialog.Builder(afegir_alumne.this).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(AfegirAlumne.this).create();
             alertDialog.setTitle("Error");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
