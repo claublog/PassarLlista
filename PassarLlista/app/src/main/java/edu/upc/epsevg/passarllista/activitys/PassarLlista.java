@@ -19,11 +19,15 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.TreeSet;
 
 import edu.upc.epsevg.passarllista.R;
+import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Assistencia;
 import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Matriculat;
+import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Sessio;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 public class PassarLlista extends AppCompatActivity {
@@ -33,8 +37,7 @@ public class PassarLlista extends AppCompatActivity {
     private DbHelper db;
     private CursorAdapter cursorAdapter;
     private ListView lview;
-    private TreeSet<String> alumnes_grup_inicial;
-    private TreeSet<String> alumnes_grup_canvis;
+    private TreeSet<String> alumnes_grup;
     private String id_grup;
 
     @Override
@@ -56,9 +59,8 @@ public class PassarLlista extends AppCompatActivity {
 
         db = new DbHelper(getApplicationContext());
         id_grup = getIntent().getStringExtra("id_grup");
-        poblarAlumnesGrup(db.getAlumnesGrup(id_grup));
         Cursor c = db.getAlumnesGrup(id_grup);
-
+        poblarAlumnesGrup(c);
         cursorAdapter = new CursorAdapter(getApplicationContext(), c, 0) {
 
             @Override
@@ -98,7 +100,7 @@ public class PassarLlista extends AppCompatActivity {
                     assistencia.setText(R.string.assistencia);
                     assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.assistencia));
                 }
-                cursorAdapter.notifyDataSetChanged();
+                //cursorAdapter.notifyDataSetChanged(); //pendiente de revisar
             }
         });
     }
@@ -117,11 +119,9 @@ public class PassarLlista extends AppCompatActivity {
     }
 
     private void poblarAlumnesGrup(Cursor id_grup) {
-        alumnes_grup_inicial = new TreeSet<>();
-        alumnes_grup_canvis = new TreeSet<>();
+        alumnes_grup = new TreeSet<>();
         while (id_grup.moveToNext()) {
-            alumnes_grup_inicial.add(id_grup.getString(0));
-            alumnes_grup_canvis.add(id_grup.getString(0));
+            alumnes_grup.add(id_grup.getString(0));
         }
     }
 
@@ -148,28 +148,32 @@ public class PassarLlista extends AppCompatActivity {
 
 
     private void guardaLlistaAssitencia() {
-        alumnes_grup_canvis = new TreeSet<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
 
-        for ( int i = 0 ; i < lview.getCount() ; i++){
-            View v = getViewByPosition(i,lview);
+        ContentValues values_sessio = new ContentValues();
+        values_sessio.put(Contracte_Sessio.EntradaSessio.DATA, dateFormat.format(date));
+        values_sessio.put(Contracte_Sessio.EntradaSessio.ID_GRUP, id_grup);
+        long id_sessio = db.guardaSessio(values_sessio);
+
+        ContentValues values_assistencia;
+        for (int i = 0; i < lview.getCount(); i++) {
+            View v = getViewByPosition(i, lview);
             TextView id_view = (TextView) v.findViewById(R.id.view_id);
-            CheckBox pertany = (CheckBox) v.findViewById(R.id.checkbox_grup);
-            if (pertany.isChecked()) alumnes_grup_canvis.add(id_view.getText().toString());
+            TextView assistencia = (TextView) v.findViewById(R.id.assistencia);
 
-        }
-        for (String id : alumnes_grup_inicial) {
-            if (alumnes_grup_canvis.contains(id)) {
-                alumnes_grup_canvis.remove(id);
+            values_assistencia = new ContentValues();
+            if (assistencia.getText().equals(getString(R.string.assistencia))) {
+                values_assistencia.put(Contracte_Assistencia.EntradaAssistencia.TIPUS, 0);
+            } else if (assistencia.getText().equals(getString(R.string.ausent))) {
+                values_assistencia.put(Contracte_Assistencia.EntradaAssistencia.TIPUS, 1);
             } else {
-                db.deleteMatricula(id, id_grup);
+                values_assistencia.put(Contracte_Assistencia.EntradaAssistencia.TIPUS, 2);
             }
-        }
 
-        for (String id : alumnes_grup_canvis) {
-            ContentValues values = new ContentValues();
-            values.put(Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE, id);
-            values.put(Contracte_Matriculat.EntradaMatriculat.ID_GRUP, id_grup);
-            db.guardaMatricula(values);
+            values_assistencia.put(Contracte_Assistencia.EntradaAssistencia.ID_ALUMNE, id_view.getText().toString());
+            values_assistencia.put(Contracte_Assistencia.EntradaAssistencia.ID_SESSIO, id_sessio);
+            db.guardaAssitencia(values_assistencia);
         }
         finish();
 

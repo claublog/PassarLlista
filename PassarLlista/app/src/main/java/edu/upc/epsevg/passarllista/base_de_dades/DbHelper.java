@@ -43,14 +43,14 @@ public class DbHelper extends SQLiteOpenHelper {
                 + Contracte_Sessio.EntradaSessio._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Contracte_Sessio.EntradaSessio.DATA + " INTEGER NOT NULL,"
                 + Contracte_Sessio.EntradaSessio.ID_GRUP + " INTEGER NOT NULL,"
-                + "FOREIGN KEY(" + Contracte_Sessio.EntradaSessio.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" +Contracte_Grup.EntradaGrup._ID + ")"
+                + "FOREIGN KEY(" + Contracte_Sessio.EntradaSessio.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" + Contracte_Grup.EntradaGrup._ID + ")"
                 + "UNIQUE (" + Contracte_Sessio.EntradaSessio._ID + "))");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Grup.EntradaGrup.TABLE_NAME + " ("
                 + Contracte_Grup.EntradaGrup._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Contracte_Grup.EntradaGrup.NOM + " TEXT NOT NULL,"
                 + Contracte_Grup.EntradaGrup.ID_ASSIGNATURA + " INTEGER NOT NULL,"
-                + "FOREIGN KEY(" + Contracte_Grup.EntradaGrup.ID_ASSIGNATURA + ") REFERENCES " + Contracte_Assignatura.EntradaAssignatura.TABLE_NAME + "(" +Contracte_Assignatura.EntradaAssignatura._ID + "),"
+                + "FOREIGN KEY(" + Contracte_Grup.EntradaGrup.ID_ASSIGNATURA + ") REFERENCES " + Contracte_Assignatura.EntradaAssignatura.TABLE_NAME + "(" + Contracte_Assignatura.EntradaAssignatura._ID + "),"
                 + "UNIQUE (" + Contracte_Grup.EntradaGrup._ID + "))");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Assistencia.EntradaAssistencia.TABLE_NAME + " ("
@@ -58,15 +58,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 + Contracte_Assistencia.EntradaAssistencia.TIPUS + " INTEGER NOT NULL,"
                 + Contracte_Assistencia.EntradaAssistencia.ID_ALUMNE + " INTEGER NOT NULL,"
                 + Contracte_Assistencia.EntradaAssistencia.ID_SESSIO + " INTEGER NOT NULL,"
-                + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" +Contracte_Alumne.EntradaAlumne._ID + "),"
-                + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_SESSIO + ") REFERENCES " + Contracte_Sessio.EntradaSessio.TABLE_NAME + "(" +Contracte_Sessio.EntradaSessio._ID + "),"
+                + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" + Contracte_Alumne.EntradaAlumne._ID + "),"
+                + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_SESSIO + ") REFERENCES " + Contracte_Sessio.EntradaSessio.TABLE_NAME + "(" + Contracte_Sessio.EntradaSessio._ID + "),"
                 + "UNIQUE (" + Contracte_Assistencia.EntradaAssistencia._ID + "))");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Matriculat.EntradaMatriculat.TABLE_NAME + " ("
                 + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + " INTEGER NOT NULL,"
                 + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + " INTEGER NOT NULL,"
-                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" +Contracte_Alumne.EntradaAlumne._ID + "),"
-                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" +Contracte_Grup.EntradaGrup._ID + ")"
+                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" + Contracte_Alumne.EntradaAlumne._ID + "),"
+                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" + Contracte_Grup.EntradaGrup._ID + ")"
                 + "PRIMARY KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ", " + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + "))");
         
         /*
@@ -118,7 +118,22 @@ public class DbHelper extends SQLiteOpenHelper {
                 Contracte_Matriculat.EntradaMatriculat.TABLE_NAME,
                 null,
                 cv);
+    }
 
+    public long guardaSessio(ContentValues cv) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(
+                Contracte_Sessio.EntradaSessio.TABLE_NAME,
+                null,
+                cv);
+    }
+
+    public long guardaAssitencia(ContentValues cv) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(
+                Contracte_Assistencia.EntradaAssistencia.TABLE_NAME,
+                null,
+                cv);
     }
 
     public Cursor getTotsAlumnes() {
@@ -205,11 +220,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 null);
 
         // Create a MatrixCursor filled with the rows you want to add.
-        MatrixCursor matrixCursor = new MatrixCursor(new String[] { Contracte_Alumne.EntradaAlumne._ID, Contracte_Alumne.EntradaAlumne.NOM, Contracte_Alumne.EntradaAlumne.DNI });
+        MatrixCursor matrixCursor = new MatrixCursor(new String[]{Contracte_Alumne.EntradaAlumne._ID, Contracte_Alumne.EntradaAlumne.NOM, Contracte_Alumne.EntradaAlumne.DNI});
         while (c.moveToNext()) {
-            Cursor alumneById = getAlumneById(c.getInt(0)+  "");
+            Cursor alumneById = getAlumneById(c.getInt(0) + "");
             alumneById.moveToNext();
-            Object [] res = new Object[3];
+            Object[] res = new Object[3];
             res[0] = alumneById.getString(0);
             res[1] = alumneById.getString(1);
             res[2] = alumneById.getString(2);
@@ -242,5 +257,6 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(Contracte_Matriculat.EntradaMatriculat.TABLE_NAME, Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + " = " + id_alumne + " AND " + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + " = " + id_grup, null);
     }
+
 
 }
