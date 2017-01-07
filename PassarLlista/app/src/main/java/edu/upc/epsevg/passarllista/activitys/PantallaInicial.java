@@ -106,22 +106,22 @@ public class PantallaInicial extends AppCompatActivity
             frag = new GestioAlumnes();
             setTitle("Gestio d'alumnes");
             elementSelecionado = true;
-        } else if (id == R.id.gestio_assignatures) {
+        }/* else if (id == R.id.gestio_assignatures) {
             frag = new GestioAssignatures();
             setTitle("Gestio d'assignatures");
             elementSelecionado = true;
-        } else if (id == R.id.gestio_grups) {
+        } */ else if (id == R.id.gestio_grups) {
             Bundle b = new Bundle();
             b.putBoolean("esGestio", true);
             frag = new GestioGrups();
             frag.setArguments(b);
             setTitle("Selecciona una assignatura");
             elementSelecionado = true;
-        } else if (id == R.id.historic) {/*
+        } /*else if (id == R.id.historic) {
             frag = new Historic();
             setTitle("Históric");
-            elementSelecionado = true;*/
-        } else if (id == R.id.nav_ajuda) {
+            elementSelecionado = true;
+        } */ else if (id == R.id.nav_ajuda) {
             frag = new Ajuda();
             setTitle("Ajuda");
             elementSelecionado = true;

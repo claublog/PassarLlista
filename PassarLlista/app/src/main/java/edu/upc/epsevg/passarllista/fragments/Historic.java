@@ -62,14 +62,7 @@ public class Historic extends android.support.v4.app.Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                /*Bundle b = new Bundle();
-                b.putBoolean("esGestio", false);
-                GestioGrups frag = new GestioGrups();
-                frag.setArguments(b);
-                getActivity().setTitle("Selecciona una assignatura");
-                getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, frag).commit();*/
-
+                
                 Bundle b = new Bundle();
                 b.putBoolean("esGestio", false);
                 GestioGrups gg = new GestioGrups();
