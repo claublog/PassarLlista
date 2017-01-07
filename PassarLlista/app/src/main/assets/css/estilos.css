@@ -1,0 +1,15 @@
+/*perminte que las imagenes sean responsive*/
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.linkedin{
+    font-color: darkorchid;
+    font-size: 15pt;
+}
+
+.nombre{
+    font-size: 20pt;
+}
