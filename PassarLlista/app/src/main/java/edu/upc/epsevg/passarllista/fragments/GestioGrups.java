@@ -9,8 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +53,7 @@ public class GestioGrups extends android.support.v4.app.Fragment {
 
     }
 
-    private void inicializacio() {
+    private void inicialitzacio() {
         db = new DbHelper(getActivity().getApplicationContext());
 
         totesAssignatures = db.getTotsAssignatures();
@@ -261,14 +259,14 @@ public class GestioGrups extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //inicializacio();
+        //inicialitzacio();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getActivity().setTitle("Selecciona una assignatura");
-        inicializacio();
+        inicialitzacio();
     }
 
     @Override

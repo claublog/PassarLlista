@@ -14,7 +14,7 @@ import android.view.MenuItem;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
-import edu.upc.epsevg.passarllista.fragments.Ajuda;
+import edu.upc.epsevg.passarllista.fragments.Informacio;
 import edu.upc.epsevg.passarllista.fragments.Historic;
 import edu.upc.epsevg.passarllista.fragments.Sobre;
 import edu.upc.epsevg.passarllista.fragments.GestioAlumnes;
@@ -23,7 +23,7 @@ import edu.upc.epsevg.passarllista.fragments.GestioGrups;
 
 
 public class PantallaInicial extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GestioAssignatures.OnFragmentInteractionListener, Historic.OnFragmentInteractionListener, Ajuda.OnFragmentInteractionListener, Sobre.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GestioAssignatures.OnFragmentInteractionListener, Historic.OnFragmentInteractionListener, Informacio.OnFragmentInteractionListener, Sobre.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +94,7 @@ public class PantallaInicial extends AppCompatActivity
         Fragment frag = null;
         Boolean elementSelecionado = false;
 
-        if (id == R.id.passa_llista) {/*
-            Bundle b = new Bundle();
-            b.putBoolean("esGestio", false);
-            frag = new GestioGrups();
-            frag.setArguments(b);
-            setTitle("Selecciona una assignatura");
-            elementSelecionado = true;*/
+        if (id == R.id.passa_llista) {
             frag = new Historic();
             setTitle("Passar llista");
             elementSelecionado = true;
@@ -108,27 +102,25 @@ public class PantallaInicial extends AppCompatActivity
             frag = new GestioAlumnes();
             setTitle("Gestio d'alumnes");
             elementSelecionado = true;
-        }/* else if (id == R.id.gestio_assignatures) {
-            frag = new GestioAssignatures();
-            setTitle("Gestio d'assignatures");
-            elementSelecionado = true;
-        } */ else if (id == R.id.gestio_grups) {
+        } else if (id == R.id.gestio_grups) {
             Bundle b = new Bundle();
             b.putBoolean("esGestio", true);
             frag = new GestioGrups();
             frag.setArguments(b);
             setTitle("Selecciona una assignatura");
             elementSelecionado = true;
-        } /*else if (id == R.id.historic) {
-            frag = new Historic();
-            setTitle("Históric");
-            elementSelecionado = true;
-        } */ else if (id == R.id.nav_ajuda) {
-            frag = new Ajuda();
-            setTitle("Ajuda");
+        } else if (id == R.id.nav_ajuda) {
+            Bundle b = new Bundle();
+            b.putBoolean("esAjuda", true);
+            frag = new Informacio();
+            frag.setArguments(b);
+            setTitle("Informacio");
             elementSelecionado = true;
         } else if (id == R.id.nav_sobre) {
-            frag = new Sobre();
+            Bundle b = new Bundle();
+            b.putBoolean("esAjuda", false);
+            frag = new Informacio();
+            frag.setArguments(b);
             setTitle("Sobre");
             elementSelecionado = true;
         }
