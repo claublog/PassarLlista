@@ -9,6 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentController;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -50,6 +54,7 @@ public class Historic extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     private void inicializacio() {
@@ -57,8 +62,24 @@ public class Historic extends android.support.v4.app.Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AfegirAlumne.class);
-                startActivity(intent);
+
+                /*Bundle b = new Bundle();
+                b.putBoolean("esGestio", false);
+                GestioGrups frag = new GestioGrups();
+                frag.setArguments(b);
+                getActivity().setTitle("Selecciona una assignatura");
+                getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, frag).commit();*/
+
+                Bundle b = new Bundle();
+                b.putBoolean("esGestio", false);
+                GestioGrups gg = new GestioGrups();
+                gg.setArguments(b);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.Contenedor, gg);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
             }
         });
         db = new DbHelper(getActivity().getApplicationContext());

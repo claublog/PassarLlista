@@ -42,12 +42,12 @@ public class PantallaInicial extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //abrimos passar llista
-        Bundle b = new Bundle();
-        b.putBoolean("esGestio", false);
-        Fragment frag = new GestioGrups();
-        frag.setArguments(b);
+        //Bundle b = new Bundle();
+        //b.putBoolean("esGestio", false);
+        Fragment frag = new Historic();
+        //frag.setArguments(b);
         getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, frag).commit();
-        DbHelper db = new DbHelper(getApplicationContext()); // Forçem la creacio de taules
+        new DbHelper(getApplicationContext()); // Forçem la creacio de taules
 
     }
 
@@ -92,12 +92,15 @@ public class PantallaInicial extends AppCompatActivity
         Fragment frag = null;
         Boolean elementSelecionado = false;
 
-        if (id == R.id.passa_llista) {
+        if (id == R.id.passa_llista) {/*
             Bundle b = new Bundle();
             b.putBoolean("esGestio", false);
             frag = new GestioGrups();
             frag.setArguments(b);
             setTitle("Selecciona una assignatura");
+            elementSelecionado = true;*/
+            frag = new Historic();
+            setTitle("Históric");
             elementSelecionado = true;
         } else if (id == R.id.gestio_alumnes) {
             frag = new GestioAlumnes();
@@ -114,10 +117,10 @@ public class PantallaInicial extends AppCompatActivity
             frag.setArguments(b);
             setTitle("Selecciona una assignatura");
             elementSelecionado = true;
-        } else if (id == R.id.historic) {
+        } else if (id == R.id.historic) {/*
             frag = new Historic();
             setTitle("Históric");
-            elementSelecionado = true;
+            elementSelecionado = true;*/
         } else if (id == R.id.nav_ajuda) {
             frag = new Ajuda();
             setTitle("Ajuda");

@@ -8,6 +8,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.activitys.AfegirAssignatura;
+import edu.upc.epsevg.passarllista.activitys.AfegirGrup;
 import edu.upc.epsevg.passarllista.activitys.Matriculats;
 import edu.upc.epsevg.passarllista.activitys.PassarLlista;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
@@ -28,7 +32,7 @@ import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
  * Activities that contain this fragment must implement the
  * {@link Historic.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Historic#newInstance} factory method to
+
  * create an instance of this fragment.
  */
 public class GestioGrups extends android.support.v4.app.Fragment {
@@ -76,6 +80,20 @@ public class GestioGrups extends android.support.v4.app.Fragment {
             alertDialog.show();
 
         } else {
+
+            if (esGestio) {
+                FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.grup_floating_afegir);
+                fab.setVisibility(View.VISIBLE);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), AfegirAssignatura.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+
             cursorAdapter = new CursorAdapter(getContext(), totesAssignatures, 0) {
                 // The newView method is used to inflate a new view and return it,
                 // you don't bind any data to the view at this point.
@@ -111,7 +129,21 @@ public class GestioGrups extends android.support.v4.app.Fragment {
         }
     }
 
-    private void inicialitzaGrups(String id_assig) {
+    private void inicialitzaGrups(final String id_assig) {
+
+        if (esGestio) {
+            FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.grup_floating_afegir);
+            fab.setVisibility(View.VISIBLE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), AfegirGrup.class);
+                    intent.putExtra("id_assig", id_assig);
+                    startActivity(intent);
+                }
+            });
+        }
+
         Cursor totsGrups = db.getGrupsAssignatura(id_assig);
         cursorAdapter = new CursorAdapter(getContext(), totsGrups, 0) {
             @Override
