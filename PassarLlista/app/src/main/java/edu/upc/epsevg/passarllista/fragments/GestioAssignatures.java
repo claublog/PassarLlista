@@ -102,6 +102,7 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     id_assig.setText(getCursor().getString(0));
                     nom_assig.setText(getCursor().getString(1));
                 }
+
             };
             lview = (ListView) getView().findViewById(R.id.listView);
             lview.setAdapter(cursorAdapter);

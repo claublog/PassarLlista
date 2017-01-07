@@ -136,117 +136,78 @@ public class DbHelper extends SQLiteOpenHelper {
                 cv);
     }
 
-    public Cursor getTotsAlumnes() {
-        return getReadableDatabase()
-                .query(
-                        Contracte_Alumne.EntradaAlumne.TABLE_NAME,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null);
+    public Cursor getTotsItems(String nom_taula) {
+        return getTotsItems(nom_taula, null);
     }
 
-
-    public Cursor getTotsAssignatures() {
+    public Cursor getTotsItems(String nom_taula, String ordre) {
         return getReadableDatabase()
                 .query(
-                        Contracte_Assignatura.EntradaAssignatura.TABLE_NAME,
+                        nom_taula,
                         null,
                         null,
                         null,
                         null,
                         null,
-                        null);
+                        ordre);
+    }
+
+    public Cursor getTotsAlumnes() {
+        return getTotsItems(Contracte_Alumne.EntradaAlumne.TABLE_NAME);
+    }
+
+    public Cursor getTotsAssignatures() {
+        return getTotsItems(Contracte_Assignatura.EntradaAssignatura.TABLE_NAME);
     }
 
     public Cursor getTotsGrups() {
-        return getReadableDatabase()
-                .query(
-                        Contracte_Grup.EntradaGrup.TABLE_NAME,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null);
+        return getTotsItems(Contracte_Grup.EntradaGrup.TABLE_NAME);
     }
 
     public Cursor getTotsSessions() {
-        return getReadableDatabase()
-                .query(
-                        Contracte_Sessio.EntradaSessio.TABLE_NAME,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null);
+        return getTotsItems(Contracte_Sessio.EntradaSessio.TABLE_NAME, Contracte_Sessio.EntradaSessio._ID + " DESC");
+    }
+
+    public Cursor getItemById(String id_item, String nom_taula, String columna_eval) {
+        return getReadableDatabase().query(
+                nom_taula,
+                null,
+                columna_eval + " LIKE ?",
+                new String[]{id_item},
+                null,
+                null,
+                null);
     }
 
     public Cursor getAlumneById(String id_alumne) {
-        Cursor c = getReadableDatabase().query(
-                Contracte_Alumne.EntradaAlumne.TABLE_NAME,
-                null,
-                Contracte_Alumne.EntradaAlumne._ID + " LIKE ?",
-                new String[]{id_alumne},
-                null,
-                null,
-                null);
-        return c;
+        return getItemById(id_alumne, Contracte_Alumne.EntradaAlumne.TABLE_NAME, Contracte_Alumne.EntradaAlumne._ID);
     }
 
     public Cursor getGrupById(String id_grup) {
-        Cursor c = getReadableDatabase().query(
-                Contracte_Grup.EntradaGrup.TABLE_NAME,
-                null,
-                Contracte_Grup.EntradaGrup._ID + " LIKE ?",
-                new String[]{id_grup},
-                null,
-                null,
-                null);
-        return c;
+        return getItemById(id_grup, Contracte_Grup.EntradaGrup.TABLE_NAME, Contracte_Grup.EntradaGrup._ID);
     }
 
     public Cursor getAssignaturaById(String id_Assignatura) {
-        Cursor c = getReadableDatabase().query(
-                Contracte_Assignatura.EntradaAssignatura.TABLE_NAME,
-                null,
-                Contracte_Assignatura.EntradaAssignatura._ID + " LIKE ?",
-                new String[]{id_Assignatura},
-                null,
-                null,
-                null);
-        return c;
+        return getItemById(id_Assignatura, Contracte_Assignatura.EntradaAssignatura.TABLE_NAME, Contracte_Assignatura.EntradaAssignatura._ID);
     }
 
     public Cursor getGrupsAssignatura(String id_Assignatura) {
-        Cursor c = getReadableDatabase().query(
-                Contracte_Grup.EntradaGrup.TABLE_NAME,
-                null,
-                Contracte_Grup.EntradaGrup.ID_ASSIGNATURA + " LIKE ?",
-                new String[]{id_Assignatura},
-                null,
-                null,
-                null);
-        return c;
+        return getItemById(id_Assignatura, Contracte_Grup.EntradaGrup.TABLE_NAME, Contracte_Grup.EntradaGrup.ID_ASSIGNATURA);
     }
 
     public Cursor getAlumnesGrup(String id_grup) {
-        Cursor c = getReadableDatabase().query(
-                Contracte_Matriculat.EntradaMatriculat.TABLE_NAME,
-                null,
-                Contracte_Matriculat.EntradaMatriculat.ID_GRUP + " LIKE ?",
-                new String[]{id_grup},
-                null,
-                null,
-                null);
+        Cursor matric_cursor = getItemById(id_grup, Contracte_Matriculat.EntradaMatriculat.TABLE_NAME, Contracte_Matriculat.EntradaMatriculat.ID_GRUP);
 
         // Create a MatrixCursor filled with the rows you want to add.
-        MatrixCursor matrixCursor = new MatrixCursor(new String[]{Contracte_Alumne.EntradaAlumne._ID, Contracte_Alumne.EntradaAlumne.NOM, Contracte_Alumne.EntradaAlumne.DNI});
-        while (c.moveToNext()) {
-            Cursor alumneById = getAlumneById(c.getInt(0) + "");
+        MatrixCursor matrixCursor = new MatrixCursor(
+                new String[]{
+                        Contracte_Alumne.EntradaAlumne._ID,
+                        Contracte_Alumne.EntradaAlumne.NOM,
+                        Contracte_Alumne.EntradaAlumne.DNI
+                });
+
+        while (matric_cursor.moveToNext()) {
+            Cursor alumneById = getAlumneById(matric_cursor.getInt(0) + "");
             alumneById.moveToNext();
             Object[] res = new Object[3];
             res[0] = alumneById.getString(0);
@@ -257,10 +218,38 @@ public class DbHelper extends SQLiteOpenHelper {
         return matrixCursor;
     }
 
+    public Cursor getAssistenciesSessio(String id_sessio) {
+        Cursor assist_cursor = getItemById(id_sessio, Contracte_Assistencia.EntradaAssistencia.TABLE_NAME, Contracte_Assistencia.EntradaAssistencia.ID_SESSIO);
+
+        // Create a MatrixCursor filled with the rows you want to add.
+        MatrixCursor matrixCursor = new MatrixCursor(
+                new String[]{
+                        Contracte_Assistencia.EntradaAssistencia._ID,
+                        Contracte_Assistencia.EntradaAssistencia.TIPUS,
+                        Contracte_Alumne.EntradaAlumne.NOM,
+                        Contracte_Alumne.EntradaAlumne.DNI
+                });
+
+        while (assist_cursor.moveToNext()) {
+            Cursor alumneById = getAlumneById(assist_cursor.getInt(2) + "");
+            alumneById.moveToNext();
+            Object[] res = new Object[4];
+            res[0] = assist_cursor.getInt(0);
+            res[1] = assist_cursor.getInt(1);
+            res[2] = alumneById.getString(1);
+            res[3] = alumneById.getString(2);
+            matrixCursor.addRow(res);
+        }
+        return matrixCursor;
+    }
+
+    public void deleteItem(int ids, String nom_taula) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(nom_taula, "_ID=" + ids, null);
+    }
 
     public void deleteAlumne(int ids) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.delete(Contracte_Alumne.EntradaAlumne.TABLE_NAME, "_ID=" + ids, null);
+        deleteItem(ids, Contracte_Alumne.EntradaAlumne.TABLE_NAME);
     }
 
     public void deleteAssignatura(int ids) {
@@ -272,9 +261,14 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(Contracte_Assignatura.EntradaAssignatura.TABLE_NAME, "_ID=" + ids, null);
     }
 
+<<<<<<< HEAD
     public void deleteGrup(int anInt) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(Contracte_Grup.EntradaGrup.TABLE_NAME, "_ID=" + anInt, null);
+=======
+    public void deleteGrup(int ids) {
+        deleteItem(ids, Contracte_Grup.EntradaGrup.TABLE_NAME);
+>>>>>>> 725915a3dd1e42fc835b76a709e3bcd491155129
     }
 
     public void deleteMatricula(String id_alumne, String id_grup) {
@@ -282,5 +276,7 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(Contracte_Matriculat.EntradaMatriculat.TABLE_NAME, Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + " = " + id_alumne + " AND " + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + " = " + id_grup, null);
     }
 
-
+    public void deleteSessio(int ids) {
+        deleteItem(ids, Contracte_Sessio.EntradaSessio.TABLE_NAME);
+    }
 }
