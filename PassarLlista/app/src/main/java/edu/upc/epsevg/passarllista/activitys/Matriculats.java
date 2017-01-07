@@ -66,8 +66,8 @@ public class Matriculats extends AppCompatActivity {
 
         db = new DbHelper(getApplicationContext());
         id_grup = getIntent().getStringExtra("id_grup");
-        poblarAlumnesGrup(db.getAlumnesGrup(id_grup), id_grup);
         Cursor c = db.getTotsAlumnes();
+        poblarAlumnesGrup(db.getAlumnesGrup(id_grup), c.getCount());
 
         cursorAdapter = new CursorAdapter(getApplicationContext(), c, 0) {
 
@@ -121,14 +121,14 @@ public class Matriculats extends AppCompatActivity {
         }
     }
 
-    private void poblarAlumnesGrup(Cursor id_grup, final String idGrup) {
+    private void poblarAlumnesGrup(Cursor cursor_alumnes, int total_alumnes) {
         alumnes_grup_inicial = new TreeSet<>();
         alumnes_grup_canvis = new TreeSet<>();
-        while (id_grup.moveToNext()) {
-            alumnes_grup_inicial.add(id_grup.getString(0));
-            alumnes_grup_canvis.add(id_grup.getString(0));
+        while (cursor_alumnes.moveToNext()) {
+            alumnes_grup_inicial.add(cursor_alumnes.getString(0));
+            alumnes_grup_canvis.add(cursor_alumnes.getString(0));
         }
-        if (alumnes_grup_inicial.size()==0){
+        if (total_alumnes == 0){
 
             AlertDialog alertDialog = new AlertDialog.Builder(Matriculats.this).create();
             alertDialog.setTitle("Informació");

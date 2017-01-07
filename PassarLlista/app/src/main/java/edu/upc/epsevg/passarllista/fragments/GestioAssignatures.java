@@ -156,7 +156,7 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
     }
 
     private void inicialitzaGrups(String id_assig) {
-        Cursor totsGrups = db.getGrupsAssignatura(id_assig);
+        final Cursor totsGrups = db.getGrupsAssignatura(id_assig);
         cursorAdapter = new CursorAdapter(getContext(), totsGrups, 0) {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -196,9 +196,10 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         //Delete of record from Database and List view.
                         db.deleteGrup(ids);
-                        totsAssignatures.requery();
+                        totsGrups.requery();
                         cursorAdapter.notifyDataSetChanged();
                         lview.setAdapter(cursorAdapter);
+
                     }
                 });
                 ad.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -213,6 +214,8 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                 return false;
             }
         });
+
+        lview.setOnItemClickListener(null);
 
         cursorAdapter.notifyDataSetChanged();
         getActivity().setTitle("Selecciona grup");

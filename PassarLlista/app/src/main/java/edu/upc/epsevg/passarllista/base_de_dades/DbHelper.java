@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 
 import edu.upc.epsevg.passarllista.classes.Alumne;
 import edu.upc.epsevg.passarllista.classes.Assignatura;
@@ -177,6 +178,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 null);
+    }
+
+    public long getCountAlumnes() {
+        SQLiteStatement s = getReadableDatabase().compileStatement("SELECT COUNT(*) FROM " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + ";" );
+        return s.simpleQueryForLong();
     }
 
     public Cursor getAlumneById(String id_alumne) {
