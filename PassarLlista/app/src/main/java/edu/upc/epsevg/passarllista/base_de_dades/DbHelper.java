@@ -173,12 +173,36 @@ public class DbHelper extends SQLiteOpenHelper {
                         null);
     }
 
+    public Cursor getTotsSessions() {
+        return getReadableDatabase()
+                .query(
+                        Contracte_Sessio.EntradaSessio.TABLE_NAME,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null);
+    }
+
     public Cursor getAlumneById(String id_alumne) {
         Cursor c = getReadableDatabase().query(
                 Contracte_Alumne.EntradaAlumne.TABLE_NAME,
                 null,
                 Contracte_Alumne.EntradaAlumne._ID + " LIKE ?",
                 new String[]{id_alumne},
+                null,
+                null,
+                null);
+        return c;
+    }
+
+    public Cursor getGrupById(String id_grup) {
+        Cursor c = getReadableDatabase().query(
+                Contracte_Grup.EntradaGrup.TABLE_NAME,
+                null,
+                Contracte_Grup.EntradaGrup._ID + " LIKE ?",
+                new String[]{id_grup},
                 null,
                 null,
                 null);
