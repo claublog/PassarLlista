@@ -3,10 +3,13 @@ package edu.upc.epsevg.passarllista.fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+
+import java.io.File;
 
 import edu.upc.epsevg.passarllista.R;
 
@@ -45,6 +48,8 @@ public class Informacio extends android.support.v4.app.Fragment {
     private void inicialitzacio() {
         boolean esAjuda =  getArguments().getBoolean("esAjuda");
         WebView wv = (WebView) getView().findViewById(R.id.web_view);
+        //File lFile = new File(Environment.getExternalStorageDirectory() + "/android_asset/ajuda.html");
+        //wv.loadUrl("file:///" + lFile.getAbsolutePath());
         if (esAjuda) {
             wv.loadUrl("file:///android_asset/ajuda.html");
         } else {
