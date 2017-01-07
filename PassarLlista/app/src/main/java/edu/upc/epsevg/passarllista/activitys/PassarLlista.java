@@ -72,7 +72,7 @@ public class PassarLlista extends AppCompatActivity {
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
                 // Find fields to populate in inflated template
-                final TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
+                TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
                 TextView nom_alumne = (TextView) view.findViewById(R.id.view_nom);
                 TextView dni = (TextView) view.findViewById(R.id.view_dni);
 
@@ -176,7 +176,5 @@ public class PassarLlista extends AppCompatActivity {
             db.guardaAssitencia(values_assistencia);
         }
         finish();
-
     }
-
 }

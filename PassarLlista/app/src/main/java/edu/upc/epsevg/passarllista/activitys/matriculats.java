@@ -27,7 +27,7 @@ import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Matriculat;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
-public class Matriculats extends AppCompatActivity {
+public class matriculats extends AppCompatActivity {
 
     private ArrayAdapter<String> itemsAdapter;
     private ArrayList<String> llista_alumnes;
