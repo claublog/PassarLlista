@@ -129,7 +129,7 @@ public class Matriculats extends AppCompatActivity {
             alumnes_grup_canvis.add(id_grup.getString(0));
         }
         if (alumnes_grup_inicial.size()==0){
-            
+
             AlertDialog alertDialog = new AlertDialog.Builder(Matriculats.this).create();
             alertDialog.setTitle("Informació");
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Afegir",
