@@ -272,7 +272,7 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete(Contracte_Assignatura.EntradaAssignatura.TABLE_NAME, "_ID=" + ids, null);
     }
 
-    private void deleteGrup(int anInt) {
+    public void deleteGrup(int anInt) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(Contracte_Grup.EntradaGrup.TABLE_NAME, "_ID=" + anInt, null);
     }

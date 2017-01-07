@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.activitys.AfegirAssignatura;
+import edu.upc.epsevg.passarllista.activitys.Matriculats;
+import edu.upc.epsevg.passarllista.activitys.PassarLlista;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 /**
@@ -27,7 +29,6 @@ import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
  * Activities that contain this fragment must implement the
  * {@link Historic.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Historic#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class GestioAssignatures extends android.support.v4.app.Fragment {
@@ -104,6 +105,16 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
             };
             lview = (ListView) getView().findViewById(R.id.listView);
             lview.setAdapter(cursorAdapter);
+
+
+            lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    TextView id_assig = (TextView) view.findViewById(R.id.view_id);
+                    inicialitzaGrups(id_assig.getText().toString());
+                }
+            });
+
             lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView arg0, View v,
@@ -140,15 +151,70 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     return false;
                 }
             });
-
-            lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                }
-            });
-
         }
+    }
+
+    private void inicialitzaGrups(String id_assig) {
+        Cursor totsGrups = db.getGrupsAssignatura(id_assig);
+        cursorAdapter = new CursorAdapter(getContext(), totsGrups, 0) {
+            @Override
+            public View newView(Context context, Cursor cursor, ViewGroup parent) {
+                return LayoutInflater.from(context).inflate(R.layout.item_llista, parent, false);
+            }
+
+            @Override
+            public void bindView(View view, Context context, Cursor cursor) {
+                // Find fields to populate in inflated template
+                TextView id_grup = (TextView) view.findViewById(R.id.view_id);
+                TextView nom_grup = (TextView) view.findViewById(R.id.view_nom);
+
+                // Populate fields with extracted properties
+                id_grup.setText(getCursor().getString(0));
+                nom_grup.setText(getCursor().getString(1));
+            }
+        };
+        //getActivity().setTitle("Selecciona grup");
+        lview = (ListView) getView().findViewById(R.id.listView);
+        lview.setAdapter(cursorAdapter);
+        lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView arg0, View v,
+                                           int position, long arg3) {
+                // TODO Auto-generated method stub
+                TextView id = (TextView) v.findViewById(R.id.view_id);
+                final int ids = Integer.parseInt(id.getText().toString());
+                AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
+                //ad.setTitle("Notice");
+                String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
+
+
+                ad.setMessage("Estas segur d'eliminar a " + nom_assignatura + "?");
+                ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Delete of record from Database and List view.
+                        db.deleteGrup(ids);
+                        totsAssignatures.requery();
+                        cursorAdapter.notifyDataSetChanged();
+                        lview.setAdapter(cursorAdapter);
+                    }
+                });
+                ad.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.dismiss();
+                    }
+                });
+                ad.show();
+                return false;
+            }
+        });
+
+        cursorAdapter.notifyDataSetChanged();
+        getActivity().setTitle("Selecciona grup");
     }
 
     @Override
@@ -174,7 +240,6 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_gestio, container, false);
     }
-
 
     /**
      * This interface must be implemented by activities that contain this

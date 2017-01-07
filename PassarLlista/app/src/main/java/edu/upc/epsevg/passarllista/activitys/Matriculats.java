@@ -2,9 +2,12 @@ package edu.upc.epsevg.passarllista.activitys;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,6 +46,12 @@ public class Matriculats extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matricula);
 
+        //inicialitzacio();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         inicialitzacio();
     }
 
@@ -57,7 +66,7 @@ public class Matriculats extends AppCompatActivity {
 
         db = new DbHelper(getApplicationContext());
         id_grup = getIntent().getStringExtra("id_grup");
-        poblarAlumnesGrup(db.getAlumnesGrup(id_grup));
+        poblarAlumnesGrup(db.getAlumnesGrup(id_grup), id_grup);
         Cursor c = db.getTotsAlumnes();
 
         cursorAdapter = new CursorAdapter(getApplicationContext(), c, 0) {
@@ -112,12 +121,36 @@ public class Matriculats extends AppCompatActivity {
         }
     }
 
-    private void poblarAlumnesGrup(Cursor id_grup) {
+    private void poblarAlumnesGrup(Cursor id_grup, final String idGrup) {
         alumnes_grup_inicial = new TreeSet<>();
         alumnes_grup_canvis = new TreeSet<>();
         while (id_grup.moveToNext()) {
             alumnes_grup_inicial.add(id_grup.getString(0));
             alumnes_grup_canvis.add(id_grup.getString(0));
+        }
+        if (alumnes_grup_inicial.size()==0){
+            
+            AlertDialog alertDialog = new AlertDialog.Builder(Matriculats.this).create();
+            alertDialog.setTitle("Informació");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Afegir",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(Matriculats.this, AfegirAlumne.class);
+                            startActivity(intent);
+
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel·lar",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            alertDialog.setMessage("Encara no tens alumnes al sistema, desitges afegir un?");
+
+            alertDialog.show();
         }
     }
 
