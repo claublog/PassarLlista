@@ -64,7 +64,7 @@ public class GestioAlumnes extends android.support.v4.app.Fragment {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(getView().getContext()).create();
             alertDialog.setTitle("Informació");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Afegir",
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Afegir",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

@@ -44,14 +44,14 @@ public class DbHelper extends SQLiteOpenHelper {
                 + Contracte_Sessio.EntradaSessio._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Contracte_Sessio.EntradaSessio.DATA + " INTEGER NOT NULL,"
                 + Contracte_Sessio.EntradaSessio.ID_GRUP + " INTEGER NOT NULL,"
-                + "FOREIGN KEY(" + Contracte_Sessio.EntradaSessio.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" + Contracte_Grup.EntradaGrup._ID + ")"
+                + "FOREIGN KEY(" + Contracte_Sessio.EntradaSessio.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" + Contracte_Grup.EntradaGrup._ID + ") ON DELETE CASCADE,"
                 + "UNIQUE (" + Contracte_Sessio.EntradaSessio._ID + "))");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Grup.EntradaGrup.TABLE_NAME + " ("
                 + Contracte_Grup.EntradaGrup._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Contracte_Grup.EntradaGrup.NOM + " TEXT NOT NULL,"
                 + Contracte_Grup.EntradaGrup.ID_ASSIGNATURA + " INTEGER NOT NULL,"
-                + "FOREIGN KEY(" + Contracte_Grup.EntradaGrup.ID_ASSIGNATURA + ") REFERENCES " + Contracte_Assignatura.EntradaAssignatura.TABLE_NAME + "(" + Contracte_Assignatura.EntradaAssignatura._ID + "),"
+                + "FOREIGN KEY(" + Contracte_Grup.EntradaGrup.ID_ASSIGNATURA + ") REFERENCES " + Contracte_Assignatura.EntradaAssignatura.TABLE_NAME + "(" + Contracte_Assignatura.EntradaAssignatura._ID + ") ON DELETE CASCADE,"
                 + "UNIQUE (" + Contracte_Grup.EntradaGrup._ID + "))");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Assistencia.EntradaAssistencia.TABLE_NAME + " ("
@@ -59,15 +59,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 + Contracte_Assistencia.EntradaAssistencia.TIPUS + " INTEGER NOT NULL,"
                 + Contracte_Assistencia.EntradaAssistencia.ID_ALUMNE + " INTEGER NOT NULL,"
                 + Contracte_Assistencia.EntradaAssistencia.ID_SESSIO + " INTEGER NOT NULL,"
-                + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" + Contracte_Alumne.EntradaAlumne._ID + "),"
-                + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_SESSIO + ") REFERENCES " + Contracte_Sessio.EntradaSessio.TABLE_NAME + "(" + Contracte_Sessio.EntradaSessio._ID + "),"
+                + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" + Contracte_Alumne.EntradaAlumne._ID + ") ON DELETE CASCADE,"
+                + "FOREIGN KEY(" + Contracte_Assistencia.EntradaAssistencia.ID_SESSIO + ") REFERENCES " + Contracte_Sessio.EntradaSessio.TABLE_NAME + "(" + Contracte_Sessio.EntradaSessio._ID + ") ON DELETE CASCADE,"
                 + "UNIQUE (" + Contracte_Assistencia.EntradaAssistencia._ID + "))");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + Contracte_Matriculat.EntradaMatriculat.TABLE_NAME + " ("
                 + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + " INTEGER NOT NULL,"
                 + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + " INTEGER NOT NULL,"
-                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" + Contracte_Alumne.EntradaAlumne._ID + "),"
-                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" + Contracte_Grup.EntradaGrup._ID + ")"
+                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" + Contracte_Alumne.EntradaAlumne._ID + ") ON DELETE CASCADE,"
+                + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" + Contracte_Grup.EntradaGrup._ID + ") ON DELETE CASCADE,"
                 + "PRIMARY KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ", " + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + "))");
         
         /*
@@ -84,6 +84,15 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // No hi ha operacions
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
     }
 
     public long guardaAlumne(Alumne alumne) {
@@ -259,12 +268,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void deleteAssignatura(int ids) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        Cursor grups = this.getGrupsAssignatura(ids + "");
-        while (grups.moveToNext()) {
-            deleteGrup(grups.getInt(0));
-        }
-        sqLiteDatabase.delete(Contracte_Assignatura.EntradaAssignatura.TABLE_NAME, "_ID=" + ids, null);
+        deleteItem(ids, Contracte_Assignatura.EntradaAssignatura.TABLE_NAME);
     }
 
     public void deleteGrup(int ids) {

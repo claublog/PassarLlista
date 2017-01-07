@@ -139,7 +139,6 @@ public class Historic extends android.support.v4.app.Fragment {
                 TextView id_sessio = (TextView) view.findViewById(R.id.view_id);
                 Intent intent;
                 intent = new Intent(getActivity(), AssistenciesHistoric.class);
-
                 intent.putExtra("id_sessio", id_sessio.getText());
                 startActivity(intent);
             }

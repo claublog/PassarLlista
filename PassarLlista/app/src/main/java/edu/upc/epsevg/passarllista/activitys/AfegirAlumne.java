@@ -71,7 +71,7 @@ public class AfegirAlumne extends AppCompatActivity {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(AfegirAlumne.this).create();
             alertDialog.setTitle("Error");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
