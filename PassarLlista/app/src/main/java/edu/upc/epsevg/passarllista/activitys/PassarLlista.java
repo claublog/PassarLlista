@@ -2,10 +2,13 @@ package edu.upc.epsevg.passarllista.activitys;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,7 +28,6 @@ import java.util.TreeSet;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Assistencia;
-import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Matriculat;
 import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Sessio;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
@@ -45,7 +46,7 @@ public class PassarLlista extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matricula);
 
-        inicialitzacio();
+        //inicialitzacio();
     }
 
     private void inicialitzacio() {
@@ -60,7 +61,7 @@ public class PassarLlista extends AppCompatActivity {
         db = new DbHelper(getApplicationContext());
         id_grup = getIntent().getStringExtra("id_grup");
         Cursor c = db.getAlumnesGrup(id_grup);
-        poblarAlumnesGrup(c);
+        poblarAlumnesGrup(c, id_grup);
         cursorAdapter = new CursorAdapter(getApplicationContext(), c, 0) {
 
             @Override
@@ -105,6 +106,11 @@ public class PassarLlista extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        inicialitzacio();
+        super.onResume();
+    }
 
     public View getViewByPosition(int position, ListView listView) {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
@@ -118,10 +124,36 @@ public class PassarLlista extends AppCompatActivity {
         }
     }
 
-    private void poblarAlumnesGrup(Cursor id_grup) {
+    private void poblarAlumnesGrup(final Cursor id_grup, final String idGrup) {
         alumnes_grup = new TreeSet<>();
+        int nAlumnes=0;
         while (id_grup.moveToNext()) {
             alumnes_grup.add(id_grup.getString(0));
+            nAlumnes=nAlumnes+1;
+        }
+        if (nAlumnes==0){
+            AlertDialog alertDialog = new AlertDialog.Builder(PassarLlista.this).create();
+            alertDialog.setTitle("Informació");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Matricular",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(PassarLlista.this, Matriculats.class);
+                            intent.putExtra("id_grup", idGrup);
+                            startActivity(intent);
+
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel·lar",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            alertDialog.setMessage("Aquest grup no te cap alumne matriculat, desitja matricular algun alumne? ");
+
+            alertDialog.show();
         }
     }
 
