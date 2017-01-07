@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,9 @@ import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.activitys.AfegirAlumne;
+import edu.upc.epsevg.passarllista.activitys.AssistenciesHistoric;
+import edu.upc.epsevg.passarllista.activitys.Matriculats;
+import edu.upc.epsevg.passarllista.activitys.PassarLlista;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 /**
@@ -102,16 +106,16 @@ public class Historic extends android.support.v4.app.Fragment {
                 final int ids = Integer.parseInt(id.getText().toString());
                 AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
                 //ad.setTitle("Notice");
-                String nom_alumne = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
+                String data = ((TextView) v.findViewById(R.id.view_data)).getText().toString();
 
 
-                ad.setMessage("Estas segur d'eliminar a " + nom_alumne + "?");
+                ad.setMessage("Estas segur d'eliminar la sessió del día " + data.replace("\n", " ") + " ?");
                 ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Delete of record from Database and List view.
-                        db.deleteAlumne(ids);
+                        db.deleteSessio(ids);
                         totsSessions.requery();
                         cursorAdapter.notifyDataSetChanged();
                         lview.setAdapter(cursorAdapter);
@@ -129,7 +133,17 @@ public class Historic extends android.support.v4.app.Fragment {
                 return false;
             }
         });
+        lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView id_sessio = (TextView) view.findViewById(R.id.view_id);
+                Intent intent;
+                intent = new Intent(getActivity(), AssistenciesHistoric.class);
 
+                intent.putExtra("id_sessio", id_sessio.getText());
+                startActivity(intent);
+            }
+        });
 
     }
 
