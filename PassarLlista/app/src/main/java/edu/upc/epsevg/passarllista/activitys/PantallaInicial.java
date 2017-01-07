@@ -40,6 +40,8 @@ public class PantallaInicial extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+
 
         //abrimos passar llista
         //Bundle b = new Bundle();
@@ -100,7 +102,7 @@ public class PantallaInicial extends AppCompatActivity
             setTitle("Selecciona una assignatura");
             elementSelecionado = true;*/
             frag = new Historic();
-            setTitle("Históric");
+            setTitle("Passar llista");
             elementSelecionado = true;
         } else if (id == R.id.gestio_alumnes) {
             frag = new GestioAlumnes();

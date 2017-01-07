@@ -125,6 +125,42 @@ public class GestioGrups extends android.support.v4.app.Fragment {
                     inicialitzaGrups(id_assig.getText().toString());
                 }
             });
+            lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView arg0, View v,
+                                               int position, long arg3) {
+                    // TODO Auto-generated method stub
+                    TextView id = (TextView) v.findViewById(R.id.view_id);
+                    final int ids = Integer.parseInt(id.getText().toString());
+                    AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
+                    //ad.setTitle("Notice");
+                    String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
+
+
+                    ad.setMessage("Estas segur d'eliminar a " + nom_assignatura + "?");
+                    ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Delete of record from Database and List view.
+                            db.deleteAssignatura(ids);
+                            totesAssignatures.requery();
+                            cursorAdapter.notifyDataSetChanged();
+                            lview.setAdapter(cursorAdapter);
+                        }
+                    });
+                    ad.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO Auto-generated method stub
+                            dialog.dismiss();
+                        }
+                    });
+                    ad.show();
+                    return true;
+                }
+            });
 
         }
     }
@@ -144,7 +180,7 @@ public class GestioGrups extends android.support.v4.app.Fragment {
             });
         }
 
-        Cursor totsGrups = db.getGrupsAssignatura(id_assig);
+        final Cursor totsGrups = db.getGrupsAssignatura(id_assig);
         cursorAdapter = new CursorAdapter(getContext(), totsGrups, 0) {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -179,6 +215,43 @@ public class GestioGrups extends android.support.v4.app.Fragment {
                 startActivity(intent);
             }
         });
+        lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView arg0, View v,
+                                           int position, long arg3) {
+                // TODO Auto-generated method stub
+                TextView id = (TextView) v.findViewById(R.id.view_id);
+                final int ids = Integer.parseInt(id.getText().toString());
+                AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
+                //ad.setTitle("Notice");
+                String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
+
+
+                ad.setMessage("Estas segur d'eliminar a " + nom_assignatura + "?");
+                ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Delete of record from Database and List view.
+                        db.deleteGrup(ids);
+                        totsGrups.requery();
+                        cursorAdapter.notifyDataSetChanged();
+                        lview.setAdapter(cursorAdapter);
+
+                    }
+                });
+                ad.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        dialog.dismiss();
+                    }
+                });
+                ad.show();
+                return true;
+            }
+        });
 
 
         cursorAdapter.notifyDataSetChanged();
@@ -194,6 +267,7 @@ public class GestioGrups extends android.support.v4.app.Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle("Selecciona una assignatura");
         inicializacio();
     }
 

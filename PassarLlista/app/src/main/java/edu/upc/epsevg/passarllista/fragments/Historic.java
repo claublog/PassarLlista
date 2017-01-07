@@ -62,7 +62,7 @@ public class Historic extends android.support.v4.app.Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
                 Bundle b = new Bundle();
                 b.putBoolean("esGestio", false);
                 GestioGrups gg = new GestioGrups();
@@ -144,16 +144,18 @@ public class Historic extends android.support.v4.app.Fragment {
                     }
                 });
                 ad.show();
-                return false;
+                return true;
             }
         });
         lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView id_sessio = (TextView) view.findViewById(R.id.view_id);
+                TextView nom_grup = (TextView) view.findViewById(R.id.view_grup);
                 Intent intent;
                 intent = new Intent(getActivity(), AssistenciesHistoric.class);
                 intent.putExtra("id_sessio", id_sessio.getText());
+                intent.putExtra("nom_grup", nom_grup.getText());
                 startActivity(intent);
             }
         });

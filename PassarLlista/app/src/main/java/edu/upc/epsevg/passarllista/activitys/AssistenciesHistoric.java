@@ -43,7 +43,7 @@ public class AssistenciesHistoric extends AppCompatActivity {
     }
 
     private void inicialitzacio() {
-        setTitle("Editar alumnes");
+        setTitle("Llista d'assistència (" + getIntent().getStringExtra("nom_grup") + ")");
 
         //boto enrere
         ActionBar actionBar = getSupportActionBar();
