@@ -25,9 +25,9 @@ import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link historic.OnFragmentInteractionListener} interface
+ * {@link Historic.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link historic#newInstance} factory method to
+ * Use the {@link Historic#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class GestioAssignatures extends android.support.v4.app.Fragment {

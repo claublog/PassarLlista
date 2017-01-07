@@ -19,16 +19,16 @@ import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.activitys.AfegirAssignatura;
-import edu.upc.epsevg.passarllista.activitys.matriculats;
+import edu.upc.epsevg.passarllista.activitys.Matriculats;
 import edu.upc.epsevg.passarllista.activitys.PassarLlista;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link historic.OnFragmentInteractionListener} interface
+ * {@link Historic.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link historic#newInstance} factory method to
+ * Use the {@link Historic#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class GestioGrups extends android.support.v4.app.Fragment {
@@ -139,7 +139,7 @@ public class GestioGrups extends android.support.v4.app.Fragment {
                 TextView id_grup = (TextView) view.findViewById(R.id.view_id);
                 Intent intent;
                 if (esGestio) {
-                    intent = new Intent(getActivity(), matriculats.class);
+                    intent = new Intent(getActivity(), Matriculats.class);
                 } else {
                     intent = new Intent(getActivity(), PassarLlista.class);
                 }

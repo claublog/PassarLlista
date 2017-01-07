@@ -14,16 +14,16 @@ import android.view.MenuItem;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
-import edu.upc.epsevg.passarllista.fragments.ajuda;
+import edu.upc.epsevg.passarllista.fragments.Ajuda;
+import edu.upc.epsevg.passarllista.fragments.Historic;
+import edu.upc.epsevg.passarllista.fragments.Sobre;
 import edu.upc.epsevg.passarllista.fragments.GestioAlumnes;
 import edu.upc.epsevg.passarllista.fragments.GestioAssignatures;
 import edu.upc.epsevg.passarllista.fragments.GestioGrups;
-import edu.upc.epsevg.passarllista.fragments.historic;
-import edu.upc.epsevg.passarllista.fragments.sobre;
 
 
 public class PantallaInicial extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GestioAssignatures.OnFragmentInteractionListener, historic.OnFragmentInteractionListener, ajuda.OnFragmentInteractionListener, sobre.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GestioAssignatures.OnFragmentInteractionListener, Historic.OnFragmentInteractionListener, Ajuda.OnFragmentInteractionListener, Sobre.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,16 +115,16 @@ public class PantallaInicial extends AppCompatActivity
             setTitle("Selecciona una assignatura");
             elementSelecionado = true;
         } else if (id == R.id.historic) {
-            frag = new historic();
+            frag = new Historic();
             setTitle("Históric");
             elementSelecionado = true;
         } else if (id == R.id.nav_ajuda) {
-            frag = new ajuda();
-            setTitle("ajuda");
+            frag = new Ajuda();
+            setTitle("Ajuda");
             elementSelecionado = true;
         } else if (id == R.id.nav_sobre) {
-            frag = new sobre();
-            setTitle("sobre");
+            frag = new Sobre();
+            setTitle("Sobre");
             elementSelecionado = true;
         }
 

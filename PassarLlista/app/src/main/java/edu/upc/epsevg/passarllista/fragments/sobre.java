@@ -12,12 +12,12 @@ import edu.upc.epsevg.passarllista.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link sobre.OnFragmentInteractionListener} interface
+ * {@link Sobre.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link sobre#newInstance} factory method to
+ * Use the {@link Sobre#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class sobre extends android.support.v4.app.Fragment {
+public class Sobre extends android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +29,7 @@ public class sobre extends android.support.v4.app.Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public sobre() {
+    public Sobre() {
         // Required empty public constructor
     }
 
@@ -39,11 +39,11 @@ public class sobre extends android.support.v4.app.Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment sobre.
+     * @return A new instance of fragment Sobre.
      */
     // TODO: Rename and change types and number of parameters
-    public static sobre newInstance(String param1, String param2) {
-        sobre fragment = new sobre();
+    public static Sobre newInstance(String param1, String param2) {
+        Sobre fragment = new Sobre();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

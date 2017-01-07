@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".activitys.AfegirAlumne"></activity>
         <activity android:name=".activitys.AfegirAssignatura"></activity>
-        <activity android:name=".activitys.matriculats"></activity>
+        <activity android:name=".activitys.Matriculats"></activity>
         <activity android:name=".activitys.PassarLlista"></activity>
     </application>
 
