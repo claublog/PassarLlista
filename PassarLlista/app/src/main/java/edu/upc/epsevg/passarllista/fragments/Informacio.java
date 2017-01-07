@@ -48,10 +48,9 @@ public class Informacio extends android.support.v4.app.Fragment {
     private void inicialitzacio() {
         boolean esAjuda =  getArguments().getBoolean("esAjuda");
         WebView wv = (WebView) getView().findViewById(R.id.web_view);
-        //File lFile = new File(Environment.getExternalStorageDirectory() + "/android_asset/ajuda.html");
-        //wv.loadUrl("file:///" + lFile.getAbsolutePath());
         if (esAjuda) {
             wv.loadUrl("file:///android_asset/ajuda.html");
+            getActivity().setTitle("Ajuda");
         } else {
             wv.loadUrl("file:///android_asset/sobre.html");
         }

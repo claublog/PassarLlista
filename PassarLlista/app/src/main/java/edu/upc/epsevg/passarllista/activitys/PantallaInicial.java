@@ -19,11 +19,10 @@ import edu.upc.epsevg.passarllista.fragments.Historic;
 import edu.upc.epsevg.passarllista.fragments.Sobre;
 import edu.upc.epsevg.passarllista.fragments.GestioAlumnes;
 import edu.upc.epsevg.passarllista.fragments.GestioAssignatures;
-import edu.upc.epsevg.passarllista.fragments.GestioGrups;
 
 
 public class PantallaInicial extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GestioAssignatures.OnFragmentInteractionListener, Historic.OnFragmentInteractionListener, Informacio.OnFragmentInteractionListener, Sobre.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Historic.OnFragmentInteractionListener, Informacio.OnFragmentInteractionListener, Sobre.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,10 +101,10 @@ public class PantallaInicial extends AppCompatActivity
             frag = new GestioAlumnes();
             setTitle("Gestio d'alumnes");
             elementSelecionado = true;
-        } else if (id == R.id.gestio_grups) {
+        } else if (id == R.id.gestio_assignatures) {
             Bundle b = new Bundle();
             b.putBoolean("esGestio", true);
-            frag = new GestioGrups();
+            frag = new GestioAssignatures();
             frag.setArguments(b);
             setTitle("Selecciona una assignatura");
             elementSelecionado = true;

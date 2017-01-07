@@ -3,7 +3,7 @@
     <string name="ajuda">Ajuda</string>
     <string name="sobre">Sobre</string>
     <string name="hist_ric">Històric</string>
-    <string name="gesti_d_assignatures">Gestió d\'Assignatures</string>
+    <string name="gesti_d_assignatures">Gestió d\'assignatures</string>
     <string name="gesti_d_alumnes">Gestió d’alumnes</string>
     <string name="passa_llista">Passa llista</string>
     <string name="titol_activity_inicial">Passar Llista</string>

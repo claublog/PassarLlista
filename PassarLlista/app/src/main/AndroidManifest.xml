@@ -24,7 +24,6 @@
         <activity android:name=".activitys.PassarLlista"></activity>
         <activity android:name=".activitys.AssistenciesHistoric"></activity>
         <activity android:name=".activitys.AfegirGrup"></activity>
-        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     </application>
 

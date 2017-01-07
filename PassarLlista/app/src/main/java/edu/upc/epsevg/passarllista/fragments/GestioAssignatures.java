@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.activitys.AfegirAssignatura;
+import edu.upc.epsevg.passarllista.activitys.AfegirGrup;
 import edu.upc.epsevg.passarllista.activitys.Matriculats;
 import edu.upc.epsevg.passarllista.activitys.PassarLlista;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
@@ -29,14 +30,15 @@ import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
  * Activities that contain this fragment must implement the
  * {@link Historic.OnFragmentInteractionListener} interface
  * to handle interaction events.
+
  * create an instance of this fragment.
  */
 public class GestioAssignatures extends android.support.v4.app.Fragment {
-    //private ArrayList<Alumne> list_alumnes;
     private ListView lview;
     private DbHelper db;
-    private Cursor totsAssignatures;
+    private Cursor totesAssignatures;
     private CursorAdapter cursorAdapter;
+    private boolean esGestio;
 
 
     public GestioAssignatures() {
@@ -47,22 +49,16 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        esGestio = getArguments().getBoolean("esGestio");
+
     }
 
-    private void inicializacio() {
+    private void inicialitzacio() {
         db = new DbHelper(getActivity().getApplicationContext());
-        FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AfegirAssignatura.class);
-                startActivity(intent);
-            }
-        });
 
-        totsAssignatures = db.getTotsAssignatures();
-        int aux = totsAssignatures.getCount();
-        if (totsAssignatures.getCount() < 1) {
+        totesAssignatures = db.getTotsAssignatures();
+        int aux = totesAssignatures.getCount();
+        if (totesAssignatures.getCount() < 1) {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(getView().getContext()).create();
             alertDialog.setTitle("Informació");
@@ -78,11 +74,25 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
 
             //actuamos
 
-            alertDialog.setMessage("La llista d'assignatures és buida. Afegeix-ne un per començar.");
+            alertDialog.setMessage("La llista de grups és buida. Afegeix una assignatura per començar.");
             alertDialog.show();
 
         } else {
-            cursorAdapter = new CursorAdapter(getContext(), totsAssignatures, 0) {
+
+            if (esGestio) {
+                FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.grup_floating_afegir);
+                fab.setVisibility(View.VISIBLE);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), AfegirAssignatura.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+
+            cursorAdapter = new CursorAdapter(getContext(), totesAssignatures, 0) {
                 // The newView method is used to inflate a new view and return it,
                 // you don't bind any data to the view at this point.
                 @Override
@@ -102,11 +112,9 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     id_assig.setText(getCursor().getString(0));
                     nom_assig.setText(getCursor().getString(1));
                 }
-
             };
-            lview = (ListView) getView().findViewById(R.id.listView);
+            lview = (ListView) getView().findViewById(R.id.listView_grups);
             lview.setAdapter(cursorAdapter);
-
 
             lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -115,7 +123,6 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     inicialitzaGrups(id_assig.getText().toString());
                 }
             });
-
             lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView arg0, View v,
@@ -135,7 +142,7 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             //Delete of record from Database and List view.
                             db.deleteAssignatura(ids);
-                            totsAssignatures.requery();
+                            totesAssignatures.requery();
                             cursorAdapter.notifyDataSetChanged();
                             lview.setAdapter(cursorAdapter);
                         }
@@ -149,13 +156,28 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                         }
                     });
                     ad.show();
-                    return false;
+                    return true;
                 }
             });
+
         }
     }
 
-    private void inicialitzaGrups(String id_assig) {
+    private void inicialitzaGrups(final String id_assig) {
+
+        if (esGestio) {
+            FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.grup_floating_afegir);
+            fab.setVisibility(View.VISIBLE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), AfegirGrup.class);
+                    intent.putExtra("id_assig", id_assig);
+                    startActivity(intent);
+                }
+            });
+        }
+
         final Cursor totsGrups = db.getGrupsAssignatura(id_assig);
         cursorAdapter = new CursorAdapter(getContext(), totsGrups, 0) {
             @Override
@@ -174,9 +196,23 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                 nom_grup.setText(getCursor().getString(1));
             }
         };
-        //getActivity().setTitle("Selecciona grup");
-        lview = (ListView) getView().findViewById(R.id.listView);
+        getActivity().setTitle("Selecciona grup");
+        lview = (ListView) getView().findViewById(R.id.listView_grups);
         lview.setAdapter(cursorAdapter);
+        lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView id_grup = (TextView) view.findViewById(R.id.view_id);
+                Intent intent;
+                if (esGestio) {
+                    intent = new Intent(getActivity(), Matriculats.class);
+                } else {
+                    intent = new Intent(getActivity(), PassarLlista.class);
+                }
+                intent.putExtra("id_grup", id_grup.getText());
+                startActivity(intent);
+            }
+        });
         lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView arg0, View v,
@@ -211,39 +247,36 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     }
                 });
                 ad.show();
-                return false;
+                return true;
             }
         });
 
-        lview.setOnItemClickListener(null);
 
         cursorAdapter.notifyDataSetChanged();
-        getActivity().setTitle("Selecciona grup");
+
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //inicializacio();
+        //inicialitzacio();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        inicializacio();
+        getActivity().setTitle("Selecciona una assignatura");
+        inicialitzacio();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //   rootView = inflater.inflate(R.layout.fragment_gestio, container);
-        //  inicializacio();
-
-
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gestio, container, false);
+        esGestio = getArguments().getBoolean("esGestio");
+        return inflater.inflate(R.layout.fragment_gestio_grups, container, false);
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

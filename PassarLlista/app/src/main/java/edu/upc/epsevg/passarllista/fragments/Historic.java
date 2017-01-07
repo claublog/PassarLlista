@@ -9,11 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentController;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
-import edu.upc.epsevg.passarllista.activitys.AfegirAlumne;
 import edu.upc.epsevg.passarllista.activitys.AssistenciesHistoric;
-import edu.upc.epsevg.passarllista.activitys.Matriculats;
-import edu.upc.epsevg.passarllista.activitys.PassarLlista;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 /**
@@ -65,7 +59,7 @@ public class Historic extends android.support.v4.app.Fragment {
 
                 Bundle b = new Bundle();
                 b.putBoolean("esGestio", false);
-                GestioGrups gg = new GestioGrups();
+                GestioAssignatures gg = new GestioAssignatures();
                 gg.setArguments(b);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
