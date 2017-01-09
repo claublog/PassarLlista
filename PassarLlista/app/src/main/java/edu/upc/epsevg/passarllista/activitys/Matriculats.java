@@ -40,13 +40,17 @@ public class Matriculats extends AppCompatActivity {
     private TreeSet<String> alumnes_grup_inicial;
     private TreeSet<String> alumnes_grup_canvis;
     private String id_grup;
+    private boolean[] canvis;
+    private boolean canvisEsNull;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matricula);
-
-        //inicialitzacio();
+        if (savedInstanceState != null) {
+            canvis = savedInstanceState.getBooleanArray("canvis");
+            canvisEsNull = false;
+        } else canvisEsNull = true;
     }
 
     @Override
@@ -68,7 +72,7 @@ public class Matriculats extends AppCompatActivity {
         id_grup = getIntent().getStringExtra("id_grup");
         Cursor c = db.getTotsAlumnes();
         poblarAlumnesGrup(db.getAlumnesGrup(id_grup), c.getCount());
-
+        if (canvisEsNull) canvis = new boolean[c.getCount()];
         cursorAdapter = new CursorAdapter(getApplicationContext(), c, 0) {
 
             @Override
@@ -90,9 +94,14 @@ public class Matriculats extends AppCompatActivity {
                 id_alumne.setText(getCursor().getString(0));
                 nom_alumne.setText(getCursor().getString(1));
                 dni.setText(getCursor().getString(2));
-                if (alumnes_grup_inicial.contains(getCursor().getString(0)))
-                    pertany.setChecked(true);
-                else pertany.setChecked(false);
+                if (canvisEsNull) {
+                    if (alumnes_grup_inicial.contains(getCursor().getString(0)))
+                        pertany.setChecked(true);
+                    else pertany.setChecked(false);
+                    canvis[cursor.getPosition()] = pertany.isChecked();
+                } else {
+                    pertany.setChecked(canvis[cursor.getPosition()]);
+                }
             }
         };
 
@@ -104,6 +113,7 @@ public class Matriculats extends AppCompatActivity {
                 CheckBox pertany = (CheckBox) view.findViewById(R.id.checkbox_grup);
                 TextView id_view = (TextView) view.findViewById(R.id.view_id);
                 pertany.setChecked(!pertany.isChecked());
+                canvis[position] = pertany.isChecked();
             }
         });
     }
@@ -128,7 +138,7 @@ public class Matriculats extends AppCompatActivity {
             alumnes_grup_inicial.add(cursor_alumnes.getString(0));
             alumnes_grup_canvis.add(cursor_alumnes.getString(0));
         }
-        if (total_alumnes == 0){
+        if (total_alumnes == 0) {
 
             AlertDialog alertDialog = new AlertDialog.Builder(Matriculats.this).create();
             alertDialog.setTitle(getString(R.string.titol_informacio));
@@ -175,12 +185,19 @@ public class Matriculats extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedState) {
+        super.onSaveInstanceState(savedState);
+        savedState.putBooleanArray("canvis", canvis);
+
+    }
+
 
     private void guardaCanvisGrup() {
         alumnes_grup_canvis = new TreeSet<>();
 
-        for ( int i = 0 ; i < lview.getCount() ; i++){
-            View v = getViewByPosition(i,lview);
+        for (int i = 0; i < lview.getCount(); i++) {
+            View v = getViewByPosition(i, lview);
             TextView id_view = (TextView) v.findViewById(R.id.view_id);
             CheckBox pertany = (CheckBox) v.findViewById(R.id.checkbox_grup);
             if (pertany.isChecked()) alumnes_grup_canvis.add(id_view.getText().toString());

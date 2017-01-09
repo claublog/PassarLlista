@@ -33,19 +33,23 @@ import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 public class PassarLlista extends AppCompatActivity {
 
-    private ArrayAdapter<String> itemsAdapter;
-    private ArrayList<String> llista_alumnes;
     private DbHelper db;
     private CursorAdapter cursorAdapter;
     private ListView lview;
     private TreeSet<String> alumnes_grup;
     private String id_grup;
+    private int[] assistencies;
+    private boolean assistEsNull;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matricula);
 
+        if (savedInstanceState != null) {
+            assistencies = savedInstanceState.getIntArray("assistencies");
+            assistEsNull = false;
+        } else assistEsNull = true;
         //inicialitzacio();
     }
 
@@ -62,6 +66,7 @@ public class PassarLlista extends AppCompatActivity {
         id_grup = getIntent().getStringExtra("id_grup");
         Cursor c = db.getAlumnesGrup(id_grup);
         poblarAlumnesGrup(c, id_grup);
+        if (assistEsNull) assistencies = new int[c.getCount()];
         cursorAdapter = new CursorAdapter(getApplicationContext(), c, 0) {
 
             @Override
@@ -82,8 +87,25 @@ public class PassarLlista extends AppCompatActivity {
                 id_alumne.setText(getCursor().getString(0));
                 nom_alumne.setText(getCursor().getString(1));
                 dni.setText(getCursor().getString(2));
-                assistencia.setText(R.string.assistencia);
-                assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.assistencia));
+
+                if (!assistEsNull) {
+                    switch (assistencies[cursor.getPosition()]) {
+                        case 0:
+                            assistencia.setText(R.string.assistencia);
+                            assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.assistencia));
+                            break;
+                        case 1:
+                            assistencia.setText(R.string.ausent);
+                            assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ausent));
+                            break;
+                        case 2:
+                            assistencia.setText(R.string.retard);
+                            assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.retard));
+                    }
+                } else {
+                    assistencia.setText(R.string.assistencia);
+                    assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.assistencia));
+                }
             }
         };
 
@@ -97,14 +119,16 @@ public class PassarLlista extends AppCompatActivity {
                 if (assistencia.getText().equals(getString(R.string.assistencia))) {
                     assistencia.setText(R.string.ausent);
                     assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ausent));
+                    assistencies[position] = 1;
                 } else if (assistencia.getText().equals(getString(R.string.ausent))) {
                     assistencia.setText(R.string.retard);
                     assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.retard));
+                    assistencies[position] = 2;
                 } else {
                     assistencia.setText(R.string.assistencia);
                     assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.assistencia));
+                    assistencies[position] = 0;
                 }
-                //cursorAdapter.notifyDataSetChanged(); //pendiente de revisar
             }
         });
     }
@@ -129,12 +153,12 @@ public class PassarLlista extends AppCompatActivity {
 
     private void poblarAlumnesGrup(final Cursor id_grup, final String idGrup) {
         alumnes_grup = new TreeSet<>();
-        int nAlumnes=0;
+        int nAlumnes = 0;
         while (id_grup.moveToNext()) {
             alumnes_grup.add(id_grup.getString(0));
-            nAlumnes=nAlumnes+1;
+            nAlumnes = nAlumnes + 1;
         }
-        if (nAlumnes==0){
+        if (nAlumnes == 0) {
             AlertDialog alertDialog = new AlertDialog.Builder(PassarLlista.this).create();
             alertDialog.setTitle(R.string.titol_informacio);
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.alert_matricular),
@@ -181,6 +205,12 @@ public class PassarLlista extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onSaveInstanceState(Bundle savedState) {
+
+        super.onSaveInstanceState(savedState);
+        savedState.putIntArray("assistencies", assistencies);
+
+    }
 
     private void guardaLlistaAssitencia() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
