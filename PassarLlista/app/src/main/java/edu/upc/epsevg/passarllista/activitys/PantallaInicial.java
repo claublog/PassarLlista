@@ -61,6 +61,10 @@ public class PantallaInicial extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

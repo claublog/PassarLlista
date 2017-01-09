@@ -32,6 +32,16 @@ public class AfegirAssignatura extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afegir_assignatura);
 
+        String[] grups = null;
+        if (savedInstanceState != null) {
+            grups = savedInstanceState.getStringArray("llista_grups");
+        }
+        llista_grups = new ArrayList<>();
+        if (grups != null) {
+            for (String grup : grups) {
+                llista_grups.add(grup);
+            }
+        }
         inicialitzacio();
     }
 
@@ -54,7 +64,7 @@ public class AfegirAssignatura extends AppCompatActivity {
 
                 // añade el alumno
                 String nom = nomGrup.getText().toString();
-                if (!(nom.equals("") )){
+                if (!(nom.equals(""))) {
                     llista_grups.add(nom);
                     edit_grup.setText("");
 
@@ -68,7 +78,7 @@ public class AfegirAssignatura extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if(s.toString().trim().length()==0){
+                if (s.toString().trim().length() == 0) {
                     afegir_grup.setEnabled(false);
                 } else {
                     afegir_grup.setEnabled(true);
@@ -91,17 +101,19 @@ public class AfegirAssignatura extends AppCompatActivity {
             }
         });
 
-        llista_grups = new ArrayList<>();
+
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, llista_grups);
         ListView listView = (ListView) findViewById(R.id.listViewGrups);
         listView.setAdapter(itemsAdapter);
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_afegir, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
@@ -117,16 +129,26 @@ public class AfegirAssignatura extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onSaveInstanceState(Bundle savedState) {
 
-    private void afegeixAssignatura(){
+        super.onSaveInstanceState(savedState);
+        String [] grups = new String[llista_grups.size()];
+        for (int i = 0; i < llista_grups.size(); i++) {
+            grups[i] = llista_grups.get(i);
+        }
+        savedState.putStringArray("llista_grups", grups);
+
+    }
+
+    private void afegeixAssignatura() {
 
         final EditText nomAssignatura = (EditText) findViewById(R.id.editText_nom_assignatura);
 
         int tamany_llista = llista_grups.size();
         // añade el alumno
         String nom = nomAssignatura.getText().toString();
-        if (!nom.equals("") && (tamany_llista > 0)){
-            DbHelper db  = new DbHelper(getApplicationContext());
+        if (!nom.equals("") && (tamany_llista > 0)) {
+            DbHelper db = new DbHelper(getApplicationContext());
             //add assignatura
             Assignatura assig = new Assignatura(null, nomAssignatura.getText().toString());
             long id_assig = db.guardaAssignatura(assig);
@@ -149,7 +171,7 @@ public class AfegirAssignatura extends AppCompatActivity {
                     });
 
             //actuamos
-            if (nom.equals("")){
+            if (nom.equals("")) {
                 alertDialog.setMessage(getString(R.string.alert_nom_assig_invalid));
             } else if (tamany_llista < 1) {
                 alertDialog.setMessage(getString(R.string.alert_minim_grups));

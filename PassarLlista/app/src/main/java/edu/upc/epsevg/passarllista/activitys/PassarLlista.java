@@ -76,11 +76,14 @@ public class PassarLlista extends AppCompatActivity {
                 TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
                 TextView nom_alumne = (TextView) view.findViewById(R.id.view_nom);
                 TextView dni = (TextView) view.findViewById(R.id.view_dni);
+                TextView assistencia = (TextView) view.findViewById(R.id.assistencia);
 
                 // Populate fields with extracted properties
                 id_alumne.setText(getCursor().getString(0));
                 nom_alumne.setText(getCursor().getString(1));
                 dni.setText(getCursor().getString(2));
+                assistencia.setText(R.string.assistencia);
+                assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.assistencia));
             }
         };
 
