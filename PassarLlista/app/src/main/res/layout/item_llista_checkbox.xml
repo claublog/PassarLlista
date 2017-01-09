@@ -10,8 +10,6 @@
         android:id="@+id/view_nom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nom Cognom1 Cognom2"
-
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/checkbox_grup"
@@ -21,7 +19,6 @@
         android:id="@+id/view_dni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="123456789A"
         android:layout_below="@+id/view_nom"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:paddingBottom="6dp"

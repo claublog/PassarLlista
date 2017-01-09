@@ -10,7 +10,6 @@
         android:id="@+id/view_grup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GRUP"
         android:layout_below="@+id/view_assig"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:paddingBottom="6dp"
@@ -26,7 +25,6 @@
         android:visibility="invisible"/>
 
     <TextView
-        android:text="12/12/2017\n5:59"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/view_data"
@@ -43,8 +41,6 @@
         android:id="@+id/view_assig"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ASSIGNATURA"
-
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/black"
         android:layout_alignParentTop="true"
