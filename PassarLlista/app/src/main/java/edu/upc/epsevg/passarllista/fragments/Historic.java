@@ -59,11 +59,11 @@ public class Historic extends android.support.v4.app.Fragment {
 
                 Bundle b = new Bundle();
                 b.putBoolean("esGestio", false);
-                GestioAssignatures gg = new GestioAssignatures();
-                gg.setArguments(b);
+                GestioAssignatures ga = new GestioAssignatures();
+                ga.setArguments(b);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contenidor, gg);
+                fragmentTransaction.replace(R.id.contenidor, ga);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 

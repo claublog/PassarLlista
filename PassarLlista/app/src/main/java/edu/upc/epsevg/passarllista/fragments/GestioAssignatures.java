@@ -30,7 +30,7 @@ import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
  * Activities that contain this fragment must implement the
  * {@link Historic.OnFragmentInteractionListener} interface
  * to handle interaction events.
-
+ * <p>
  * create an instance of this fragment.
  */
 public class GestioAssignatures extends android.support.v4.app.Fragment {
@@ -89,6 +89,9 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                         startActivity(intent);
                     }
                 });
+            } else {
+                FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
+                fab.setVisibility(View.GONE);
             }
 
 
@@ -123,43 +126,44 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     inicialitzaGrups(id_assig.getText().toString());
                 }
             });
-            lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView arg0, View v,
-                                               int position, long arg3) {
-                    // TODO Auto-generated method stub
-                    TextView id = (TextView) v.findViewById(R.id.view_id);
-                    final int ids = Integer.parseInt(id.getText().toString());
-                    AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
-                    //ad.setTitle("Notice");
-                    String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
+            if (esGestio) {
+                lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView arg0, View v,
+                                                   int position, long arg3) {
+                        // TODO Auto-generated method stub
+                        TextView id = (TextView) v.findViewById(R.id.view_id);
+                        final int ids = Integer.parseInt(id.getText().toString());
+                        AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
+                        //ad.setTitle("Notice");
+                        String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
 
 
-                    ad.setMessage(getString(R.string.alert_eliminar) + nom_assignatura + "?");
-                    ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        ad.setMessage(getString(R.string.alert_eliminar) + nom_assignatura + "?");
+                        ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Delete of record from Database and List view.
-                            db.deleteAssignatura(ids);
-                            totesAssignatures.requery();
-                            cursorAdapter.notifyDataSetChanged();
-                            lview.setAdapter(cursorAdapter);
-                        }
-                    });
-                    ad.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Delete of record from Database and List view.
+                                db.deleteAssignatura(ids);
+                                totesAssignatures.requery();
+                                cursorAdapter.notifyDataSetChanged();
+                                lview.setAdapter(cursorAdapter);
+                            }
+                        });
+                        ad.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
-                            dialog.dismiss();
-                        }
-                    });
-                    ad.show();
-                    return true;
-                }
-            });
-
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO Auto-generated method stub
+                                dialog.dismiss();
+                            }
+                        });
+                        ad.show();
+                        return true;
+                    }
+                });
+            }
         }
     }
 
@@ -207,49 +211,52 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                 if (esGestio) {
                     intent = new Intent(getActivity(), Matriculats.class);
                 } else {
+                    android.support.v4.app.Fragment frag = new Historic();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenidor, frag).commit();
                     intent = new Intent(getActivity(), PassarLlista.class);
                 }
                 intent.putExtra("id_grup", id_grup.getText());
                 startActivity(intent);
             }
         });
-        lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView arg0, View v,
-                                           int position, long arg3) {
-                // TODO Auto-generated method stub
-                TextView id = (TextView) v.findViewById(R.id.view_id);
-                final int ids = Integer.parseInt(id.getText().toString());
-                AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
-                //ad.setTitle("Notice");
-                String nom_grup = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
+        if (esGestio) {
+            lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView arg0, View v,
+                                               int position, long arg3) {
+                    // TODO Auto-generated method stub
+                    TextView id = (TextView) v.findViewById(R.id.view_id);
+                    final int ids = Integer.parseInt(id.getText().toString());
+                    AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
+                    //ad.setTitle("Notice");
+                    String nom_grup = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
 
-                ad.setMessage(getString(R.string.alert_eliminar) + nom_grup + "?");
-                ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    ad.setMessage(getString(R.string.alert_eliminar) + nom_grup + "?");
+                    ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Delete of record from Database and List view.
-                        db.deleteGrup(ids);
-                        totsGrups.requery();
-                        cursorAdapter.notifyDataSetChanged();
-                        lview.setAdapter(cursorAdapter);
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Delete of record from Database and List view.
+                            db.deleteGrup(ids);
+                            totsGrups.requery();
+                            cursorAdapter.notifyDataSetChanged();
+                            lview.setAdapter(cursorAdapter);
 
-                    }
-                });
-                ad.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        }
+                    });
+                    ad.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
-                        dialog.dismiss();
-                    }
-                });
-                ad.show();
-                return true;
-            }
-        });
-
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // TODO Auto-generated method stub
+                            dialog.dismiss();
+                        }
+                    });
+                    ad.show();
+                    return true;
+                }
+            });
+        }
 
         cursorAdapter.notifyDataSetChanged();
 

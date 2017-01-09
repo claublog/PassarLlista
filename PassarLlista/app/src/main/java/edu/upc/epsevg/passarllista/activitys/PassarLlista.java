@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -196,6 +197,7 @@ public class PassarLlista extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_menu_done:
                 guardaLlistaAssitencia();
+                finish();
                 break;
             case android.R.id.home:
                 finish();
@@ -240,6 +242,5 @@ public class PassarLlista extends AppCompatActivity {
             values_assistencia.put(Contracte_Assistencia.EntradaAssistencia.ID_SESSIO, id_sessio);
             db.guardaAssitencia(values_assistencia);
         }
-        finish();
     }
 }
