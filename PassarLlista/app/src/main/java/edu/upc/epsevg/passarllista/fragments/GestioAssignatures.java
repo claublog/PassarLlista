@@ -13,8 +13,10 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -57,7 +59,16 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
         db = new DbHelper(getActivity().getApplicationContext());
 
         totesAssignatures = db.getTotsAssignatures();
-        int aux = totesAssignatures.getCount();
+        lview = (ListView) getView().findViewById(R.id.listView);
+        if (totesAssignatures.getCount() < 1) {
+            ViewStub stub = (ViewStub) getView().findViewById(R.id.empty);
+            View inflated = stub.inflate();
+            TextView tv = (TextView) inflated.findViewById(R.id.view_missatge);
+            tv.setText(R.string.buit_assignatures);
+            ImageView iv = (ImageView)inflated.findViewById(R.id.view_icona);
+            iv.setImageResource(R.drawable.icon_gestio_assignatures);
+            lview.setEmptyView(inflated);
+        }
         if (totesAssignatures.getCount() < 1) {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(getView().getContext()).create();
@@ -116,7 +127,6 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     nom_assig.setText(getCursor().getString(1));
                 }
             };
-            lview = (ListView) getView().findViewById(R.id.listView);
             lview.setAdapter(cursorAdapter);
 
             lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

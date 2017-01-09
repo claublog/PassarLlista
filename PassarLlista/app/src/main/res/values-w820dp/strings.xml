@@ -51,5 +51,8 @@
     <string name="grups">Grups</string>
     <string name="afegir_grup">Afegir grup</string>
     <string name="nom_del_grup">Nom del grup</string>
+    <string name="buit_assignatures">La llista d\'assignatures és buida</string>
+    <string name="buit_llistes">Encara no has passat llista cap vegada</string>
+    <string name="buit_alumnes">La llista d\'alumnes es buida</string>
 
 </resources>

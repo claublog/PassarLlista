@@ -15,8 +15,10 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -71,6 +73,17 @@ public class Historic extends android.support.v4.app.Fragment {
         });
         db = new DbHelper(getActivity().getApplicationContext());
         totsSessions = db.getTotsSessions();
+        lview = (ListView) getView().findViewById(R.id.listView);
+        if (totsSessions.getCount() < 1) {
+            ViewStub stub = (ViewStub) getView().findViewById(R.id.empty);
+            View inflated = stub.inflate();
+            TextView tv = (TextView) inflated.findViewById(R.id.view_missatge);
+            tv.setText(R.string.buit_llistes);
+            ImageView iv = (ImageView)inflated.findViewById(R.id.view_icona);
+            iv.setImageResource(R.drawable.icon_passa_llista);
+            lview.setEmptyView(inflated);
+        }
+
         cursorAdapter = new CursorAdapter(getContext(), totsSessions, 0) {
             // The newView method is used to inflate a new view and return it,
             // you don't bind any data to the view at this point.
@@ -103,7 +116,6 @@ public class Historic extends android.support.v4.app.Fragment {
 
             }
         };
-        lview = (ListView) getView().findViewById(R.id.listView);
         lview.setAdapter(cursorAdapter);
         lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

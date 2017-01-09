@@ -159,6 +159,7 @@ public class PassarLlista extends AppCompatActivity {
             alumnes_grup.add(id_grup.getString(0));
             nAlumnes = nAlumnes + 1;
         }
+        id_grup.close();
         if (nAlumnes == 0) {
             AlertDialog alertDialog = new AlertDialog.Builder(PassarLlista.this).create();
             alertDialog.setTitle(R.string.titol_informacio);

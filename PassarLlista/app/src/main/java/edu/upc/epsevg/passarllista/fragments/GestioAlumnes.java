@@ -12,8 +12,10 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -50,7 +52,18 @@ public class GestioAlumnes extends android.support.v4.app.Fragment {
         });
         db = new DbHelper(getActivity().getApplicationContext());
         totsAlumnes = db.getTotsAlumnes();
-        int aux = totsAlumnes.getCount();
+        lview = (ListView) getView().findViewById(R.id.listView);
+
+        if (totsAlumnes.getCount() < 1) {
+            ViewStub stub = (ViewStub) getView().findViewById(R.id.empty);
+            View inflated = stub.inflate();
+            TextView tv = (TextView) inflated.findViewById(R.id.view_missatge);
+            tv.setText(R.string.buit_alumnes);
+            ImageView iv = (ImageView)inflated.findViewById(R.id.view_icona);
+            iv.setImageResource(R.drawable.icon_gestio_alumnes);
+            lview.setEmptyView(inflated);
+        }
+
         if (totsAlumnes.getCount() < 1) {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(getView().getContext()).create();
@@ -94,7 +107,6 @@ public class GestioAlumnes extends android.support.v4.app.Fragment {
                     dni.setText(getCursor().getString(2));
                 }
             };
-            lview = (ListView) getView().findViewById(R.id.listView);
             lview.setAdapter(cursorAdapter);
             lview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
@@ -160,6 +172,7 @@ public class GestioAlumnes extends android.support.v4.app.Fragment {
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_gestio, container, false);
+
     }
 
 
