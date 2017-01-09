@@ -63,7 +63,7 @@ public class Historic extends android.support.v4.app.Fragment {
                 gg.setArguments(b);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.Contenedor, gg);
+                fragmentTransaction.replace(R.id.contenidor, gg);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
@@ -117,7 +117,7 @@ public class Historic extends android.support.v4.app.Fragment {
                 String data = ((TextView) v.findViewById(R.id.view_data)).getText().toString();
 
 
-                ad.setMessage("Estas segur d'eliminar la sessió del día " + data.replace("\n", " ") + " ?");
+                ad.setMessage(getString(R.string.alert_eliminar_llista) + data.replace("\n", " ") + " ?");
                 ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
                     @Override

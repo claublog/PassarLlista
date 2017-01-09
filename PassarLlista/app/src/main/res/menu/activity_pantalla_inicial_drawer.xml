@@ -10,19 +10,10 @@
             android:id="@+id/gestio_alumnes"
             android:icon="@drawable/icon_gestio_alumnes"
             android:title="@string/gesti_d_alumnes" />
-        <!-- <item
-        android:id="@+id/gestio_assignatures"
-        android:icon="@drawable/icon_gestio_assignatures"
-        android:title="@string/gesti_d_assignatures" />-->
         <item
             android:id="@+id/gestio_assignatures"
             android:icon="@drawable/icon_gestio_assignatures"
             android:title="@string/gesti_d_assignatures" />
-        <!--
-        <item
-            android:id="@+id/historic"
-            android:icon="@drawable/icon_historic"
-            android:title="@string/hist_ric" />-->
         <item android:title="Informació">
             <menu>
                 <group android:checkableBehavior="single">

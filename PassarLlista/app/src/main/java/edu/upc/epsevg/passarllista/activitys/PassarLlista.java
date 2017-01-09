@@ -50,7 +50,7 @@ public class PassarLlista extends AppCompatActivity {
     }
 
     private void inicialitzacio() {
-        setTitle("Editar alumnes");
+        setTitle(R.string.titol_llista_assist);
 
         //boto enrere
         ActionBar actionBar = getSupportActionBar();
@@ -133,8 +133,8 @@ public class PassarLlista extends AppCompatActivity {
         }
         if (nAlumnes==0){
             AlertDialog alertDialog = new AlertDialog.Builder(PassarLlista.this).create();
-            alertDialog.setTitle("Informació");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Matricular",
+            alertDialog.setTitle(R.string.titol_informacio);
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.alert_matricular),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -144,14 +144,14 @@ public class PassarLlista extends AppCompatActivity {
 
                         }
                     });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel·lar",
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(android.R.string.cancel),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
                     });
 
-            alertDialog.setMessage("Aquest grup no te cap alumne matriculat, desitja matricular algun alumne? ");
+            alertDialog.setMessage(getString(R.string.alert_grup_sense_alumne));
 
             alertDialog.show();
         }

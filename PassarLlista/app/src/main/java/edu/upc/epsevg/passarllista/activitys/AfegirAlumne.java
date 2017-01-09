@@ -24,7 +24,7 @@ public class AfegirAlumne extends AppCompatActivity {
     }
 
     private void inicialitzacio() {
-        setTitle("Afegir alumne");
+        setTitle(getString(R.string.titol_afegir_alumne));
 
         //boto enrere
         ActionBar actionBar = getSupportActionBar();
@@ -70,8 +70,8 @@ public class AfegirAlumne extends AppCompatActivity {
         } else {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(AfegirAlumne.this).create();
-            alertDialog.setTitle("Error");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+            alertDialog.setTitle(getString(R.string.error));
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(android.R.string.ok),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -80,9 +80,9 @@ public class AfegirAlumne extends AppCompatActivity {
 
             //actuamos
             if (nom.equals("")){
-                alertDialog.setMessage("El nom no es valid");
+                alertDialog.setMessage(getString(R.string.alert_nom_invalid));
             } else {
-                alertDialog.setMessage("El DNI no es valid");
+                alertDialog.setMessage(getString(R.string.alert_dni_invalid));
             }
             alertDialog.show();
         }

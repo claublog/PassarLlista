@@ -1,6 +1,5 @@
 package edu.upc.epsevg.passarllista.fragments;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,14 +21,6 @@ import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.activitys.AfegirAlumne;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Historic.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Historic#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class GestioAlumnes extends android.support.v4.app.Fragment {
     //private ArrayList<Alumne> list_alumnes;
     private ListView lview;
@@ -63,8 +54,8 @@ public class GestioAlumnes extends android.support.v4.app.Fragment {
         if (totsAlumnes.getCount() < 1) {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(getView().getContext()).create();
-            alertDialog.setTitle("Informació");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Afegir",
+            alertDialog.setTitle(R.string.titol_informacio);
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.alert_add),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -76,7 +67,7 @@ public class GestioAlumnes extends android.support.v4.app.Fragment {
 
             //actuamos
 
-            alertDialog.setMessage("La llista d'Alumnes és buida. Afegeix-ne un per començar.");
+            alertDialog.setMessage(getString(R.string.alert_alumnes_buit));
             alertDialog.show();
 
         } else {
@@ -117,7 +108,7 @@ public class GestioAlumnes extends android.support.v4.app.Fragment {
                     String nom_alumne = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
 
 
-                    ad.setMessage("Estas segur d'eliminar a " + nom_alumne + "?");
+                    ad.setMessage(getString(R.string.alert_eliminar) + nom_alumne + " ?");
                     ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
                         @Override

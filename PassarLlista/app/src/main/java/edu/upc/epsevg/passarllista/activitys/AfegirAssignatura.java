@@ -36,7 +36,7 @@ public class AfegirAssignatura extends AppCompatActivity {
     }
 
     private void inicialitzacio() {
-        setTitle("Afegir Assignatura");
+        setTitle(getString(R.string.titol_afegir_assignatura));
 
         //boto enrere
         ActionBar actionBar = getSupportActionBar();
@@ -140,8 +140,8 @@ public class AfegirAssignatura extends AppCompatActivity {
         } else {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(AfegirAssignatura.this).create();
-            alertDialog.setTitle("Error");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+            alertDialog.setTitle(getString(R.string.error));
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(android.R.string.ok),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -150,9 +150,9 @@ public class AfegirAssignatura extends AppCompatActivity {
 
             //actuamos
             if (nom.equals("")){
-                alertDialog.setMessage("El nom de la assignatura no es valid");
+                alertDialog.setMessage(getString(R.string.alert_nom_assig_invalid));
             } else if (tamany_llista < 1) {
-                alertDialog.setMessage("Tens que afegir un grup com a minim per a una assignatura");
+                alertDialog.setMessage(getString(R.string.alert_minim_grups));
             }
             alertDialog.show();
         }

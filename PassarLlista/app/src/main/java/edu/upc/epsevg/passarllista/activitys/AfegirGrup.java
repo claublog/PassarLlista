@@ -24,7 +24,7 @@ public class AfegirGrup extends AppCompatActivity {
     }
 
     private void inicialitzacio() {
-        setTitle("Afegir nou grup");
+        setTitle(getString(R.string.titol_afegir_grup));
 
         //boto enrere
         ActionBar actionBar = getSupportActionBar();
@@ -74,15 +74,15 @@ public class AfegirGrup extends AppCompatActivity {
         } else {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(AfegirGrup.this).create();
-            alertDialog.setTitle("Error");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+            alertDialog.setTitle(getString(R.string.error));
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(android.R.string.ok),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
                     });
 
-            alertDialog.setMessage("El nom del grup no és vàlid");
+            alertDialog.setMessage(getString(R.string.alert_nom_grup_invalid));
             alertDialog.show();
         }
     }

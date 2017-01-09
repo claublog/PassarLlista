@@ -61,8 +61,8 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
         if (totesAssignatures.getCount() < 1) {
             //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(getView().getContext()).create();
-            alertDialog.setTitle("Informació");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Afegir",
+            alertDialog.setTitle(getString(R.string.titol_informacio));
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.alert_add),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -74,13 +74,13 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
 
             //actuamos
 
-            alertDialog.setMessage("La llista de grups és buida. Afegeix una assignatura per començar.");
+            alertDialog.setMessage(getString(R.string.alert_grups_buit));
             alertDialog.show();
 
         } else {
 
             if (esGestio) {
-                FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.grup_floating_afegir);
+                FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
                 fab.setVisibility(View.VISIBLE);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -113,7 +113,7 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     nom_assig.setText(getCursor().getString(1));
                 }
             };
-            lview = (ListView) getView().findViewById(R.id.listView_grups);
+            lview = (ListView) getView().findViewById(R.id.listView);
             lview.setAdapter(cursorAdapter);
 
             lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -135,7 +135,7 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
 
 
-                    ad.setMessage("Estas segur d'eliminar a " + nom_assignatura + "?");
+                    ad.setMessage(getString(R.string.alert_eliminar) + nom_assignatura + "?");
                     ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
                         @Override
@@ -166,7 +166,7 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
     private void inicialitzaGrups(final String id_assig) {
 
         if (esGestio) {
-            FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.grup_floating_afegir);
+            FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
             fab.setVisibility(View.VISIBLE);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -196,8 +196,8 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                 nom_grup.setText(getCursor().getString(1));
             }
         };
-        getActivity().setTitle("Selecciona grup");
-        lview = (ListView) getView().findViewById(R.id.listView_grups);
+        getActivity().setTitle(getString(R.string.titol_selecciona_grup));
+        lview = (ListView) getView().findViewById(R.id.listView);
         lview.setAdapter(cursorAdapter);
         lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -222,10 +222,9 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                 final int ids = Integer.parseInt(id.getText().toString());
                 AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
                 //ad.setTitle("Notice");
-                String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
+                String nom_grup = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
 
-
-                ad.setMessage("Estas segur d'eliminar a " + nom_assignatura + "?");
+                ad.setMessage(getString(R.string.alert_eliminar) + nom_grup + "?");
                 ad.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 
                     @Override
@@ -265,7 +264,7 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Selecciona una assignatura");
+        getActivity().setTitle(getString(R.string.titol_selecciona_assignatura));
         inicialitzacio();
     }
 
@@ -274,7 +273,7 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         esGestio = getArguments().getBoolean("esGestio");
-        return inflater.inflate(R.layout.fragment_gestio_grups, container, false);
+        return inflater.inflate(R.layout.fragment_gestio, container, false);
     }
 
 

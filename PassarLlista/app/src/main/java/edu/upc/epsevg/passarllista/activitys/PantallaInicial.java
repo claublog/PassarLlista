@@ -16,13 +16,12 @@ import edu.upc.epsevg.passarllista.R;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 import edu.upc.epsevg.passarllista.fragments.Informacio;
 import edu.upc.epsevg.passarllista.fragments.Historic;
-import edu.upc.epsevg.passarllista.fragments.Sobre;
 import edu.upc.epsevg.passarllista.fragments.GestioAlumnes;
 import edu.upc.epsevg.passarllista.fragments.GestioAssignatures;
 
 
 public class PantallaInicial extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Historic.OnFragmentInteractionListener, Informacio.OnFragmentInteractionListener, Sobre.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Historic.OnFragmentInteractionListener, Informacio.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class PantallaInicial extends AppCompatActivity
         //b.putBoolean("esGestio", false);
         Fragment frag = new Historic();
         //frag.setArguments(b);
-        getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, frag).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenidor, frag).commit();
         new DbHelper(getApplicationContext()); // Forçem la creacio de taules
 
     }
@@ -62,27 +61,6 @@ public class PantallaInicial extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.toolbar_opcions, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -95,37 +73,37 @@ public class PantallaInicial extends AppCompatActivity
 
         if (id == R.id.passa_llista) {
             frag = new Historic();
-            setTitle("Passar llista");
+            setTitle(R.string.passa_llista);
             elementSelecionado = true;
         } else if (id == R.id.gestio_alumnes) {
             frag = new GestioAlumnes();
-            setTitle("Gestio d'alumnes");
+            setTitle(R.string.gesti_d_alumnes);
             elementSelecionado = true;
         } else if (id == R.id.gestio_assignatures) {
             Bundle b = new Bundle();
             b.putBoolean("esGestio", true);
             frag = new GestioAssignatures();
             frag.setArguments(b);
-            setTitle("Selecciona una assignatura");
+            setTitle(R.string.gesti_d_assignatures);
             elementSelecionado = true;
         } else if (id == R.id.nav_ajuda) {
             Bundle b = new Bundle();
             b.putBoolean("esAjuda", true);
             frag = new Informacio();
             frag.setArguments(b);
-            setTitle("Informacio");
+            setTitle(R.string.ajuda);
             elementSelecionado = true;
         } else if (id == R.id.nav_sobre) {
             Bundle b = new Bundle();
             b.putBoolean("esAjuda", false);
             frag = new Informacio();
             frag.setArguments(b);
-            setTitle("Sobre");
+            setTitle(R.string.sobre);
             elementSelecionado = true;
         }
 
         if (elementSelecionado) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor, frag).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.contenidor, frag).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

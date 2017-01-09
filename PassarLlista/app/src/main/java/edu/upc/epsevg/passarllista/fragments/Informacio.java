@@ -48,12 +48,13 @@ public class Informacio extends android.support.v4.app.Fragment {
     private void inicialitzacio() {
         boolean esAjuda =  getArguments().getBoolean("esAjuda");
         WebView wv = (WebView) getView().findViewById(R.id.web_view);
+        String titol;
         if (esAjuda) {
-            wv.loadUrl("file:///android_asset/ajuda.html");
-            getActivity().setTitle("Ajuda");
+            titol = "ajuda";
         } else {
-            wv.loadUrl("file:///android_asset/sobre.html");
+            titol = "sobre";
         }
+        wv.loadUrl("file:///android_asset/" + titol + ".html");
     }
 
     @Override

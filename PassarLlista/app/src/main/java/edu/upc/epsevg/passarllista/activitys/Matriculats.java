@@ -56,7 +56,7 @@ public class Matriculats extends AppCompatActivity {
     }
 
     private void inicialitzacio() {
-        setTitle("Editar alumnes");
+        setTitle(getString(R.string.titol_matriculats));
 
         //boto enrere
         ActionBar actionBar = getSupportActionBar();
@@ -131,8 +131,8 @@ public class Matriculats extends AppCompatActivity {
         if (total_alumnes == 0){
 
             AlertDialog alertDialog = new AlertDialog.Builder(Matriculats.this).create();
-            alertDialog.setTitle("Informació");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Afegir",
+            alertDialog.setTitle(getString(R.string.titol_informacio));
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.alert_add),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -141,14 +141,14 @@ public class Matriculats extends AppCompatActivity {
 
                         }
                     });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel·lar",
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(android.R.string.cancel),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
                     });
 
-            alertDialog.setMessage("Encara no tens alumnes al sistema, desitges afegir un?");
+            alertDialog.setMessage(getString(R.string.alert_afegir_alumne));
 
             alertDialog.show();
         }
