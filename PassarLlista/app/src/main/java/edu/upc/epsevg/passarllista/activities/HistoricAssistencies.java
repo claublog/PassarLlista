@@ -1,6 +1,5 @@
-package edu.upc.epsevg.passarllista.activitys;
+package edu.upc.epsevg.passarllista.activities;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,23 +10,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.TreeSet;
-
 import edu.upc.epsevg.passarllista.R;
-import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Assistencia;
-import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Sessio;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
-public class AssistenciesHistoric extends AppCompatActivity {
+public class HistoricAssistencies extends AppCompatActivity {
 
     private DbHelper db;
     private CursorAdapter cursorAdapter;
@@ -38,7 +28,6 @@ public class AssistenciesHistoric extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matricula);
-
         inicialitzacio();
     }
 
@@ -59,22 +48,14 @@ public class AssistenciesHistoric extends AppCompatActivity {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 return LayoutInflater.from(context).inflate(R.layout.item_llista_passar, parent, false);
-
             }
 
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
-                // Find fields to populate in inflated template
                 TextView assistencia = (TextView) view.findViewById(R.id.assistencia);
                 TextView nom_alumne = (TextView) view.findViewById(R.id.view_nom);
                 TextView dni = (TextView) view.findViewById(R.id.view_dni);
 
-                /*new String[]{
-                        Contracte_Assistencia.EntradaAssistencia._ID,
-                        Contracte_Assistencia.EntradaAssistencia.TIPUS,
-                        Contracte_Alumne.EntradaAlumne.NOM,
-                        Contracte_Alumne.EntradaAlumne.DNI
-                });*/
                 switch (getCursor().getInt(1)) {
                     case 0:
                         assistencia.setText(R.string.assistencia);
@@ -91,24 +72,18 @@ public class AssistenciesHistoric extends AppCompatActivity {
                 nom_alumne.setText(getCursor().getString(2));
                 dni.setText(getCursor().getString(3));
             }
-
         };
-
         lview = (ListView) findViewById(R.id.listViewAlumnes);
         lview.setAdapter(cursorAdapter);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

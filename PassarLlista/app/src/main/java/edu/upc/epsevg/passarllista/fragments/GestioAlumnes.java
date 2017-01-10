@@ -20,7 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
-import edu.upc.epsevg.passarllista.activitys.AfegirAlumne;
+import edu.upc.epsevg.passarllista.activities.AfegirAlumne;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 public class GestioAlumnes extends android.support.v4.app.Fragment {

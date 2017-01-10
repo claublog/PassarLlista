@@ -21,10 +21,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
-import edu.upc.epsevg.passarllista.activitys.AfegirAssignatura;
-import edu.upc.epsevg.passarllista.activitys.AfegirGrup;
-import edu.upc.epsevg.passarllista.activitys.Matriculats;
-import edu.upc.epsevg.passarllista.activitys.PassarLlista;
+import edu.upc.epsevg.passarllista.activities.AfegirAssignatura;
+import edu.upc.epsevg.passarllista.activities.AfegirGrup;
+import edu.upc.epsevg.passarllista.activities.Matriculats;
+import edu.upc.epsevg.passarllista.activities.PassarLlista;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 /**
@@ -46,7 +46,6 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
     public GestioAssignatures() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -223,6 +222,7 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                 } else {
                     android.support.v4.app.Fragment frag = new Historic();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.contenidor, frag).commit();
+                    getActivity().setTitle(R.string.passa_llista);
                     intent = new Intent(getActivity(), PassarLlista.class);
                 }
                 intent.putExtra("id_grup", id_grup.getText());

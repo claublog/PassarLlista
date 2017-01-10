@@ -37,7 +37,7 @@
     <string name="alert_eliminar">"Estas segur d'eliminar a "</string>
     <string name="alert_nom_invalid">El nom no es valid</string>
     <string name="alert_dni_invalid">El DNI no es valid</string>
-    <string name="alert_nom_assig_invalid">El nom de la assignatura no es valid</string>
+    <string name="alert_nom_assig_invalid">El nom de la assignatura no és vàlid</string>
     <string name="alert_minim_grups">Tens que afegir un grup com a minim per a una assignatura</string>
     <string name="alert_nom_grup_invalid">El nom del grup no és vàlid</string>
     <string name="alert_afegir_alumne">Encara no tens alumnes al sistema, desitges afegir un?</string>

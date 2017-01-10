@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Passar Llista</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Obre el menú lateral</string>
+    <string name="navigation_drawer_close">Tanca el menú lateral</string>
 
     <string name="ajuda">Ajuda</string>
     <string name="sobre">Sobre</string>
@@ -32,9 +32,9 @@
     <string name="alert_grups_buit">La llista de grups és buida. Afegeix una assignatura per començar.</string>
     <string name="alert_add">Afegir</string>
     <string name="alert_eliminar">"Estas segur d'eliminar a "</string>
-    <string name="alert_nom_invalid">El nom no es valid</string>
-    <string name="alert_dni_invalid">El DNI no es valid</string>
-    <string name="alert_nom_assig_invalid">El nom de la assignatura no es valid</string>
+    <string name="alert_nom_invalid">El nom no és vàlid</string>
+    <string name="alert_dni_invalid">El DNI no és vàlid</string>
+    <string name="alrt_nom_assig_invalid">El nom de la assignatura no és vàlid</string>
     <string name="alert_minim_grups">Tens que afegir un grup com a minim per a una assignatura</string>
     <string name="alert_nom_grup_invalid">El nom del grup no és vàlid</string>
     <string name="alert_afegir_alumne">Encara no tens alumnes al sistema, desitges afegir un?</string>
@@ -50,6 +50,6 @@
     <string name="nom_del_grup">Nom del grup</string>
     <string name="buit_assignatures">La llista d\'assignatures és buida</string>
     <string name="buit_llistes">Encara no has passat llista cap vegada</string>
-    <string name="buit_alumnes">La llista d\'alumnes es buida</string>
+    <string name="buit_alumnes">La llista d\'alumnes és buida</string>
 
 </resources>

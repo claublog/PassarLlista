@@ -1,4 +1,4 @@
-package edu.upc.epsevg.passarllista.activitys;
+package edu.upc.epsevg.passarllista.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -32,16 +32,16 @@ public class AfegirAssignatura extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afegir_assignatura);
 
+        llista_grups = new ArrayList<>();
+        // Restaurem els grups del bundle en cas que n'hi hagin
         String[] grups = null;
         if (savedInstanceState != null) {
             grups = savedInstanceState.getStringArray("llista_grups");
-        }
-        llista_grups = new ArrayList<>();
-        if (grups != null) {
             for (String grup : grups) {
                 llista_grups.add(grup);
             }
         }
+
         inicialitzacio();
     }
 
@@ -54,54 +54,48 @@ public class AfegirAssignatura extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
-        final Button afegir_grup = (Button) findViewById(R.id.button_add_grup);
-        final EditText edit_grup = (EditText) findViewById(R.id.editText_grup);
-
+        Button afegir_grup = (Button) findViewById(R.id.button_add_grup);
         afegir_grup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final EditText nomGrup = (EditText) findViewById(R.id.editText_grup);
+                EditText nomGrup = (EditText) findViewById(R.id.editText_grup);
 
                 // añade el alumno
                 String nom = nomGrup.getText().toString();
                 if (!(nom.equals(""))) {
                     llista_grups.add(nom);
-                    edit_grup.setText("");
+                    nomGrup.setText("");
 
                 }
             }
         });
 
-
+        EditText edit_grup = (EditText) findViewById(R.id.editText_grup);
         edit_grup.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // metode obligatori de sobrecarregar
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Button afegir_grup = (Button) findViewById(R.id.button_add_grup);
                 if (s.toString().trim().length() == 0) {
                     afegir_grup.setEnabled(false);
                 } else {
                     afegir_grup.setEnabled(true);
                 }
-
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-                // TODO Auto-generated method stub
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
-
+                // metode obligatori de sobrecarregar
             }
+
         });
 
-
+        // Utilitzem la plantilla basica proporcionada per android per fer ArrayAdapters
         itemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, llista_grups);
         ListView listView = (ListView) findViewById(R.id.listViewGrups);
         listView.setAdapter(itemsAdapter);
@@ -116,7 +110,6 @@ public class AfegirAssignatura extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         switch (item.getItemId()) {
             case R.id.action_menu_done:
                 afegeixAssignatura();
@@ -124,20 +117,18 @@ public class AfegirAssignatura extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void onSaveInstanceState(Bundle savedState) {
-
         super.onSaveInstanceState(savedState);
-        String [] grups = new String[llista_grups.size()];
+        // Guardem la llista de grups creada
+        String[] grups = new String[llista_grups.size()];
         for (int i = 0; i < llista_grups.size(); i++) {
             grups[i] = llista_grups.get(i);
         }
         savedState.putStringArray("llista_grups", grups);
-
     }
 
     private void afegeixAssignatura() {
@@ -145,19 +136,17 @@ public class AfegirAssignatura extends AppCompatActivity {
         final EditText nomAssignatura = (EditText) findViewById(R.id.editText_nom_assignatura);
 
         int tamany_llista = llista_grups.size();
-        // añade el alumno
         String nom = nomAssignatura.getText().toString();
         if (!nom.equals("") && (tamany_llista > 0)) {
             DbHelper db = new DbHelper(getApplicationContext());
-            //add assignatura
             Assignatura assig = new Assignatura(null, nomAssignatura.getText().toString());
-            long id_assig = db.guardaAssignatura(assig);
-            // add grups
+            long id_assig = db.guardaAssignatura(assig); // introdueix  l'assignatura a la base de dades
+            // introdueix tots els grups a la base de dades
             for (String nom_grup : llista_grups) {
                 Grup grup = new Grup(null, nom_grup, id_assig);
                 db.guardaGrup(grup);
             }
-            //tanca el activity
+            //tanca la activity
             finish();
         } else {
             //preparamos el alert

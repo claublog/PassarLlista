@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import edu.upc.epsevg.passarllista.R;
-import edu.upc.epsevg.passarllista.activitys.AssistenciesHistoric;
+import edu.upc.epsevg.passarllista.activities.HistoricAssistencies;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 /**
@@ -46,11 +46,9 @@ public class Historic extends android.support.v4.app.Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     private void inicializacio() {
@@ -159,7 +157,7 @@ public class Historic extends android.support.v4.app.Fragment {
                 TextView id_sessio = (TextView) view.findViewById(R.id.view_id);
                 TextView nom_grup = (TextView) view.findViewById(R.id.view_grup);
                 Intent intent;
-                intent = new Intent(getActivity(), AssistenciesHistoric.class);
+                intent = new Intent(getActivity(), HistoricAssistencies.class);
                 intent.putExtra("id_sessio", id_sessio.getText());
                 intent.putExtra("nom_grup", nom_grup.getText());
                 startActivity(intent);

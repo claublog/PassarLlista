@@ -1,4 +1,4 @@
-package edu.upc.epsevg.passarllista.activitys;
+package edu.upc.epsevg.passarllista.activities;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,15 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.TreeSet;
 
 import edu.upc.epsevg.passarllista.R;
@@ -32,8 +28,6 @@ import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
 public class Matriculats extends AppCompatActivity {
 
-    private ArrayAdapter<String> itemsAdapter;
-    private ArrayList<String> llista_alumnes;
     private DbHelper db;
     private CursorAdapter cursorAdapter;
     private ListView lview;
@@ -70,27 +64,23 @@ public class Matriculats extends AppCompatActivity {
 
         db = new DbHelper(getApplicationContext());
         id_grup = getIntent().getStringExtra("id_grup");
-        Cursor c = db.getTotsAlumnes();
-        poblarAlumnesGrup(db.getAlumnesGrup(id_grup), c.getCount());
-        if (canvisEsNull) canvis = new boolean[c.getCount()];
-        cursorAdapter = new CursorAdapter(getApplicationContext(), c, 0) {
+        Cursor cursor_alumnes = db.getTotsAlumnes(); //recupera de la base de dades tots els alumnes que pertanyen al grup id_grup
+        poblarAlumnesGrup(db.getAlumnesGrup(id_grup), cursor_alumnes.getCount());
+        if (canvisEsNull) canvis = new boolean[cursor_alumnes.getCount()];
+        cursorAdapter = new CursorAdapter(getApplicationContext(), cursor_alumnes, 0) {
 
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 return LayoutInflater.from(context).inflate(R.layout.item_llista_checkbox, parent, false);
-
             }
 
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
-                // Find fields to populate in inflated template
-                final TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
+                TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
                 TextView nom_alumne = (TextView) view.findViewById(R.id.view_nom);
                 TextView dni = (TextView) view.findViewById(R.id.view_dni);
                 CheckBox pertany = (CheckBox) view.findViewById(R.id.checkbox_grup);
 
-
-                // Populate fields with extracted properties
                 id_alumne.setText(getCursor().getString(0));
                 nom_alumne.setText(getCursor().getString(1));
                 dni.setText(getCursor().getString(2));
@@ -111,7 +101,6 @@ public class Matriculats extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CheckBox pertany = (CheckBox) view.findViewById(R.id.checkbox_grup);
-                TextView id_view = (TextView) view.findViewById(R.id.view_id);
                 pertany.setChecked(!pertany.isChecked());
                 canvis[position] = pertany.isChecked();
             }
@@ -119,22 +108,10 @@ public class Matriculats extends AppCompatActivity {
     }
 
 
-    public View getViewByPosition(int position, ListView listView) {
-        final int firstListItemPosition = listView.getFirstVisiblePosition();
-        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
-
-        if (position < firstListItemPosition || position > lastListItemPosition) {
-            return listView.getAdapter().getView(position, listView.getChildAt(position), listView);
-        } else {
-            final int childIndex = position - firstListItemPosition;
-            return listView.getChildAt(childIndex);
-        }
-    }
-
     private void poblarAlumnesGrup(Cursor cursor_alumnes, int total_alumnes) {
         alumnes_grup_inicial = new TreeSet<>();
         alumnes_grup_canvis = new TreeSet<>();
-        while (cursor_alumnes.moveToNext()) {
+        while (cursor_alumnes.moveToNext()) { //inicialment ambdues llistes son iguals
             alumnes_grup_inicial.add(cursor_alumnes.getString(0));
             alumnes_grup_canvis.add(cursor_alumnes.getString(0));
         }
@@ -172,7 +149,6 @@ public class Matriculats extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         switch (item.getItemId()) {
             case R.id.action_menu_done:
                 guardaCanvisGrup();
@@ -192,12 +168,23 @@ public class Matriculats extends AppCompatActivity {
 
     }
 
+    private View getViewDeLaPosicio(int posicio) {
+        int posicioPrimerItemLlista = lview.getFirstVisiblePosition();
+        int posicioUltimItemLlista = posicioPrimerItemLlista + lview.getChildCount() - 1;
+
+        if (posicio < posicioPrimerItemLlista || posicio > posicioUltimItemLlista) {
+            return lview.getAdapter().getView(posicio, lview.getChildAt(posicio), lview);
+        } else {
+            int childIndex = posicio - posicioPrimerItemLlista;
+            return lview.getChildAt(childIndex);
+        }
+    }
 
     private void guardaCanvisGrup() {
         alumnes_grup_canvis = new TreeSet<>();
 
         for (int i = 0; i < lview.getCount(); i++) {
-            View v = getViewByPosition(i, lview);
+            View v = getViewDeLaPosicio(i);
             TextView id_view = (TextView) v.findViewById(R.id.view_id);
             CheckBox pertany = (CheckBox) v.findViewById(R.id.checkbox_grup);
             if (pertany.isChecked()) alumnes_grup_canvis.add(id_view.getText().toString());

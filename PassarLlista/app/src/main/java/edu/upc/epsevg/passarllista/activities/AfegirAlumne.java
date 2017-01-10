@@ -1,4 +1,4 @@
-package edu.upc.epsevg.passarllista.activitys;
+package edu.upc.epsevg.passarllista.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -33,14 +33,15 @@ public class AfegirAlumne extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_afegir, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         switch (item.getItemId()) {
             case R.id.action_menu_done:
                 afegeixAlumne();
@@ -54,18 +55,18 @@ public class AfegirAlumne extends AppCompatActivity {
     }
 
 
-    private void afegeixAlumne(){
+    private void afegeixAlumne() {
 
         final EditText nomAlumne = (EditText) findViewById(R.id.editText_nom_assignatura);
         final EditText dniAlumne = (EditText) findViewById(R.id.editText_dni);
         // añade el alumno
         String nom = nomAlumne.getText().toString();
         String dni = dniAlumne.getText().toString();
-        if (!(nom.equals("") ||  dni.equals(""))){
-            DbHelper db  = new DbHelper(getApplicationContext());
+        if (!(nom.equals("") || dni.equals(""))) {
+            DbHelper db = new DbHelper(getApplicationContext());
             Alumne alum = new Alumne(nomAlumne.getText().toString(), null, dniAlumne.getText().toString());
             db.guardaAlumne(alum);
-            //tanca el activity
+            //tanca la activity
             finish();
         } else {
             //preparamos el alert
@@ -79,7 +80,7 @@ public class AfegirAlumne extends AppCompatActivity {
                     });
 
             //actuamos
-            if (nom.equals("")){
+            if (nom.equals("")) {
                 alertDialog.setMessage(getString(R.string.alert_nom_invalid));
             } else {
                 alertDialog.setMessage(getString(R.string.alert_dni_invalid));

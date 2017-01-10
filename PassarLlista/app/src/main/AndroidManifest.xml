@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activitys.PantallaInicial"
+            android:name=".activities.PantallaInicial"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
             android:label="@string/app_name">
@@ -19,12 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.AfegirAlumne"></activity>
-        <activity android:name=".activitys.AfegirAssignatura"></activity>
-        <activity android:name=".activitys.Matriculats"></activity>
-        <activity android:name=".activitys.PassarLlista"></activity>
-        <activity android:name=".activitys.AssistenciesHistoric"></activity>
-        <activity android:name=".activitys.AfegirGrup"></activity>
+        <activity android:name=".activities.AfegirAlumne"></activity>
+        <activity android:name=".activities.AfegirAssignatura"></activity>
+        <activity android:name=".activities.Matriculats"></activity>
+        <activity android:name=".activities.PassarLlista"></activity>
+        <activity android:name=".activities.HistoricAssistencies"></activity>
+        <activity android:name=".activities.AfegirGrup"></activity>
 
     </application>
 

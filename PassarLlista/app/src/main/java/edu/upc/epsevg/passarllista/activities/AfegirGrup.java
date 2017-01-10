@@ -1,4 +1,4 @@
-package edu.upc.epsevg.passarllista.activitys;
+package edu.upc.epsevg.passarllista.activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -19,7 +19,6 @@ public class AfegirGrup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afegir_grup);
-
         inicialitzacio();
     }
 
@@ -42,7 +41,6 @@ public class AfegirGrup extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         switch (item.getItemId()) {
             case R.id.action_menu_done:
                 afegeixGrup();
@@ -50,29 +48,24 @@ public class AfegirGrup extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
-
         }
         return super.onOptionsItemSelected(item);
     }
 
 
     private void afegeixGrup() {
-
         String id_assig = getIntent().getStringExtra("id_assig");
 
-
         EditText nomGrup = (EditText) findViewById(R.id.editText_nom_grup);
-        // añade el grupo
         String nom = nomGrup.getText().toString();
 
         if (!nom.equals("")) {
             DbHelper db = new DbHelper(getApplicationContext());
             Grup grup = new Grup(null, nomGrup.getText().toString(), Long.parseLong(id_assig));
-            db.guardaGrup(grup);
-            //tanca el activity
+            db.guardaGrup(grup); //insereix el grup a la base de dades
+            //tanca la activity
             finish();
         } else {
-            //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(AfegirGrup.this).create();
             alertDialog.setTitle(getString(R.string.error));
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(android.R.string.ok),
