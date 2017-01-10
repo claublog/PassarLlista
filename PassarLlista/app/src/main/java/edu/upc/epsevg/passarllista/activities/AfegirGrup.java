@@ -1,5 +1,6 @@
 package edu.upc.epsevg.passarllista.activities;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -8,10 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import edu.upc.epsevg.passarllista.R;
+import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Grup;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
-import edu.upc.epsevg.passarllista.classes.Grup;
 
 public class AfegirGrup extends AppCompatActivity {
 
@@ -61,9 +63,12 @@ public class AfegirGrup extends AppCompatActivity {
 
         if (!nom.equals("")) {
             DbHelper db = new DbHelper(getApplicationContext());
-            Grup grup = new Grup(null, nomGrup.getText().toString(), Long.parseLong(id_assig));
-            db.guardaGrup(grup); //insereix el grup a la base de dades
+            ContentValues values = new ContentValues();
+            values.put(Contracte_Grup.EntradaGrup.NOM, nomGrup.getText().toString());
+            values.put(Contracte_Grup.EntradaGrup.ID_ASSIGNATURA, id_assig);
+            db.guardaGrup(values); //insereix el grup a la base de dades
             //tanca la activity
+            Toast.makeText(getApplicationContext(), R.string.toast_grup_creat, Toast.LENGTH_SHORT).show();
             finish();
         } else {
             AlertDialog alertDialog = new AlertDialog.Builder(AfegirGrup.this).create();

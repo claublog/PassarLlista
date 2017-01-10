@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,13 +43,12 @@ public class PassarLlista extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_matricula);
+        setContentView(R.layout.activity_listview);
 
         if (savedInstanceState != null) {
             assistencies = savedInstanceState.getIntArray("assistencies");
             assistEsNull = false;
         } else assistEsNull = true;
-        //inicialitzacio();
     }
 
     private void inicialitzacio() {
@@ -70,18 +70,15 @@ public class PassarLlista extends AppCompatActivity {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 return LayoutInflater.from(context).inflate(R.layout.item_llista_passar, parent, false);
-
             }
 
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
-                // Find fields to populate in inflated template
                 TextView id_alumne = (TextView) view.findViewById(R.id.view_id);
                 TextView nom_alumne = (TextView) view.findViewById(R.id.view_nom);
                 TextView dni = (TextView) view.findViewById(R.id.view_dni);
                 TextView assistencia = (TextView) view.findViewById(R.id.assistencia);
 
-                // Populate fields with extracted properties
                 id_alumne.setText(getCursor().getString(0));
                 nom_alumne.setText(getCursor().getString(1));
                 dni.setText(getCursor().getString(2));
@@ -108,12 +105,17 @@ public class PassarLlista extends AppCompatActivity {
         };
 
         lview = (ListView) findViewById(R.id.listViewAlumnes);
+
+        // Missatge indicant que la llista d'alumnes matriculats es buida
+        TextView tv = (TextView) findViewById(R.id.buit);
+        tv.setText(R.string.buit_matriculats);
+        lview.setEmptyView(tv);
+
         lview.setAdapter(cursorAdapter);
         lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView assistencia = (TextView) view.findViewById(R.id.assistencia);
-                TextView id_view = (TextView) view.findViewById(R.id.view_id);
                 if (assistencia.getText().equals(getString(R.string.assistencia))) {
                     assistencia.setText(R.string.ausent);
                     assistencia.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.ausent));
@@ -191,11 +193,25 @@ public class PassarLlista extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         switch (item.getItemId()) {
             case R.id.action_menu_done:
-                guardaLlistaAssitencia();
-                finish();
+                if (lview.getCount() < 1) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(PassarLlista.this).create();
+                    alertDialog.setTitle(getString(R.string.error));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(android.R.string.ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    alertDialog.setMessage(getString(R.string.alert_sense_alumnes));
+                    alertDialog.show();
+                } else {
+                    guardaLlistaAssitencia();
+                    Toast.makeText(getApplicationContext(), R.string.toast_llista_assistencia, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
                 break;
             case android.R.id.home:
                 finish();

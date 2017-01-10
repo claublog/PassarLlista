@@ -2,22 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:layout_marginBottom="12dp"
+    android:orientation="horizontal"
     android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/view_nom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nom"
         android:paddingBottom="10dp"
+        android:text="Nom"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/view_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </RelativeLayout>

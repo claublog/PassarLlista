@@ -6,19 +6,21 @@
 
     <string name="ajuda">Ajuda</string>
     <string name="sobre">Sobre</string>
-    <string name="hist_ric">Històric</string>
     <string name="gesti_d_assignatures">Gestió d\'assignatures</string>
     <string name="gesti_d_alumnes">Gestió d’alumnes</string>
-    <string name="gesti_de_grups">Gestió de grups</string>
     <string name="passa_llista">Passar llista</string>
-    <string name="button_undo">desfer</string>
     <string name="ausent">Ausent</string>
     <string name="assistencia">Assisteix</string>
     <string name="retard">Retard</string>
     <string name="error">Error</string>
+    <string name="nom_de_l_alumne">Nom de l\'alumne</string>
+    <string name="dni">DNI:</string>
+    <string name="nom_de_lassignatura">Nom de l\'assignatura</string>
+    <string name="grups">Grups</string>
+    <string name="afegir_grup">Afegir grup</string>
+    <string name="nom_del_grup">Nom del grup</string>
 
     <!--titols-->
-    <string name="titol_activity_inicial">Passar Llista</string>
     <string name="titol_informacio">Informació</string>
     <string name="titol_selecciona_grup">Selecciona un grup</string>
     <string name="titol_selecciona_assignatura">Selecciona una assignatura</string>
@@ -29,12 +31,11 @@
     <string name="titol_matriculats">Editar alumnes matriculats</string>
 
     <!--alerts-->
-    <string name="alert_grups_buit">La llista de grups és buida. Afegeix una assignatura per començar.</string>
+    <string name="alert_assignatures_buit">La llista d\'assignatures és buida. Afegeix una assignatura per començar.</string>
     <string name="alert_add">Afegir</string>
     <string name="alert_eliminar">"Estas segur d'eliminar a "</string>
     <string name="alert_nom_invalid">El nom no és vàlid</string>
     <string name="alert_dni_invalid">El DNI no és vàlid</string>
-    <string name="alrt_nom_assig_invalid">El nom de la assignatura no és vàlid</string>
     <string name="alert_minim_grups">Tens que afegir un grup com a minim per a una assignatura</string>
     <string name="alert_nom_grup_invalid">El nom del grup no és vàlid</string>
     <string name="alert_afegir_alumne">Encara no tens alumnes al sistema, desitges afegir un?</string>
@@ -42,14 +43,20 @@
     <string name="alert_grup_sense_alumne">"Aquest grup no te cap alumne matriculat, desitja matricular algun alumne? "</string>
     <string name="alert_alumnes_buit">La llista d\'alumnes és buida. Afegeix-ne un per començar.</string>
     <string name="alert_eliminar_llista">"Estas segur d'eliminar la llista del día "</string>
-    <string name="nom_de_l_alumne">Nom de l\'alumne</string>
-    <string name="dni">DNI:</string>
-    <string name="nom_de_lassignatura">Nom de l\'assignatura</string>
-    <string name="grups">Grups</string>
-    <string name="afegir_grup">Afegir grup</string>
-    <string name="nom_del_grup">Nom del grup</string>
-    <string name="buit_assignatures">La llista d\'assignatures és buida</string>
-    <string name="buit_llistes">Encara no has passat llista cap vegada</string>
-    <string name="buit_alumnes">La llista d\'alumnes és buida</string>
+    <string name="alert_sense_alumnes">Han d\'existir alumnes en aquest grup per poder passar llista</string>
+
+    <!--errors-->
+    <string name="buit_assignatures">La llista d\'assignatures és buida.</string>
+    <string name="buit_llistes">Encara no has passat llista cap vegada.</string>
+    <string name="buit_alumnes">La llista d\'alumnes és buida.</string>
+    <string name="buit_grups">Aquesta assignatura està sense grups</string>
+    <string name="buit_matriculats">No hi ha alumnes en aquest grup</string>
+
+    <!--toasts-->
+    <string name="toast_alumne_creat">Alumne creat amb èxit</string>
+    <string name="toast_assignatura_creada">Assignatura creada amb èxit</string>
+    <string name="toast_grup_creat">Grup creat amb èxit</string>
+    <string name="toast_llista_assistencia">Llista d\'assistència guardada amb èxit</string>
+    <string name="toast_matriculats">Llista de matriculats guardada amb èxit</string>
 
 </resources>

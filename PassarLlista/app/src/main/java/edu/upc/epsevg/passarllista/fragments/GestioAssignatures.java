@@ -1,22 +1,17 @@
 package edu.upc.epsevg.passarllista.fragments;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,14 +22,6 @@ import edu.upc.epsevg.passarllista.activities.Matriculats;
 import edu.upc.epsevg.passarllista.activities.PassarLlista;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Historic.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * <p>
- * create an instance of this fragment.
- */
 public class GestioAssignatures extends android.support.v4.app.Fragment {
     private ListView lview;
     private DbHelper db;
@@ -42,16 +29,14 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
     private CursorAdapter cursorAdapter;
     private boolean esGestio;
 
-
     public GestioAssignatures() {
-        // Required empty public constructor
+        // Constructor obligat per la creacio de fragments
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         esGestio = getArguments().getBoolean("esGestio");
-
     }
 
     private void inicialitzacio() {
@@ -59,17 +44,27 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
 
         totesAssignatures = db.getTotsAssignatures();
         lview = (ListView) getView().findViewById(R.id.listView);
-        if (totesAssignatures.getCount() < 1) {
-            ViewStub stub = (ViewStub) getView().findViewById(R.id.empty);
-            View inflated = stub.inflate();
-            TextView tv = (TextView) inflated.findViewById(R.id.view_missatge);
-            tv.setText(R.string.buit_assignatures);
-            ImageView iv = (ImageView)inflated.findViewById(R.id.view_icona);
-            iv.setImageResource(R.drawable.icon_gestio_assignatures);
-            lview.setEmptyView(inflated);
+        // Missatge indicant que la llista de assignatures es buida
+        TextView tv = (TextView) getView().findViewById(R.id.buit);
+        tv.setText(R.string.buit_assignatures);
+        lview.setEmptyView(tv);
+
+        if (esGestio) {
+            FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
+            fab.setVisibility(View.VISIBLE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), AfegirAssignatura.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
+            fab.setVisibility(View.GONE);
         }
+
         if (totesAssignatures.getCount() < 1) {
-            //preparamos el alert
             AlertDialog alertDialog = new AlertDialog.Builder(getView().getContext()).create();
             alertDialog.setTitle(getString(R.string.titol_informacio));
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.alert_add),
@@ -81,47 +76,21 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
 
                         }
                     });
-
-            //actuamos
-
-            alertDialog.setMessage(getString(R.string.alert_grups_buit));
+            alertDialog.setMessage(getString(R.string.alert_assignatures_buit));
             alertDialog.show();
 
         } else {
-
-            if (esGestio) {
-                FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
-                fab.setVisibility(View.VISIBLE);
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), AfegirAssignatura.class);
-                        startActivity(intent);
-                    }
-                });
-            } else {
-                FloatingActionButton fab = (FloatingActionButton) getView().findViewById(R.id.floating_afegir);
-                fab.setVisibility(View.GONE);
-            }
-
-
             cursorAdapter = new CursorAdapter(getContext(), totesAssignatures, 0) {
-                // The newView method is used to inflate a new view and return it,
-                // you don't bind any data to the view at this point.
                 @Override
                 public View newView(Context context, Cursor cursor, ViewGroup parent) {
                     return LayoutInflater.from(context).inflate(R.layout.item_llista, parent, false);
                 }
 
-                // The bindView method is used to bind all data to a given view
-                // such as setting the text on a TextView.
                 @Override
                 public void bindView(View view, Context context, Cursor cursor) {
-                    // Find fields to populate in inflated template
                     TextView id_assig = (TextView) view.findViewById(R.id.view_id);
                     TextView nom_assig = (TextView) view.findViewById(R.id.view_nom);
 
-                    // Populate fields with extracted properties
                     id_assig.setText(getCursor().getString(0));
                     nom_assig.setText(getCursor().getString(1));
                 }
@@ -140,11 +109,9 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                     @Override
                     public boolean onItemLongClick(AdapterView arg0, View v,
                                                    int position, long arg3) {
-                        // TODO Auto-generated method stub
                         TextView id = (TextView) v.findViewById(R.id.view_id);
                         final int ids = Integer.parseInt(id.getText().toString());
                         AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
-                        //ad.setTitle("Notice");
                         String nom_assignatura = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
 
 
@@ -153,7 +120,6 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //Delete of record from Database and List view.
                                 db.deleteAssignatura(ids);
                                 totesAssignatures.requery();
                                 cursorAdapter.notifyDataSetChanged();
@@ -200,17 +166,21 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
 
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
-                // Find fields to populate in inflated template
                 TextView id_grup = (TextView) view.findViewById(R.id.view_id);
                 TextView nom_grup = (TextView) view.findViewById(R.id.view_nom);
 
-                // Populate fields with extracted properties
                 id_grup.setText(getCursor().getString(0));
                 nom_grup.setText(getCursor().getString(1));
             }
         };
         getActivity().setTitle(getString(R.string.titol_selecciona_grup));
         lview = (ListView) getView().findViewById(R.id.listView);
+
+        // Missatge indicant que la llista de grups es buida
+        TextView tv = (TextView) getView().findViewById(R.id.buit);
+        tv.setText(R.string.buit_grups);
+        lview.setEmptyView(tv);
+
         lview.setAdapter(cursorAdapter);
         lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -234,11 +204,9 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                 @Override
                 public boolean onItemLongClick(AdapterView arg0, View v,
                                                int position, long arg3) {
-                    // TODO Auto-generated method stub
                     TextView id = (TextView) v.findViewById(R.id.view_id);
                     final int ids = Integer.parseInt(id.getText().toString());
                     AlertDialog.Builder ad = new AlertDialog.Builder(getView().getContext());
-                    //ad.setTitle("Notice");
                     String nom_grup = ((TextView) v.findViewById(R.id.view_nom)).getText().toString();
 
                     ad.setMessage(getString(R.string.alert_eliminar) + nom_grup + "?");
@@ -246,7 +214,6 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //Delete of record from Database and List view.
                             db.deleteGrup(ids);
                             totsGrups.requery();
                             cursorAdapter.notifyDataSetChanged();
@@ -258,7 +225,6 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
                             dialog.dismiss();
                         }
                     });
@@ -267,15 +233,7 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
                 }
             });
         }
-
         cursorAdapter.notifyDataSetChanged();
-
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        //inicialitzacio();
     }
 
     @Override
@@ -286,26 +244,9 @@ public class GestioAssignatures extends android.support.v4.app.Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         esGestio = getArguments().getBoolean("esGestio");
         return inflater.inflate(R.layout.fragment_gestio, container, false);
     }
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

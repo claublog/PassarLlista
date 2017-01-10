@@ -10,20 +10,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/icon_add"
-        app:elevation="6dp"
         android:layout_marginBottom="@dimen/fab_margin_bottom"
-        android:layout_marginRight="@dimen/fab_margin_right" />
+        android:layout_marginRight="@dimen/fab_margin_right"
+        android:src="@drawable/icon_add"
+        app:elevation="6dp" />
 
     <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/buit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listView" />
-
-    <ViewStub
-        android:id="@+id/empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout="@layout/llista_buida" />
+        android:gravity="center_vertical|center_horizontal" />
 </FrameLayout>

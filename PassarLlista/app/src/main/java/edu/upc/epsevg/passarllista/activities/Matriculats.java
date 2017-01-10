@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.TreeSet;
 
@@ -40,7 +41,7 @@ public class Matriculats extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_matricula);
+        setContentView(R.layout.activity_listview);
         if (savedInstanceState != null) {
             canvis = savedInstanceState.getBooleanArray("canvis");
             canvisEsNull = false;
@@ -96,6 +97,11 @@ public class Matriculats extends AppCompatActivity {
         };
 
         lview = (ListView) findViewById(R.id.listViewAlumnes);
+        // Missatge indicant que la llista d'alumnes es buida
+        TextView tv = (TextView) findViewById(R.id.buit);
+        tv.setText(R.string.buit_alumnes);
+        lview.setEmptyView(tv);
+
         lview.setAdapter(cursorAdapter);
         lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -152,6 +158,8 @@ public class Matriculats extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_menu_done:
                 guardaCanvisGrup();
+                Toast.makeText(getApplicationContext(), R.string.toast_matriculats, Toast.LENGTH_SHORT).show();
+
                 break;
             case android.R.id.home:
                 finish();

@@ -1,5 +1,6 @@
 package edu.upc.epsevg.passarllista.activities;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -8,10 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import edu.upc.epsevg.passarllista.R;
+import edu.upc.epsevg.passarllista.base_de_dades.Contracte_Alumne;
 import edu.upc.epsevg.passarllista.base_de_dades.DbHelper;
-import edu.upc.epsevg.passarllista.classes.Alumne;
 
 public class AfegirAlumne extends AppCompatActivity {
 
@@ -64,9 +66,12 @@ public class AfegirAlumne extends AppCompatActivity {
         String dni = dniAlumne.getText().toString();
         if (!(nom.equals("") || dni.equals(""))) {
             DbHelper db = new DbHelper(getApplicationContext());
-            Alumne alum = new Alumne(nomAlumne.getText().toString(), null, dniAlumne.getText().toString());
-            db.guardaAlumne(alum);
+            ContentValues values = new ContentValues();
+            values.put(Contracte_Alumne.EntradaAlumne.NOM, nom);
+            values.put(Contracte_Alumne.EntradaAlumne.DNI, dni);
+            db.guardaAlumne(values);
             //tanca la activity
+            Toast.makeText(getApplicationContext(), R.string.toast_alumne_creat, Toast.LENGTH_SHORT).show();
             finish();
         } else {
             //preparamos el alert

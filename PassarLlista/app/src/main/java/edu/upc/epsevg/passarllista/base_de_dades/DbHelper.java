@@ -6,11 +6,6 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
-
-import edu.upc.epsevg.passarllista.classes.Alumne;
-import edu.upc.epsevg.passarllista.classes.Assignatura;
-import edu.upc.epsevg.passarllista.classes.Grup;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -18,9 +13,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "PassarLlista.db";
-
-    private ContentValues values;
-
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -69,81 +61,51 @@ public class DbHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ") REFERENCES " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + "(" + Contracte_Alumne.EntradaAlumne._ID + ") ON DELETE CASCADE,"
                 + "FOREIGN KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + ") REFERENCES " + Contracte_Grup.EntradaGrup.TABLE_NAME + "(" + Contracte_Grup.EntradaGrup._ID + ") ON DELETE CASCADE,"
                 + "PRIMARY KEY(" + Contracte_Matriculat.EntradaMatriculat.ID_ALUMNE + ", " + Contracte_Matriculat.EntradaMatriculat.ID_GRUP + "))");
-        
-        /*
-        // Contenedor de valores
-        ContentValues values = new ContentValues();
-
-        // Pares clave-valor
-        values.put(Contracte_Assignatura.EntradaAssignatura.NOM, "DAMO");
-        values.put(Contracte_Assignatura.EntradaAssignatura.NOM, "DABD");
-
-        sqLiteDatabase.insert(Contracte_Assignatura.EntradaAssignatura.TABLE_NAME, null, values);*/
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // No hi ha operacions
+        // No hi ha operacions (mètode obligat de herencia)
     }
 
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
         if (!db.isReadOnly()) {
-            // Enable foreign key constraints
+            // Habilita les restriccions de les claus foranies
             db.execSQL("PRAGMA foreign_keys=ON;");
         }
     }
 
-    public long guardaAlumne(Alumne alumne) {
+    public long guardaItem(String nom_taula, ContentValues cv) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         return sqLiteDatabase.insert(
-                Contracte_Alumne.EntradaAlumne.TABLE_NAME,
+                nom_taula,
                 null,
-                alumne.toContentValues());
-
+                cv);
     }
 
-    public long guardaAssignatura(Assignatura assignatura) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        return sqLiteDatabase.insert(
-                Contracte_Assignatura.EntradaAssignatura.TABLE_NAME,
-                null,
-                assignatura.toContentValues());
-
+    public long guardaAlumne(ContentValues cv) {
+        return guardaItem(Contracte_Alumne.EntradaAlumne.TABLE_NAME, cv);
     }
 
-    public long guardaGrup(Grup grup) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        return sqLiteDatabase.insert(
-                Contracte_Grup.EntradaGrup.TABLE_NAME,
-                null,
-                grup.toContentValues());
-
+    public long guardaAssignatura(ContentValues cv) {
+        return guardaItem(Contracte_Assignatura.EntradaAssignatura.TABLE_NAME, cv);
     }
 
     public long guardaMatricula(ContentValues cv) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        return sqLiteDatabase.insert(
-                Contracte_Matriculat.EntradaMatriculat.TABLE_NAME,
-                null,
-                cv);
+        return guardaItem(Contracte_Matriculat.EntradaMatriculat.TABLE_NAME, cv);
+    }
+    public long guardaGrup(ContentValues cv) {
+        return guardaItem(Contracte_Grup.EntradaGrup.TABLE_NAME, cv);
     }
 
     public long guardaSessio(ContentValues cv) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        return sqLiteDatabase.insert(
-                Contracte_Sessio.EntradaSessio.TABLE_NAME,
-                null,
-                cv);
+        return guardaItem(Contracte_Sessio.EntradaSessio.TABLE_NAME, cv);
     }
 
     public long guardaAssitencia(ContentValues cv) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        return sqLiteDatabase.insert(
-                Contracte_Assistencia.EntradaAssistencia.TABLE_NAME,
-                null,
-                cv);
+        return guardaItem(Contracte_Assistencia.EntradaAssistencia.TABLE_NAME, cv);
     }
 
     public Cursor getTotsItems(String nom_taula) {
@@ -170,10 +132,6 @@ public class DbHelper extends SQLiteOpenHelper {
         return getTotsItems(Contracte_Assignatura.EntradaAssignatura.TABLE_NAME);
     }
 
-    public Cursor getTotsGrups() {
-        return getTotsItems(Contracte_Grup.EntradaGrup.TABLE_NAME);
-    }
-
     public Cursor getTotsSessions() {
         return getTotsItems(Contracte_Sessio.EntradaSessio.TABLE_NAME, Contracte_Sessio.EntradaSessio._ID + " DESC");
     }
@@ -187,11 +145,6 @@ public class DbHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 null);
-    }
-
-    public long getCountAlumnes() {
-        SQLiteStatement s = getReadableDatabase().compileStatement("SELECT COUNT(*) FROM " + Contracte_Alumne.EntradaAlumne.TABLE_NAME + ";" );
-        return s.simpleQueryForLong();
     }
 
     public Cursor getAlumneById(String id_alumne) {
@@ -213,7 +166,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public Cursor getAlumnesGrup(String id_grup) {
         Cursor matric_cursor = getItemById(id_grup, Contracte_Matriculat.EntradaMatriculat.TABLE_NAME, Contracte_Matriculat.EntradaMatriculat.ID_GRUP);
 
-        // Create a MatrixCursor filled with the rows you want to add.
+        // Creem un nou cursor amb les files personalitzades
         MatrixCursor matrixCursor = new MatrixCursor(
                 new String[]{
                         Contracte_Alumne.EntradaAlumne._ID,
@@ -236,7 +189,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public Cursor getAssistenciesSessio(String id_sessio) {
         Cursor assist_cursor = getItemById(id_sessio, Contracte_Assistencia.EntradaAssistencia.TABLE_NAME, Contracte_Assistencia.EntradaAssistencia.ID_SESSIO);
 
-        // Create a MatrixCursor filled with the rows you want to add.
+        // Creem un nou cursor amb les files personalitzades
         MatrixCursor matrixCursor = new MatrixCursor(
                 new String[]{
                         Contracte_Assistencia.EntradaAssistencia._ID,

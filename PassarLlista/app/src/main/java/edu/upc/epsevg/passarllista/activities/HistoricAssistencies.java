@@ -27,7 +27,7 @@ public class HistoricAssistencies extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_matricula);
+        setContentView(R.layout.activity_listview);
         inicialitzacio();
     }
 

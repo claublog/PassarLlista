@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/activity_pantalla_inicial_drawer"
-        android:paddingTop="56dp" />
+        android:paddingTop="56dp"
+        app:menu="@menu/activity_pantalla_inicial_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
