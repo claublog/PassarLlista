@@ -45,7 +45,7 @@
     <string name="alert_alumnes_buit">La llista d\'alumnes és buida. Afegeix-ne un per començar.</string>
     <string name="alert_eliminar_llista">"Estas segur d'eliminar la llista del día "</string>
     <string name="alert_sense_alumnes">Han d\'existir alumnes en aquest grup per poder passar llista</string>
-    <string name="alert_nom_assig_invalid">El nom de l\’assignatura no es vàlid</string>
+    <string name="alert_nom_assig_invalid">El nom de l\’assignatura no és vàlid</string>
 
     <!--errors-->
     <string name="buit_assignatures">La llista d\'assignatures és buida.</string>
