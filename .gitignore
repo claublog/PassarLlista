@@ -1,8 +1,12 @@
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
+.idea
 .DS_Store
-/build
 /captures
+app/build/intermediates/
+app/build/outputs/logs/
+app/build/generated/source/buildConfig/androidTest/debug/edu/upc/epsevg/passarllista/test/BuildConfig.java
+app/build/generated/
+build/generated/
+build/intermediates/
