@@ -11,4 +11,4 @@ PassarLlista is an Android app (API version 23) which allows a professor to chec
 
 ### Install ###
 
-* [Download the APK here]https://github.com/claublog/PassarLlista/raw/master/app/build/outputs/apk/app-debug.apk.
+* [Download the APK here](https://github.com/claublog/PassarLlista/raw/master/app/build/outputs/apk/app-debug.apk).
